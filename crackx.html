@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAROT DO CRAQUE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/15b3f4b539.js" crossorigin="anonymous"></script>
+    <!-- Anime.js for smoother animation (optional but nice) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background-color: #1a0a0a;
+            color: #f0e6d2;
+            overflow-x: hidden;
+        }
+
+        .title-font {
+            font-family: 'Rubik Mono One', sans-serif;
+        }
+
+        .cracked-bg {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M10,10 L90,10 L90,90 L10,90 Z" fill="none" stroke="%23f0e6d2" stroke-width="1" stroke-dasharray="5,5"/></svg>');
+            background-size: 30px 30px;
+            position: relative;
+        }
+
+        .cracked-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                linear-gradient(45deg, transparent 65%, rgba(255,255,255,0.1) 65%, rgba(255,255,255,0.1) 66%, transparent 66%),
+                linear-gradient(-45deg, transparent 65%, rgba(255,255,255,0.1) 65%, rgba(255,255,255,0.1) 66%, transparent 66%);
+            background-size: 10px 10px;
+            pointer-events: none; /* Allow clicking through the overlay */
+        }
+
+        .neon-text {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff00de, 0 0 20px #ff00de;
+        }
+
+        .neon-border {
+            box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff00de, 0 0 20px #ff00de;
+        }
+
+        /* --- Removed old hover effect --- */
+        /* .card-hover:hover {
+            transform: rotate(5deg) scale(1.05);
+            transition: all 0.3s ease;
+        } */
+
+        .smoke {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M30,50 Q50,30 70,50 Q50,70 30,50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2"/></svg>');
+            background-size: 100px 100px;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: -1; /* Ensure smoke is behind content */
+        }
+
+        /* --- Glitch and Flicker Styles (Kept from Original) --- */
+        .glitch { position: relative; }
+        .glitch::before, .glitch::after {
+            content: attr(data-text); position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%; background: transparent; overflow: hidden;
+            clip-path: inset(0);
+        }
+        .glitch::before { left: 2px; text-shadow: -2px 0 #ff00de; animation: glitch-anim 5s infinite linear alternate-reverse; }
+        .glitch::after { left: -2px; text-shadow: -2px 0 #00ffff; animation: glitch-anim2 5s infinite linear alternate-reverse; }
+        @keyframes glitch-anim {
+             0% { clip-path: inset(31px 0 94px 0); } 10% { clip-path: inset(112px 0 76px 0); } 20% { clip-path: inset(85px 0 77px 0); } 30% { clip-path: inset(27px 0 97px 0); } 40% { clip-path: inset(64px 0 98px 0); } 50% { clip-path: inset(61px 0 85px 0); } 60% { clip-path: inset(99px 0 114px 0); } 70% { clip-path: inset(34px 0 115px 0); } 80% { clip-path: inset(98px 0 129px 0); } 90% { clip-path: inset(43px 0 96px 0); } 100% { clip-path: inset(82px 0 64px 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip-path: inset(65px 0 119px 0); } 10% { clip-path: inset(120px 0 80px 0); } 20% { clip-path: inset(10px 0 20px 0); } 30% { clip-path: inset(80px 0 113px 0); } 40% { clip-path: inset(15px 0 50px 0); } 50% { clip-path: inset(90px 0 110px 0); } 60% { clip-path: inset(70px 0 92px 0); } 70% { clip-path: inset(100px 0 120px 0); } 80% { clip-path: inset(30px 0 60px 0); } 90% { clip-path: inset(130px 0 80px 0); } 100% { clip-path: inset(40px 0 80px 0); }
+        }
+        .flicker { animation: flicker 3s linear infinite; }
+        @keyframes flicker {
+             0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% { opacity: 1; } 20%, 21.999%, 63%, 63.999%, 65%, 69.999% { opacity: 0.4; }
+        }
+
+        /* --- Flip Card Styles (ADDED) --- */
+        .card-container {
+            perspective: 1000px; /* Add perspective */
+            cursor: pointer;
+            min-height: 150px; /* Ensure cards have a minimum height */
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card-container.card-flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            border-radius: 0.5rem; /* Match original rounded-lg */
+            overflow: hidden; /* Prevent content spill during flip */
+        }
+        .card-front {
+            /* Styles for front content wrapper */
+             background-color: rgba(0, 0, 0, 0.7); /* Match original bg-black bg-opacity-70 */
+             padding: 1rem; /* Match original p-4 */
+             border-width: 1px; /* Match original border */
+             /* Border color will be set individually */
+        }
+        .card-back {
+            transform: rotateY(180deg);
+            /* Styles for back content wrapper */
+            background-color: rgba(0, 0, 0, 0.9); /* Slightly darker back */
+            padding: 1rem; /* Match original p-4 */
+            border-width: 1px; /* Match original border */
+             /* Border color will be set individually */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Pushes button to bottom */
+        }
+
+        /* Style for the result area for smooth transition */
+        #result {
+            opacity: 0;
+            transform: translateY(15px);
+            max-height: 0; /* Start collapsed */
+            overflow: hidden; /* Hide content while collapsed */
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out, max-height 0.5s ease-out; /* Add max-height */
+
+        }
+        #result.visible {
+            opacity: 1;
+            transform: translateY(0);
+            max-height: 500px; /* Allow space for content */
+        }
+
+        /* Basic Responsiveness */
+        @media (max-width: 768px) {
+            .title-font {
+                font-size: 2.5rem; /* Adjust title size */
+            }
+            .grid-cols-4 { /* Stack cards earlier on smaller screens if needed */
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            .md\:grid-cols-3 { /* Adjust testimonials layout */
+                 grid-template-columns: repeat(1, minmax(0, 1fr));
+            }
+        }
+         @media (max-width: 480px) {
+             .title-font {
+                font-size: 2rem; /* Further adjust title size */
+            }
+             .grid-cols-2 { /* Stack cards on very small screens */
+                 grid-template-columns: repeat(1, minmax(0, 1fr));
+             }
+             /* Ensure back card text is readable */
+             .card-back .text-xs { font-size: 0.7rem; }
+             .card-back .text-base { font-size: 0.9rem; }
+             .card-back .text-xl { font-size: 1.125rem; }
+         }
+
+    </style>
+</head>
+<body class="cracked-bg min-h-screen">
+    <!-- Smoke effect DIV needs to be high up but inside body -->
+    <div class="smoke"></div>
+
+    <!-- Audio Elements (ADDED flipSound) -->
+    <audio id="flipSound" src="https://actions.google.com/sounds/v1/swishes/swishes_and_swooshes_1.ogg" preload="auto"></audio>
+    <!-- <audio id="glitchSound" src="https://actions.google.com/sounds/v1/science_fiction/electronic_impulse.ogg" preload="auto"></audio> -->
+
+    <!-- Header -->
+    <header class="container mx-auto px-4 py-8 relative z-10"> <!-- Add z-index -->
+        <div class="flex flex-col items-center">
+            <!-- Ensure data-text matches the content for the glitch effect -->
+            <div class="glitch mb-4" data-text="TAROT DO CRAQUE">
+                <h1 class="title-font text-4xl md:text-6xl text-center neon-text flicker">TAROT DO CRAQUE</h1>
+            </div>
+            <p class="text-center italic text-sm md:text-base max-w-md">"Entra com diarréia, sai sem um braço"</p>
+
+            <div class="mt-6 flex space-x-4">
+                <div class="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center neon-border">
+                    <i class="fas fa-star text-black"></i>
+                </div>
+                <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center neon-border">
+                    <i class="fas fa-fire text-white"></i>
+                </div>
+                <div class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center neon-border">
+                    <i class="fas fa-eye text-white"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 relative z-10"> <!-- Add z-index -->
+        <!-- Introduction -->
+        <section class="mb-12 bg-black bg-opacity-70 p-6 rounded-lg border border-purple-500 neon-border">
+            <h2 class="title-font text-2xl md:text-3xl mb-4 text-purple-400">O QUE É ISSO AQUI?</h2>
+            <p class="mb-4">Você achou que ia encontrar uma bruxinha de Instagram com filtro de cachorro? Errou feio, errou rude.</p>
+            <p class="mb-4">Aqui é o <span class="font-bold text-yellow-300">Tarot do Craque</span>, onde seu destino é lido com a mesma delicadeza que um chute na canela no meio de uma pelada de domingo.</p>
+            <p>O Craque já foi goleiro, já tomou porrada de macumba, já viu de tudo nessa vida. Agora ele lê suas cartas com a sabedoria de quem já tomou gol de barriga vazia e sabe que o universo é uma piada sem graça que a gente ri pra não chorar.</p>
+        </section>
+
+        <!-- Tarot Cards (MODIFIED with Flip Structure) -->
+        <section class="mb-12">
+            <h2 class="title-font text-2xl md:text-3xl mb-6 text-center text-yellow-300 neon-text">ESCOLHA SEU JOGO</h2>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+                <!-- Card 1: O TROPEÇO -->
+                <div class="card-container" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <!-- Front Face -->
+                        <div class="card-front border-red-500">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-bold text-red-400">O TROPEÇO</h3>
+                                <i class="fas fa-skull text-red-400"></i>
+                            </div>
+                            <p class="text-xs">"Aquele buraco que você não viu mas caiu igual trouxa"</p>
+                        </div>
+                        <!-- Back Face -->
+                        <div class="card-back border-red-500">
+                            <div>
+                                <h4 class="font-bold text-red-400 mb-1 text-base">Consulta: O TROPEÇO</h4>
+                                <p class="text-xl font-bold text-red-500 mb-2">R$ 29,99</p>
+                                <p class="text-xs mb-1 text-gray-300">Pergunte sobre:</p>
+                                <ul class="list-disc list-inside text-xs text-gray-400 mb-3">
+                                    <li>Onde errei dessa vez?</li>
+                                    <li>Como paro de fazer cagada?</li>
+                                    <li>Essa situação tem conserto?</li>
+                                </ul>
+                            </div>
+                            <a href="https://wa.me/55119XXXXXXXX?text=Ol%C3%A1%20Craque!%20Quero%20agendar%20a%20consulta%20'O%20TROPE%C3%87O'!" target="_blank" rel="noopener noreferrer" class="mt-auto w-full bg-green-600 text-white text-xs font-bold py-2 px-3 rounded hover:bg-green-700 transition duration-300 flex items-center justify-center">
+                                <i class="fab fa-whatsapp mr-2"></i> Agendar Consulta
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: A ENTIDADE -->
+                <div class="card-container" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <!-- Front Face -->
+                        <div class="card-front border-blue-400">
+                             <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-bold text-blue-300">A ENTIDADE</h3>
+                                <i class="fas fa-ghost text-blue-300"></i>
+                            </div>
+                            <p class="text-xs">"Aquela ex que te comeu vivo e deixou só o couro"</p>
+                        </div>
+                        <!-- Back Face -->
+                         <div class="card-back border-blue-400">
+                            <div>
+                              
+                                <p class="text-xl font-bold text-blue-400 mb-2">R$ 34,99</p>
+                                <p class="text-xs mb-1 text-gray-300">Pergunte sobre:</p>
+                                <ul class="list-disc list-inside text-xs text-gray-400 mb-3">
+                                    <li>Como me livro dessa praga?</li>
+                                    <li>Essa desgraça volta?</li>
+                                    <li>O que aprendi com isso?</li>
+                                </ul>
+                            </div>
+                            <a href="https://wa.me/55119XXXXXXXX?text=Ol%C3%A1%20Craque!%20Quero%20agendar%20a%20consulta%20'A%20ENTIDADE'!" target="_blank" rel="noopener noreferrer" class="mt-auto w-full bg-green-600 text-white text-xs font-bold py-2 px-3 rounded hover:bg-green-700 transition duration-300 flex items-center justify-center">
+                                <i class="fab fa-whatsapp mr-2"></i> Agendar Consulta
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: O BICHO -->
+                 <div class="card-container" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <!-- Front Face -->
+                        <div class="card-front border-green-400">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-bold text-green-300">O BICHO</h3>
+                                <i class="fas fa-paw text-green-300"></i>
+                            </div>
+                            <p class="text-xs">"Seu lado safado que só aparece depois da cachaça"</p>
+                        </div>
+                        <!-- Back Face -->
+                         <div class="card-back border-green-400">
+                             <div>
+                   
+                                <p class="text-xl font-bold text-green-400 mb-2">R$ 19,99</p>
+                                <p class="text-xs mb-1 text-gray-300">Pergunte sobre:</p>
+                                <ul class="list-disc list-inside text-xs text-gray-400 mb-3">
+                      
+                                    <li>Essa 'safadeza' me ajuda ou atrapalha?</li>
+                                    <li>É hora de soltar a franga?</li>
+                                </ul>
+                            </div>
+                            <a href="https://wa.me/55119XXXXXXXX?text=Ol%C3%A1%20Craque!%20Quero%20agendar%20a%20consulta%20'O%20BICHO'!" target="_blank" rel="noopener noreferrer" class="mt-auto w-full bg-green-600 text-white text-xs font-bold py-2 px-3 rounded hover:bg-green-700 transition duration-300 flex items-center justify-center">
+                                <i class="fab fa-whatsapp mr-2"></i> Agendar Consulta
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: O BOLOLÔ -->
+                <div class="card-container" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <!-- Front Face -->
+                        <div class="card-front border-purple-400">
+                             <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-bold text-purple-300">O BOLOLÔ</h3>
+                                <i class="fas fa-dizzy text-purple-300"></i>
+                            </div>
+                            <p class="text-xs">"A confusão que você mesmo arrumou e não sabe sair"</p>
+                        </div>
+                        <!-- Back Face -->
+                        <div class="card-back border-purple-400">
+                             <div>
+                                <p class="text-xl font-bold text-purple-400 mb-2">R$ 39,99</p>
+                                <p class="text-xs mb-1 text-gray-300">Pergunte sobre:</p>
+                                <ul class="list-disc list-inside text-xs text-gray-400 mb-3">
+                                    <li>Como desembaraço essa merda?</li>
+                                    <li>Quem tá me fudendo nisso?</li>
+                                    <li>Qual o primeiro passo pra sair?</li>
+                                </ul>
+                            </div>
+                            <a href="https://wa.me/55119XXXXXXXX?text=Ol%C3%A1%20Craque!%20Quero%20agendar%20a%20consulta%20'O%20BOLOL%C3%94'!" target="_blank" rel="noopener noreferrer" class="mt-auto w-full bg-green-600 text-white text-xs font-bold py-2 px-3 rounded hover:bg-green-700 transition duration-300 flex items-center justify-center">
+                                <i class="fab fa-whatsapp mr-2"></i> Agendar Consulta
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5: O BAGULHO -->
+                <div class="card-container" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <div class="card-front border-yellow-400">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-bold text-yellow-300">O BAGULHO</h3>
+                                <i class="fas fa-hand-holding-magic text-yellow-300"></i>
+                            </div>
+                            <p class="text-xs">"Aquela oportunidade que você perdeu por medo"</p>
+                        </div>
+                        <div class="card-back border-yellow-400">
+                           <div>
+                                <p class="text-xl font-bold text-yellow-400 mb-2">R$ 24,99</p>
+                                <p class="text-xs mb-1 text-gray-300">Pergunte sobre:</p>
+                                <ul class="list-disc list-inside text-xs text-gray-400 mb-3">
+                                    <li>Ainda dá tempo de pegar?</li>
+                                    <li>Como venço esse cagaço?</li>
+                                    <li>Qual o risco real disso?</li>
+                                </ul>
+                            </div>
+                            <a href="https://wa.me/55119XXXXXXXX?text=Ol%C3%A1%20Craque!%20Quero%20agendar%20a%20consulta%20'O%20BAGULHO'!" target="_blank" rel="noopener noreferrer" class="mt-auto w-full bg-green-600 text-white text-xs font-bold py-2 px-3 rounded hover:bg-green-700 transition duration-300 flex items-center justify-center">
+                                <i class="fab fa-whatsapp mr-2"></i> Agendar Consulta
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6: A FISSURA -->
+                 <div class="card-container" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <div class="card-front border-pink-400">
+                           <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-bold text-pink-300">A FISSURA</h3>
+                                <i class="fas fa-heart-broken text-pink-300"></i>
+                            </div>
+                            <p class="text-xs">"Aquela vontade doida que você sabe que vai se arrepender"</p>
+                        </div>
+                        <div class="card-back border-pink-400">
+                             <div>
+                                <p class="text-xl font-bold text-pink-400 mb-2">R$ 14,99</p>
+                                <p class="text-xs mb-1 text-gray-300">Pergunte sobre:</p>
+                                <ul class="list-disc list-inside text-xs text-gray-400 mb-3">
+                                    <li>Vale a pena ceder?</li>
+                                    <li>Qual a consequência disso?</li>
+                                    <li>Isso é desejo ou carência?</li>
+                                </ul>
+                            </div>
+                            <a href="https://wa.me/55119XXXXXXXX?text=Ol%C3%A1%20Craque!%20Quero%20agendar%20a%20consulta%20'A%20FISSURA'!" target="_blank" rel="noopener noreferrer" class="mt-auto w-full bg-green-600 text-white text-xs font-bold py-2 px-3 rounded hover:bg-green-700 transition duration-300 flex items-center justify-center">
+                                <i class="fab fa-whatsapp mr-2"></i> Agendar Consulta
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Card 7: O ZÉ -->
+                 <div class="card-container" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <div class="card-front border-orange-400">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-bold text-orange-300">O ZÉ</h3>
+                                <i class="fas fa-user-secret text-orange-300"></i>
+                            </div>
+                            <p class="text-xs">"Aquele amigo que te puxa pro buraco mas você gosta"</p>
+                        </div>
+                         <div class="card-back border-orange-400">
+                            <div>
+                                <p class="text-xl font-bold text-orange-400 mb-2">R$ 22,99</p>
+                                <p class="text-xs mb-1 text-gray-300">Pergunte sobre:</p>
+                                <ul class="list-disc list-inside text-xs text-gray-400 mb-3">
+                                    <li>Essa amizade me serve?</li>
+                                    <li>Como colocar limites?</li>
+                                    <li>Sou influenciado fácil?</li>
+                                </ul>
+                            </div>
+                            <a href="https://wa.me/55119XXXXXXXX?text=Ol%C3%A1%20Craque!%20Quero%20agendar%20a%20consulta%20'O%20Z%C3%89'!" target="_blank" rel="noopener noreferrer" class="mt-auto w-full bg-green-600 text-white text-xs font-bold py-2 px-3 rounded hover:bg-green-700 transition duration-300 flex items-center justify-center">
+                                <i class="fab fa-whatsapp mr-2"></i> Agendar Consulta
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 8: O FUMO -->
+                 <div class="card-container" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <div class="card-front border-gray-400">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-bold text-gray-300">O FUMO</h3>
+                                <i class="fas fa-smoking text-gray-300"></i>
+                            </div>
+                            <p class="text-xs">"Aquela parada que você sabe que faz mal mas não larga"</p>
+                        </div>
+                        <div class="card-back border-gray-400">
+                            <div>
+                                <p class="text-xl font-bold text-gray-400 mb-2">R$ 17,99</p>
+                                <p class="text-xs mb-1 text-gray-300">Pergunte sobre:</p>
+                                <ul class="list-disc list-inside text-xs text-gray-400 mb-3">
+                                    <li>Por que não consigo largar?</li>
+                                    <li>Qual o prejuízo real disso?</li>
+                                    <li>Existe substituto menos pior?</li>
+                                </ul>
+                            </div>
+                            <a href="https://wa.me/55119XXXXXXXX?text=Ol%C3%A1%20Craque!%20Quero%20agendar%20a%20consulta%20'O%20FUMO'!" target="_blank" rel="noopener noreferrer" class="mt-auto w-full bg-green-600 text-white text-xs font-bold py-2 px-3 rounded hover:bg-green-700 transition duration-300 flex items-center justify-center">
+                                <i class="fab fa-whatsapp mr-2"></i> Agendar Consulta
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </section>
+
+        <!-- Reading Area (Functional) -->
+        <section class="mb-12 bg-black bg-opacity-70 p-6 rounded-lg border border-yellow-400 neon-border">
+            <h2 class="title-font text-2xl md:text-3xl mb-4 text-yellow-300">SUA SORTE HOJE</h2>
+
+            <div class="mb-6">
+                <!-- Improved label association -->
+                <label for="question" class="block mb-2 text-sm">Joga aí sua dúvida (ou nem vem que não tem resposta boa)</label>
+                <input type="text" id="question" class="w-full bg-gray-900 border border-purple-500 rounded p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 placeholder-gray-500" placeholder="Ex: Quando vou parar de me foder?">
+            </div>
+
+            <button id="readButton" class="w-full bg-gradient-to-r from-purple-600 to-red-600 text-white font-bold py-3 px-4 rounded-lg hover:from-purple-700 hover:to-red-700 transition duration-300 flex items-center justify-center active:scale-95">
+                <i class="fas fa-hand-sparkles mr-2"></i> TOCA AQUI PRA VER A MERDA QUE TE ESPERA
+            </button>
+
+            <!-- Result Area - Initially hidden via CSS opacity/transform/max-height -->
+            <div id="result" class="mt-6 p-4 bg-gray-900 rounded-lg border border-red-500">
+                <!-- Content structure for result is dynamically checked/added by JS if needed -->
+            </div>
+        </section>
+
+        <!-- Testimonials (Kept from Original) -->
+        <section class="mb-12">
+            <h2 class="title-font text-2xl md:text-3xl mb-6 text-center text-purple-400">O QUE TÃO FALANDO</h2>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Testimonial 1 -->
+                <div class="bg-black bg-opacity-70 p-6 rounded-lg border border-blue-400">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-user-astronaut"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Zé da Esquina</h4>
+                            <p class="text-xs text-gray-400">Perdeu a moto semana passada</p>
+                        </div>
+                    </div>
+                    <p class="italic">"O Craque falou que minha mina tava me traindo. Não acreditei. Descobri que tava mesmo. Agora tô sem moto e sem mina. Pelo menos acertou."</p>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-black bg-opacity-70 p-6 rounded-lg border border-red-400">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-user-ninja"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Maria do Bar</h4>
+                            <p class="text-xs text-gray-400">Tentou abrir negócio 3 vezes</p>
+                        </div>
+                    </div>
+                    <p class="italic">"Disse que meu próximo bar ia dar certo só se eu me livrasse do Zé. Livrei. Deu certo. O Zé tá preso. O Craque sabe das coisas."</p>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-black bg-opacity-70 p-6 rounded-lg border border-green-400">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-user-injured"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Carlinhos</h4>
+                            <p class="text-xs text-gray-400">Tá devendo até a alma</p>
+                        </div>
+                    </div>
+                    <p class="italic">"O Craque falou pra eu não apostar no jogo. Apostei. Perdi. Agora tô devendo pro agiota. Mas ele tinha razão, então vou lá de novo pra ver se acerta de novo."</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (Kept from Original) -->
+    <footer class="bg-black bg-opacity-90 py-8 border-t border-purple-900 relative z-10"> <!-- Add z-index -->
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="title-font text-xl text-purple-400">TAROT DO CRAQUE</h3>
+                    <p class="text-xs">Destino na tora desde 1989</p>
+                </div>
+
+                <div class="flex space-x-4">
+                    <a href="#" class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center hover:bg-purple-700 transition duration-300">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="#" class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition duration-300">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-8 h-8 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition duration-300">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center text-xs text-gray-500">
+                <p>AVISO: O Craque não se responsabiliza por casamentos acabados, dívidas adquiridas ou vidas destruídas. O destino é foda, ele só avisa.</p>
+                <p class="mt-2">© 2024 Tarot do Craque - Feito na base do ódio e da cachaça</p> <!-- Updated year -->
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- References ---
+        const readButton = document.getElementById('readButton');
+        const questionInput = document.getElementById('question');
+        const resultDiv = document.getElementById('result');
+        let readingText = document.getElementById('readingText'); // Use let as it might be redefined
+        const flipSound = document.getElementById('flipSound'); // ADDED flipSound reference
+        // const glitchSound = document.getElementById('glitchSound'); // Optional
+
+        // --- Flip Card Function (ADDED) ---
+        function flipCard(element) {
+            // Close other open cards first (optional, good UX)
+            document.querySelectorAll('.card-container.card-flipped').forEach(card => {
+                if (card !== element) {
+                    card.classList.remove('card-flipped');
+                }
+            });
+            // Toggle the clicked card
+            element.classList.toggle('card-flipped');
+             // Play sound
+            if (flipSound) {
+                flipSound.currentTime = 0; // Rewind
+                flipSound.play().catch(e => console.error("Error playing flip sound:", e)); // Added catch for browser policy issues
+            }
+        }
+
+        // --- Sorte Hoje Logic (Kept) ---
+        const readings = [
+            `"Melhor nem saber, mas já que perguntou: você vai se foder bonito nos próximos ${Math.floor(Math.random() * 3 + 1)} meses. Prepare o lombo."`,
+            `"Tá vendo aquela merda lá longe? É seu futuro chegando. E não, não vai ser divertido."`,
+            `"Você acha que tem problema agora? Espera só até ${getRandomMonth().toUpperCase()}. Aí sim você vai conhecer o fundo do poço."`,
+            `"A entidade que te comeu vivo tá de volta. E dessa vez ela trouxe amigos. Boa sorte."`,
+            `"Seu amor? Vai tomar no centro. Seu dinheiro? Vaza mais que pneu furado. Sua saúde? Melhor nem perguntar."`,
+            `"Kkkkkkkk coitado... melhor perguntar é QUANDO vai acabar o sofrimento (spoiler: não vai)."`,
+            `"Tá vendo aquele caminhão vindo aí? É seu destino. E não, ele não vai frear."`,
+            `"A resposta tá na sua cara mas você não quer ver: VAI DAR MERDA. E grande."`,
+            `"Sua sorte tá parecendo político honesto: difícil de achar."`,
+            `"O universo manda dizer: 'Se fode aí, otário!'."`
+        ];
+
+        function getRandomMonth() {
+            const months = [
+                "janeiro", "fevereiro", "março", "abril", "maio", "junho",
+                "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
+            ];
+            return months[Math.floor(Math.random() * months.length)];
+        }
+
+        function showReading() {
+            const question = questionInput.value.trim();
+
+            if (!question) {
+                alert("Ô seu animal, escreve a pergunta primeiro! Acha que eu leio mente?");
+                questionInput.focus();
+                return;
+            }
+
+            // if (glitchSound) { /* Optional sound logic */ }
+
+            const randomReading = readings[Math.floor(Math.random() * readings.length)];
+
+            // Ensure readingText element exists before setting its content
+            if(readingText) {
+                readingText.textContent = `"${question}"? ${randomReading}`;
+            } else {
+                 console.error("Element with ID 'readingText' not found inside #result.");
+            }
+
+            resultDiv.classList.add('visible');
+        }
+
+        // --- Event Listeners ---
+        readButton.addEventListener('click', showReading);
+
+        questionInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                showReading();
+            }
+        });
+
+         // --- Ensure #result div structure exists on load (important for JS) ---
+         if (resultDiv && !resultDiv.innerHTML.trim()) {
+            resultDiv.innerHTML = `
+                <div class="flex items-start">
+                    <div class="mr-4 text-red-500 text-2xl flex-shrink-0">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-red-400 mb-2">O CRAQUE FALOU:</h3>
+                        <p id="readingText" class="italic">...</p>
+                    </div>
+                </div>`;
+            // Re-select readingText after adding it to the DOM
+             readingText = document.getElementById('readingText');
+        }
+
+
+    </script>
+</body>
+</html>
