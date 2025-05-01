@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAROT DO CRAQUE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/15b3f4b539.js" crossorigin="anonymous"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        body {
+            font-family: 'Space Mono', monospace;
+            background-color: #1a0a0a;
+            color: #f0e6d2;
+            overflow-x: hidden;
+        }
+        
+        .title-font {
+            font-family: 'Rubik Mono One', sans-serif;
+        }
+        
+        .cracked-bg {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M10,10 L90,10 L90,90 L10,90 Z" fill="none" stroke="%23f0e6d2" stroke-width="1" stroke-dasharray="5,5"/></svg>');
+            background-size: 30px 30px;
+            position: relative;
+        }
+        
+        .cracked-bg::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(45deg, transparent 65%, rgba(255,255,255,0.1) 65%, rgba(255,255,255,0.1) 66%, transparent 66%),
+                linear-gradient(-45deg, transparent 65%, rgba(255,255,255,0.1) 65%, rgba(255,255,255,0.1) 66%, transparent 66%);
+            background-size: 10px 10px;
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff00de, 0 0 20px #ff00de;
+        }
+        
+        .neon-border {
+            box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ff00de, 0 0 20px #ff00de;
+        }
+        
+        .card-hover:hover {
+            transform: rotate(5deg) scale(1.05);
+            transition: all 0.3s ease;
+        }
+        
+        .smoke {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M30,50 Q50,30 70,50 Q50,70 30,50" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="2"/></svg>');
+            background-size: 100px 100px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .glitch {
+            position: relative;
+        }
+        
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+        
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00de;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #00ffff;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-anim {
+            0% { clip: rect(31px, 9999px, 94px, 0); }
+            10% { clip: rect(112px, 9999px, 76px, 0); }
+            20% { clip: rect(85px, 9999px, 77px, 0); }
+            30% { clip: rect(27px, 9999px, 97px, 0); }
+            40% { clip: rect(64px, 9999px, 98px, 0); }
+            50% { clip: rect(61px, 9999px, 85px, 0); }
+            60% { clip: rect(99px, 9999px, 114px, 0); }
+            70% { clip: rect(34px, 9999px, 115px, 0); }
+            80% { clip: rect(98px, 9999px, 129px, 0); }
+            90% { clip: rect(43px, 9999px, 96px, 0); }
+            100% { clip: rect(82px, 9999px, 64px, 0); }
+        }
+        
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 119px, 0); }
+            10% { clip: rect(120px, 9999px, 80px, 0); }
+            20% { clip: rect(10px, 9999px, 20px, 0); }
+            30% { clip: rect(80px, 9999px, 113px, 0); }
+            40% { clip: rect(15px, 9999px, 50px, 0); }
+            50% { clip: rect(90px, 9999px, 110px, 0); }
+            60% { clip: rect(70px, 9999px, 92px, 0); }
+            70% { clip: rect(100px, 9999px, 120px, 0); }
+            80% { clip: rect(30px, 9999px, 60px, 0); }
+            90% { clip: rect(130px, 9999px, 80px, 0); }
+            100% { clip: rect(40px, 9999px, 80px, 0); }
+        }
+        
+        .flicker {
+            animation: flicker 3s linear infinite;
+        }
+        
+        @keyframes flicker {
+            0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+                opacity: 1;
+            }
+            20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+                opacity: 0.4;
+            }
+        }
+    </style>
+</head>
+<body class="cracked-bg min-h-screen">
+    <div class="smoke"></div>
+    
+    <!-- Header -->
+    <header class="container mx-auto px-4 py-8 relative">
+        <div class="flex flex-col items-center">
+            <div class="glitch mb-4" data-text="TAROT DO CRAQUE">
+                <h1 class="title-font text-4xl md:text-6xl text-center neon-text flicker">TAROT DO CRAQUE</h1>
+            </div>
+            <p class="text-center italic text-sm md:text-base max-w-md">"Entra com diarréia, sai sem um braço"</p>
+            
+            <div class="mt-6 flex space-x-4">
+                <div class="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center neon-border">
+                    <i class="fas fa-star text-black"></i>
+                </div>
+                <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center neon-border">
+                    <i class="fas fa-fire text-white"></i>
+                </div>
+                <div class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center neon-border">
+                    <i class="fas fa-eye text-white"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Introduction -->
+        <section class="mb-12 bg-black bg-opacity-70 p-6 rounded-lg border border-purple-500 neon-border">
+            <h2 class="title-font text-2xl md:text-3xl mb-4 text-purple-400">O QUE É ISSO AQUI?</h2>
+            <p class="mb-4">Você achou que ia encontrar uma bruxinha de Instagram com filtro de cachorro? Errou feio, errou rude.</p>
+            <p class="mb-4">Aqui é o <span class="font-bold text-yellow-300">Tarot do Craque</span>, onde seu destino é lido com a mesma delicadeza que um chute na canela no meio de uma pelada de domingo.</p>
+            <p>O Craque já foi goleiro, já tomou porrada de macumba, já viu de tudo nessa vida. Agora ele lê suas cartas com a sabedoria de quem já tomou gol de barriga vazia e sabe que o universo é uma piada sem graça que a gente ri pra não chorar.</p>
+        </section>
+        
+        <!-- Tarot Cards -->
+        <section class="mb-12">
+            <h2 class="title-font text-2xl md:text-3xl mb-6 text-center text-yellow-300 neon-text">ESCOLHA SEU JOGO</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Card 1 -->
+                <div class="card-hover bg-black bg-opacity-70 p-4 rounded-lg border border-red-500 cursor-pointer transform transition-all duration-300 hover:neon-border">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-red-400">O TROPEÇO</h3>
+                        <i class="fas fa-skull text-red-400"></i>
+                    </div>
+                    <p class="text-xs">"Aquele buraco que você não viu mas caiu igual trouxa"</p>
+                </div>
+                
+                <!-- Card 2 -->
+                <div class="card-hover bg-black bg-opacity-70 p-4 rounded-lg border border-blue-400 cursor-pointer transform transition-all duration-300 hover:neon-border">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-blue-300">A ENTIDADE</h3>
+                        <i class="fas fa-ghost text-blue-300"></i>
+                    </div>
+                    <p class="text-xs">"Aquela ex que te comeu vivo e deixou só o couro"</p>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="card-hover bg-black bg-opacity-70 p-4 rounded-lg border border-green-400 cursor-pointer transform transition-all duration-300 hover:neon-border">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-green-300">O BICHO</h3>
+                        <i class="fas fa-paw text-green-300"></i>
+                    </div>
+                    <p class="text-xs">"Seu lado safado que só aparece depois da cachaça"</p>
+                </div>
+                
+                <!-- Card 4 -->
+                <div class="card-hover bg-black bg-opacity-70 p-4 rounded-lg border border-purple-400 cursor-pointer transform transition-all duration-300 hover:neon-border">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-purple-300">O BOLOLÔ</h3>
+                        <i class="fas fa-dizzy text-purple-300"></i>
+                    </div>
+                    <p class="text-xs">"A confusão que você mesmo arrumou e não sabe sair"</p>
+                </div>
+                
+                <!-- Card 5 -->
+                <div class="card-hover bg-black bg-opacity-70 p-4 rounded-lg border border-yellow-400 cursor-pointer transform transition-all duration-300 hover:neon-border">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-yellow-300">O BAGULHO</h3>
+                        <i class="fas fa-hand-holding-magic text-yellow-300"></i>
+                    </div>
+                    <p class="text-xs">"Aquela oportunidade que você perdeu por medo"</p>
+                </div>
+                
+                <!-- Card 6 -->
+                <div class="card-hover bg-black bg-opacity-70 p-4 rounded-lg border border-pink-400 cursor-pointer transform transition-all duration-300 hover:neon-border">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-pink-300">A FISSURA</h3>
+                        <i class="fas fa-heart-broken text-pink-300"></i>
+                    </div>
+                    <p class="text-xs">"Aquela vontade doida que você sabe que vai se arrepender"</p>
+                </div>
+                
+                <!-- Card 7 -->
+                <div class="card-hover bg-black bg-opacity-70 p-4 rounded-lg border border-orange-400 cursor-pointer transform transition-all duration-300 hover:neon-border">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-orange-300">O ZÉ</h3>
+                        <i class="fas fa-user-secret text-orange-300"></i>
+                    </div>
+                    <p class="text-xs">"Aquele amigo que te puxa pro buraco mas você gosta"</p>
+                </div>
+                
+                <!-- Card 8 -->
+                <div class="card-hover bg-black bg-opacity-70 p-4 rounded-lg border border-gray-400 cursor-pointer transform transition-all duration-300 hover:neon-border">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-gray-300">O FUMO</h3>
+                        <i class="fas fa-smoking text-gray-300"></i>
+                    </div>
+                    <p class="text-xs">"Aquela parada que você sabe que faz mal mas não larga"</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Reading Area -->
+        <section class="mb-12 bg-black bg-opacity-70 p-6 rounded-lg border border-yellow-400 neon-border">
+            <h2 class="title-font text-2xl md:text-3xl mb-4 text-yellow-300">SUA SORTE HOJE</h2>
+            
+            <div class="mb-6">
+                <label for="question" class="block mb-2 text-sm">Joga aí sua dúvida (ou nem vem que não tem resposta boa)</label>
+                <input type="text" id="question" class="w-full bg-gray-900 border border-purple-500 rounded p-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Ex: Quando vou parar de me foder?">
+            </div>
+            
+            <button id="readButton" class="w-full bg-gradient-to-r from-purple-600 to-red-600 text-white font-bold py-3 px-4 rounded-lg hover:from-purple-700 hover:to-red-700 transition duration-300 flex items-center justify-center">
+                <i class="fas fa-hand-sparkles mr-2"></i> TOCA AQUI PRA VER A MERDA QUE TE ESPERA
+            </button>
+            
+            <div id="result" class="mt-6 p-4 bg-gray-900 rounded-lg border border-red-500 hidden">
+                <div class="flex items-start">
+                    <div class="mr-4 text-red-500 text-2xl">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-red-400 mb-2">O CRAQUE FALOU:</h3>
+                        <p id="readingText" class="italic">"Se prepare que vem merda aí, e não é pouco."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Testimonials -->
+        <section class="mb-12">
+            <h2 class="title-font text-2xl md:text-3xl mb-6 text-center text-purple-400">O QUE TÃO FALANDO</h2>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Testimonial 1 -->
+                <div class="bg-black bg-opacity-70 p-6 rounded-lg border border-blue-400">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-user-astronaut"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Zé da Esquina</h4>
+                            <p class="text-xs text-gray-400">Perdeu a moto semana passada</p>
+                        </div>
+                    </div>
+                    <p class="italic">"O Craque falou que minha mina tava me traindo. Não acreditei. Descobri que tava mesmo. Agora tô sem moto e sem mina. Pelo menos acertou."</p>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-black bg-opacity-70 p-6 rounded-lg border border-red-400">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-user-ninja"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Maria do Bar</h4>
+                            <p class="text-xs text-gray-400">Tentou abrir negócio 3 vezes</p>
+                        </div>
+                    </div>
+                    <p class="italic">"Disse que meu próximo bar ia dar certo só se eu me livrasse do Zé. Livrei. Deu certo. O Zé tá preso. O Craque sabe das coisas."</p>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-black bg-opacity-70 p-6 rounded-lg border border-green-400">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-user-injured"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">Carlinhos</h4>
+                            <p class="text-xs text-gray-400">Tá devendo até a alma</p>
+                        </div>
+                    </div>
+                    <p class="italic">"O Craque falou pra eu não apostar no jogo. Apostei. Perdi. Agora tô devendo pro agiota. Mas ele tinha razão, então vou lá de novo pra ver se acerta de novo."</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-black bg-opacity-90 py-8 border-t border-purple-900">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="title-font text-xl text-purple-400">TAROT DO CRAQUE</h3>
+                    <p class="text-xs">Destino na tora desde 1989</p>
+                </div>
+                
+                <div class="flex space-x-4">
+                    <a href="#" class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center hover:bg-purple-700 transition duration-300">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="#" class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition duration-300">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="w-8 h-8 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition duration-300">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center text-xs text-gray-500">
+                <p>AVISO: O Craque não se responsabiliza por casamentos acabados, dívidas adquiridas ou vidas destruídas. O destino é foda, ele só avisa.</p>
+                <p class="mt-2">© 2023 Tarot do Craque - Feito na base do ódio e da cachaça</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('readButton').addEventListener('click', function() {
+            const question = document.getElementById('question').value;
+            const resultDiv = document.getElementById('result');
+            const readingText = document.getElementById('readingText');
+            
+            // Array of possible readings with that sarcastic tone
+            const readings = [
+                `"${question}? Melhor nem saber, mas já que perguntou: você vai se foder bonito nos próximos 3 meses. Prepare o cu."`,
+                `"Tá vendo aquela merda lá longe? É seu futuro chegando. E não, não vai ser divertido."`,
+                `"Você acha que tem problema agora? Espera só até ${getRandomMonth()}. Aí sim você vai conhecer o fundo do poço."`,
+                `"A entidade que te comeu vivo tá de volta. E dessa vez ela trouxe amigos. Boa sorte."`,
+                `"Seu amor? Vai tomar no centro. Seu dinheiro? Vaza mais que pneu furado. Sua saúde? Nem pergunta."`,
+                `"${question}? Kkkkkkkk coitado... melhor perguntar é quando vai acabar o sofrimento (spoiler: não vai)."`,
+                `"Tá vendo aquele caminhão? É seu destino vindo na sua direção. E não, ele não vai frear."`,
+                `"A resposta tá na sua cara mas você não quer ver: VAI DAR MERDA. E grande."`
+            ];
+            
+            // Randomly select a reading
+            const randomReading = readings[Math.floor(Math.random() * readings.length)];
+            readingText.textContent = randomReading;
+            
+            // Show the result with animation
+            resultDiv.classList.remove('hidden');
+            resultDiv.style.animation = 'fadeIn 0.5s';
+         });
+        
+        function getRandomMonth() {
+            const months = [
+                "janeiro", "fevereiro", "março", "abril", "maio", "junho",
+                "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
+            ];
+            return months[Math.floor(Math.random() * months.length)];
+        }
+    </script>
+</body>
+</html>
