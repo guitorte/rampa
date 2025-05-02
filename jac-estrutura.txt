@@ -1,0 +1,4 @@
+/nomeia-ai/
+|-- index.html       (A estrutura da página)
+|-- style.css        (A aparência visual)
+|-- script.js        (A lógica de interação e geração de arquivos)
