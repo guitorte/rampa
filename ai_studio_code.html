@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarot Mobile - 22 Arcanos Maiores</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0f0f23;
+            --color-surface: #1a1a2e;
+            --color-surface-light: #16213e;
+            --color-accent: #eeca57;
+            --color-accent-dark: #d4af37;
+            --color-text: #e4e4e7;
+            --color-text-muted: #a1a1aa;
+            --color-text-dim: #71717a;
+            --color-success: #22c55e;
+            --color-warning: #f59e0b;
+            --color-danger: #ef4444;
+            --shadow: 0 4px 20px rgba(0,0,0,0.3);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.2);
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--color-bg) 0%, #1a1a2e 100%);
+            color: var(--color-text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(238, 202, 87, 0.1);
+            padding: 16px 20px;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 100%;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-accent);
+            letter-spacing: -0.5px;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 280px;
+            margin: 0 16px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--color-surface);
+            border: 1px solid rgba(238, 202, 87, 0.2);
+            border-radius: var(--border-radius-sm);
+            padding: 10px 16px 10px 40px;
+            font-size: 14px;
+            color: var(--color-text);
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(238, 202, 87, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-muted);
+            font-size: 14px;
+        }
+
+        .toggle-btn {
+            background: var(--color-accent);
+            color: var(--color-bg);
+            border: none;
+            border-radius: var(--border-radius-sm);
+            padding: 10px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .toggle-btn:hover {
+            background: var(--color-accent-dark);
+            transform: translateY(-1px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 100%;
+            padding: 0 16px 32px;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0;
+            overflow-x: auto;
+            padding: 0 4px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .stats-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .stat-chip {
+            background: var(--color-surface-light);
+            border: 1px solid rgba(238, 202, 87, 0.15);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .stat-chip.active {
+            background: var(--color-accent);
+            color: var(--color-bg);
+            border-color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        /* Accordion */
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .accordion-item {
+            background: var(--color-surface);
+            border: 1px solid rgba(238, 202, 87, 0.1);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item.active {
+            border-color: var(--color-accent);
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+
+        .accordion-header {
+            display: flex;
+            align-items: center;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .accordion-header:hover {
+            background: rgba(238, 202, 87, 0.05);
+        }
+
+        .accordion-item.active .accordion-header {
+            background: rgba(238, 202, 87, 0.1);
+            border-bottom: 1px solid rgba(238, 202, 87, 0.2);
+        }
+
+        .card-number {
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+            color: var(--color-bg);
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            margin-right: 16px;
+            box-shadow: var(--shadow-sm);
+            flex-shrink: 0;
+        }
+
+        .card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .card-keywords {
+            font-size: 12px;
+            color: var(--color-text-muted);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .accordion-icon {
+            color: var(--color-accent);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 12px;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 2000px; /* A large value to allow content to expand */
+            transition: max-height 0.5s ease-in;
+        }
+
+        .accordion-body {
+            padding: 0 20px 24px;
+            border-top: 1px solid transparent; /* Fix for collapsing margin */
+        }
+
+        /* Quick Summary */
+        .quick-summary {
+            background: linear-gradient(135deg, var(--color-surface-light), var(--color-surface));
+            border: 1px solid rgba(238, 202, 87, 0.2);
+            border-radius: var(--border-radius-sm);
+            padding: 16px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .summary-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .summary-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--color-text);
+            font-style: italic;
+        }
+
+        /* Content Sections */
+        .content-section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-content {
+            background: rgba(238, 202, 87, 0.03);
+            border-left: 3px solid var(--color-accent);
+            border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .section-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--color-text);
+        }
+
+        /* Examples */
+        .examples-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .example-item {
+            background: var(--color-surface-light);
+            border: 1px solid rgba(238, 202, 87, 0.1);
+            border-radius: var(--border-radius-sm);
+            padding: 14px;
+        }
+
+        .example-phrase {
+            font-weight: 600;
+            color: var(--color-accent);
+            font-size: 13px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .example-explanation {
+            font-size: 12px;
+            line-height: 1.5;
+            color: var(--color-text-muted);
+        }
+
+        /* Compact Mode */
+        .compact-mode .accordion-content {
+            display: none;
+        }
+
+        .compact-mode .accordion-item.active .accordion-content {
+            display: block;
+            max-height: none; /* Override transition for instant show/hide */
+        }
+        
+        .compact-mode .card-keywords {
+            -webkit-line-clamp: 1;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 32px 20px;
+            border-top: 1px solid rgba(238, 202, 87, 0.1);
+            background: var(--color-surface);
+            margin-top: 40px;
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: var(--color-text-dim);
+            line-height: 1.6;
+        }
+
+        .footer-link {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .header {
+                padding: 12px 16px;
+            }
+
+            .search-container {
+                margin: 0 8px;
+                max-width: 200px;
+            }
+
+            .toggle-btn {
+                padding: 8px 12px;
+                font-size: 11px;
+            }
+
+            .container {
+                padding: 0 12px 24px;
+            }
+
+            .accordion-header {
+                padding: 14px 16px;
+            }
+
+            .accordion-body {
+                padding: 0 16px 20px;
+            }
+             .quick-summary {
+                margin-top: 16px;
+            }
+
+            .card-number {
+                width: 36px;
+                height: 36px;
+                font-size: 13px;
+                margin-right: 12px;
+            }
+
+            .card-name {
+                font-size: 15px;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus styles */
+        .accordion-header:focus-visible,
+        .toggle-btn:focus-visible,
+        .search-input:focus-visible,
+        .stat-chip:focus-visible {
+            outline: 2px solid var(--color-accent);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">✨ Tarot</div>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Buscar arcano..." id="searchInput">
+            </div>
+            <button class="toggle-btn" id="toggleMode">Compacto</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="stats-bar">
+            <div class="stat-chip active" tabindex="0">Todos (22)</div>
+            <div class="stat-chip" tabindex="0">Positivos (14)</div>
+            <div class="stat-chip" tabindex="0">Neutros (4)</div>
+            <div class="stat-chip" tabindex="0">Desafios (4)</div>
+        </div>
+
+        <div class="accordion" id="tarotAccordion">
+            <!-- Arcanos serão inseridos dinamicamente -->
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-text">
+            Baseado na interpretação de <a href="#" class="footer-link">Alejandro Jodorowsky</a> & Marianne Costa<br>
+            Para consultas rápidas durante jogos • Versão Mobile Otimizada
+        </div>
+    </footer>
+
+    <script>
+        // Dados dos 22 Arcanos Maiores
+        const arcanos = [
+            {
+                numero: "0",
+                nome: "O Louco",
+                keywords: "Novo começo, espontaneidade, aventura, liberdade",
+                resumo: "Representa o início de uma jornada, a coragem de dar o primeiro passo no desconhecido.",
+                significado: "Indica um novo ciclo começando, disposição para aventuras e quebra de padrões estabelecidos.",
+                exemplos: [
+                    { frase: "Saindo da zona de conforto", explicacao: "Decidir mudar de cidade ou curso por algo completamente novo." },
+                    { frase: "Fazendo loucuras de amor", explicacao: "Tomar atitudes impulsivas por alguém que acabou de conhecer." },
+                    { frase: "Topando qualquer parada", explicacao: "Estar aberto a experiências sem medo do julgamento alheio." }
+                ],
+                tipo: "positivo"
+            },
+            {
+                numero: "I",
+                nome: "O Mago",
+                keywords: "Manifestação, poder pessoal, iniciativa, criatividade",
+                resumo: "O poder de transformar ideias em realidade através da ação focada.",
+                significado: "Representa a capacidade de materializar desejos, comunicação eficaz e domínio sobre as próprias habilidades.",
+                exemplos: [
+                    { frase: "Botando a mão na massa", explicacao: "Finalmente começar aquele projeto que estava só na cabeça." },
+                    { frase: "Convencendo todo mundo", explicacao: "Usar o poder de persuasão para conseguir apoio para suas ideias." },
+                    { frase: "Fazendo acontecer", explicacao: "Transformar sonhos em planos concretos com ações práticas." }
+                ],
+                tipo: "positivo"
+            },
+            {
+                numero: "II",
+                nome: "A Sacerdotisa",
+                keywords: "Intuição, sabedoria interior, mistérios, feminino sagrado",
+                resumo: "Conexão com a sabedoria interior e os aspectos mais sutis da vida.",
+                significado: "Indica necessidade de ouvir a intuição, momentos de introspecção e acesso ao conhecimento oculto.",
+                exemplos: [
+                    { frase: "Seguindo minha intuição", explicacao: "Tomar decisões baseadas no 'sexto sentido' ao invés da lógica." },
+                    { frase: "Sentindo as vibes", explicacao: "Perceber energias e intenções das pessoas ao redor." },
+                    { frase: "Meditando sobre a vida", explicacao: "Momentos de reflexão profunda e conexão espiritual." }
+                ],
+                tipo: "positivo"
+            },
+            {
+                numero: "III",
+                nome: "A Imperatriz",
+                keywords: "Abundância, fertilidade, criação, maternidade, natureza",
+                resumo: "A força criativa e nutridora que gera abundância e crescimento.",
+                significado: "Representa fertilidade em todos os aspectos, criatividade florescendo e cuidado maternal.",
+                exemplos: [
+                    { frase: "Tudo dando certo", explicacao: "Fase onde projetos e relacionamentos estão florescendo naturalmente." },
+                    { frase: "Cuidando de todo mundo", explicacao: "Assumir papel de cuidadora/conselheira do grupo de amigos." },
+                    { frase: "Criatividade a mil", explicacao: "Período de muita inspiração artística e ideias inovadoras." }
+                ],
+                tipo: "positivo"
+            },
+            {
+                numero: "IV",
+                nome: "O Imperador",
+                keywords: "Autoridade, estrutura, disciplina, liderança, estabilidade",
+                resumo: "O poder da organização, disciplina e liderança responsável.",
+                significado: "Indica necessidade de estrutura, disciplina e assunção de responsabilidades de liderança.",
+                exemplos: [
+                    { frase: "Assumindo a responsa", explicacao: "Tomar frente de um projeto ou situação que precisa de liderança." },
+                    { frase: "Organizando tudo", explicacao: "Colocar ordem na vida acadêmica, profissional ou pessoal." },
+                    { frase: "Sendo o chefe", explicacao: "Assumir posições de autoridade e tomada de decisões importantes." }
+                ],
+                tipo: "positivo"
+            },
+            {
+                numero: "V",
+                nome: "O Hierofante",
+                keywords: "Tradição, espiritualidade, ensino, orientação, conformidade",
+                resumo: "A busca por conhecimento superior e orientação espiritual ou moral.",
+                significado: "Representa aprendizado com mestres, seguir tradições e buscar orientação espiritual.",
+                exemplos: [
+                    { frase: "Procurando um mentor", explicacao: "Buscar alguém mais experiente para ensinar e orientar." },
+                    { frase: "Seguindo os ensinamentos", explicacao: "Aderir a práticas espirituais ou filosóficas estabelecidas." },
+                    { frase: "Respeitando as regras", explicacao: "Entender a importância das tradições e normas sociais." }
+                ],
+                tipo: "neutro"
+            },
+            {
+                numero: "VI",
+                nome: "Os Enamorados",
+                keywords: "Escolhas, relacionamentos, amor, decisões do coração",
+                resumo: "Momento de escolhas importantes, especialmente relacionadas ao amor e relacionamentos.",
+                significado: "Indica decisões sobre relacionamentos, dilemas amorosos e necessidade de escolher entre opções.",
+                exemplos: [
+                    { frase: "Dividido entre duas pessoas", explicacao: "Ter que escolher entre dois pretendentes ou relacionamentos." },
+                    { frase: "Tomando decisão do coração", explicacao: "Escolher seguir os sentimentos ao invés da razão." },
+                    { frase: "Definindo o relacionamento", explicacao: "Momento de decidir se vai assumir ou não um romance." }
+                ],
+                tipo: "neutro"
+            },
+            {
+                numero: "VII",
+                nome: "O Carro",
+                keywords: "Vitória, determinação, controle, progresso, conquista",
+                resumo: "Movimento em direção ao sucesso através de determinação e foco.",
+                significado: "Representa conquistas alcançadas através de esforço próprio, vitória sobre obstáculos.",
+                exemplos: [
+                    { frase: "Mandando ver nos estudos", explicacao: "Período de muito foco e dedicação que traz resultados." },
+                    { frase: "Conquistando meus objetivos", explicacao: "Alcançar metas importantes através de determinação." },
+                    { frase: "No controle da situação", explicacao: "Conseguir dirigir os acontecimentos a seu favor." }
+                ],
+                tipo: "positivo"
+            },
+            {
+                numero: "VIII",
+                nome: "A Força",
+                keywords: "Coragem interior, compaixão, paciência, domínio próprio",
+                resumo: "A verdadeira força que vem da paciência, compaixão e autocontrole.",
+                significado: "Indica força interior para superar desafios através da gentileza e persistência, não da agressividade.",
+                exemplos: [
+                    { frase: "Tendo paciência com tudo", explicacao: "Lidar com situações difíceis mantendo a calma e gentileza." },
+                    { frase: "Força interior pra superar", explicacao: "Encontrar coragem para enfrentar medos e inseguranças." },
+                    { frase: "Controlando meus impulsos", explicacao: "Usar disciplina emocional ao invés de reagir impulsivamente." }
+                ],
+                tipo: "positivo"
+            },
+            {
+                numero: "IX",
+                nome: "O Eremita",
+                keywords: "Introspecção, sabedoria, solidão, busca interior, orientação",
+                resumo: "Período de recolhimento para buscar respostas dentro de si mesmo.",
+                significado: "Indica necessidade de solidão para reflexão, busca por sabedoria interior e autoconhecimento.",
+                exemplos: [
+                    { frase: "Precisando de um tempo sozinho", explicacao: "Sentir necessidade de se afastar para refletir sobre a vida." },
+                    { frase: "Buscando respostas dentro de mim", explicacao: "Momento de introspecção profunda e autoconhecimento." },
+                    { frase: "Virando o sábio do grupo", explicacao: "Ser procurado pelos amigos para dar conselhos e orientação." }
+                ],
+                tipo: "neutro"
+            },
+            {
+                numero: "X",
+                nome: "A Roda da Fortuna",
+                keywords: "Mudanças, ciclos, destino, sorte, oportunidades",
+                resumo: "Mudanças significativas chegando, ciclos se completando e novos começando.",
+                significado: "Representa mudanças do destino, fim de ciclos e início de novas fases na vida.",
+                exemplos: [
+                    { frase: "Mudança total na vida", explicacao: "Quando várias coisas mudam ao mesmo tempo de forma inesperada." },
+                    { frase: "A sorte finalmente virou", explicacao: "Depois de um período difícil, as coisas começam a melhorar." },
+                    { frase: "Nova fase começando", explicacao: "Sentir que um ciclo terminou e outro está começando." }
+                ],
+                tipo: "neutro"
+            },
+            {
+                numero: "XI",
+                nome: "A Justiça",
+                keywords: "Equilíbrio, justiça, consequências, verdade, responsabilidade",
+                resumo: "Momento de colher as consequências das ações passadas, seja positivo ou negativo.",
+                significado: "Indica que a justiça será feita, equilíbrio sendo restaurado e consequências das ações chegando.",
+                exemplos: [
+                    { frase: "Colhendo o que plantei", explicacao: "Receber as consequências, boas ou ruins, das ações passadas." },
+                    { frase: "A verdade veio à tona", explicacao: "Situações se esclarecendo e mentiras sendo descobertas." },
+                    { frase: "Fazendo o que é certo", explicacao: "Tomar decisões baseadas em princípios éticos e morais." }
+                ],
+                tipo: "positivo"
+            },
+            {
+                numero: "XII",
+                nome: "O Enforcado",
+                keywords: "Suspensão, pausa, sacrifício, nova perspectiva, espera",
+                resumo: "Uma pausa necessária, um mergulho interior profundo para gestar um novo começo.",
+                significado: "Indicação de um estado de interrupção total e introspecção profunda. O intelecto é 'posto abaixo' para que o espírito se torne receptivo.",
+                exemplos: [
+                    { frase: "Dando um tempo na facul", explicacao: "Após um baque na vida, decidir dar uma pausa para refletir." },
+                    { frase: "Vendo tudo diferente", explicacao: "Começar a ver uma situação de outro ângulo, percebendo soluções antes invisíveis." },
+                    { frase: "Parado, mas pensando muito", explicacao: "Período em que um sonho ou ideia está amadurecendo internamente." }
+                ],
+                tipo: "desafio"
+            },
+            {
+                numero: "XIII",
+                nome: "A Morte",
+                keywords: "Transformação, fim de ciclo, renovação, mudança radical",
+                resumo: "Fim de um ciclo para permitir o nascimento de algo novo e melhor.",
+                significado: "Representa transformação profunda, fim de situações que não servem mais e renascimento.",
+                exemplos: [
+                    { frase: "Fechando esse ciclo", explicacao: "Terminar um relacionamento, trabalho ou fase que não faz mais sentido." },
+                    { frase: "Mudando completamente", explicacao: "Transformação radical na personalidade ou estilo de vida." },
+                    { frase: "Deixando o passado pra trás", explicacao: "Conseguir se libertar de padrões antigos e limitantes." }
+                ],
+                tipo: "desafio"
+            },
+            {
+                numero: "XIV",
+                nome: "A Temperança",
+                keywords: "Equilíbrio, moderação, paciência, harmonia, mistura",
+                resumo: "Busca pelo equilíbrio e harmonia através da moderação e paciência.",
+                significado: "Indica necessidade de encontrar o meio termo, misturar elementos opostos de forma harmoniosa.",
+                exemplos: [
+                    { frase: "Equilibrando tudo na vida", explicacao: "Conseguir balancear estudos, trabalho, relacionamentos sem estresse." },
+                    { frase: "Com calma e paciência", explicacao: "Resolver conflitos através do diálogo e compreensão mútua." },
+                    { frase: "Misturando o melhor dos mundos", explicacao: "Combinar diferentes aspectos da vida de forma harmoniosa." }
+                ],
+                tipo: "positivo"
+            },
+            {
+                numero: "XV",
+                nome: "O Diabo",
+                keywords: "Tentação, vícios, materialismo, obsessão, limitações",
+                resumo: "Aprisionamento por vícios, obsessões ou dependências que limitam a liberdade.",
+                significado: "Representa vícios, obsessões e situações que prendem a pessoa em padrões destrutivos.",
+                exemplos: [
+                    { frase: "Viciado nessa pessoa", explicacao: "Relacionamento tóxico onde há dependência emocional excessiva." },
+                    { frase: "Só pensando em dinheiro", explicacao: "Quando o materialismo domina todas as decisões e prioridades." },
+                    { frase: "Não consigo parar", explicacao: "Vícios ou compulsões que estão fora de controle." }
+                ],
+                tipo: "desafio"
+            },
+            {
+                numero: "XVI",
+                nome: "A Torre",
+                keywords: "Destruição súbita, despertar, libertação, colapso, revelação",
+                resumo: "Destruição de ilusões e estruturas falsas para permitir a construção do verdadeiro.",
+                significado: "Representa a queda de estruturas que não são mais sustentáveis, revelações chocantes e a libertação de falsas crenças.",
+                exemplos: [
+                    { frase: "A casa caiu", explicacao: "Quando uma grande mentira é descoberta e tudo desmorona." },
+                    { frase: "Levando um choque de realidade", explicacao: "Percepção súbita de que suas crenças ou planos eram baseados em ilusões." },
+                    { frase: "Começando do zero", explicacao: "Ter que reconstruir a vida após uma grande perda ou fracasso." }
+                ],
+                tipo: "desafio"
+            },
+            {
+                numero: "XVII",
+                nome: "A Estrela",
+                keywords: "Esperança, inspiração, renovação, serenidade, cura",
+                resumo: "A luz da esperança e da inspiração que guia após um período de escuridão.",
+                significado: "Representa renovação da fé, cura emocional e espiritual, e um período de calma e inspiração.",
+                exemplos: [
+                    { frase: "Uma luz no fim do túnel", explicacao: "Encontrar esperança e otimismo após momentos difíceis." },
+                    { frase: "Se sentindo inspirado", explicacao: "Ter novas ideias e sentir uma conexão profunda com seu propósito." },
+                    { frase: "Recuperando a fé na vida", explicacao: "Momento de cura e serenidade, acreditando em um futuro melhor." }
+                ],
+                tipo: "positivo"
+            },
+            {
+                numero: "XVIII",
+                nome: "A Lua",
+                keywords: "Ilusão, medo, intuição, inconsciente, confusão",
+                resumo: "Navegar por medos e ilusões para encontrar a verdade no inconsciente.",
+                significado: "Indica um período de confusão, medos ocultos vindo à tona, mas também de forte intuição e sonhos reveladores.",
+                exemplos: [
+                    { frase: "Não sei em quem confiar", explicacao: "Situações confusas onde as aparências enganam." },
+                    { frase: "Enfrentando meus medos", explicacao: "Medos e ansiedades profundas se manifestando para serem trabalhados." },
+                    { frase: "Sonhos muito estranhos", explicacao: "O inconsciente se comunicando através de sonhos vívidos e simbólicos." }
+                ],
+                tipo: "desafio"
+            },
+            {
+                numero: "XIX",
+                nome: "O Sol",
+                keywords: "Alegria, sucesso, clareza, vitalidade, otimismo",
+                resumo: "O ápice da clareza, alegria e sucesso, onde tudo se ilumina.",
+                significado: "Representa sucesso, felicidade, clareza mental e vitalidade. Um período de grande otimismo e realizações.",
+                exemplos: [
+                    { frase: "Tudo claro como o dia", explicacao: "Entendimento completo de uma situação que antes era confusa." },
+                    { frase: "Felicidade que não cabe no peito", explicacao: "Período de pura alegria, sucesso e celebração." },
+                    { frase: "Energia lá no alto", explicacao: "Sentir-se cheio de vitalidade, confiança e otimismo." }
+                ],
+                tipo: "positivo"
+            },
+            {
+                numero: "XX",
+                nome: "O Julgamento",
+                keywords: "Renascimento, chamado, despertar, avaliação, perdão",
+                resumo: "Um chamado para o despertar, para avaliar o passado e renascer para um novo nível de consciência.",
+                significado: "Indica um momento de avaliação da vida, perdão de si mesmo e dos outros, e renascimento para uma nova fase.",
+                exemplos: [
+                    { frase: "Repensando toda minha vida", explicacao: "Fazer um balanço do passado para decidir os próximos passos." },
+                    { frase: "Recebendo um chamado", explicacao: "Sentir uma forte vocação ou propósito de vida se revelando." },
+                    { frase: "Perdoando e seguindo em frente", explicacao: "Deixar para trás mágoas e culpas para poder recomeçar." }
+                ],
+                tipo: "positivo"
+            },
+            {
+                numero: "XXI",
+                nome: "O Mundo",
+                keywords: "Realização, conclusão, sucesso, integração, plenitude",
+                resumo: "A conclusão bem-sucedida de um ciclo, alcançando um estado de plenitude e integração.",
+                significado: "Representa a conclusão de uma jornada, sucesso total, sentimento de pertencimento e realização plena.",
+                exemplos: [
+                    { frase: "Missão cumprida", explicacao: "Concluir um grande projeto ou ciclo de vida com sucesso." },
+                    { frase: "Me sentindo completo", explicacao: "Estado de harmonia e satisfação com todas as áreas da vida." },
+                    { frase: "O mundo é meu", explicacao: "Sentimento de liberdade, sucesso e infinitas possibilidades." }
+                ],
+                tipo: "positivo"
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const accordionContainer = document.getElementById('tarotAccordion');
+            const searchInput = document.getElementById('searchInput');
+            const toggleModeBtn = document.getElementById('toggleMode');
+            const statsBar = document.querySelector('.stats-bar');
+            const container = document.querySelector('.container');
+
+            let currentFilter = 'todos';
+            let searchTerm = '';
+
+            const renderArcanos = () => {
+                let filteredArcanos = [...arcanos];
+
+                // Aplicar filtro por tipo
+                if (currentFilter !== 'todos') {
+                    filteredArcanos = filteredArcanos.filter(arcano => arcano.tipo === currentFilter);
+                }
+
+                // Aplicar filtro por busca
+                if (searchTerm) {
+                    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+                    filteredArcanos = filteredArcanos.filter(arcano =>
+                        arcano.nome.toLowerCase().includes(lowerCaseSearchTerm) ||
+                        arcano.keywords.toLowerCase().includes(lowerCaseSearchTerm)
+                    );
+                }
+                
+                if (filteredArcanos.length === 0) {
+                     accordionContainer.innerHTML = `<p style="text-align: center; color: var(--color-text-muted); padding: 20px;">Nenhum arcano encontrado.</p>`;
+                     return;
+                }
+
+                accordionContainer.innerHTML = filteredArcanos.map(arcano => `
+                    <div class="accordion-item" data-numero="${arcano.numero}">
+                        <div class="accordion-header" role="button" aria-expanded="false" tabindex="0">
+                            <div class="card-number">${arcano.numero}</div>
+                            <div class="card-info">
+                                <div class="card-name">${arcano.nome}</div>
+                                <div class="card-keywords">${arcano.keywords}</div>
+                            </div>
+                            <i class="fas fa-chevron-down accordion-icon"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-body">
+                                <div class="quick-summary">
+                                    <div class="summary-title"><i class="fas fa-quote-left"></i> Resumo Rápido</div>
+                                    <p class="summary-text">${arcano.resumo}</p>
+                                </div>
+                                <div class="content-section">
+                                    <h3 class="section-title"><i class="fas fa-lightbulb"></i> Significado</h3>
+                                    <div class="section-content">
+                                        <p class="section-text">${arcano.significado}</p>
+                                    </div>
+                                </div>
+                                <div class="content-section">
+                                    <h3 class="section-title"><i class="fas fa-comments"></i> Exemplos Práticos</h3>
+                                    <div class="examples-list">
+                                        ${arcano.exemplos.map(ex => `
+                                            <div class="example-item">
+                                                <div class="example-phrase"><i class="fas fa-check-circle" style="color:var(--color-success)"></i> "${ex.frase}"</div>
+                                                <p class="example-explanation">${ex.explicacao}</p>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            };
+
+            // Evento de clique no acordeão
+            accordionContainer.addEventListener('click', (e) => {
+                const header = e.target.closest('.accordion-header');
+                if (!header) return;
+
+                const item = header.parentElement;
+                const isActive = item.classList.contains('active');
+
+                // Lógica do modo normal: fecha os outros
+                 if (!container.classList.contains('compact-mode')) {
+                    document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
+                        if (activeItem !== item) {
+                            activeItem.classList.remove('active');
+                            activeItem.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
+                        }
+                    });
+                }
+                
+                item.classList.toggle('active');
+                header.setAttribute('aria-expanded', !isActive);
+            });
+
+            // Adiciona suporte a teclado (Enter/Space) para acessibilidade
+            const handleKeydown = (e) => {
+                 if (e.key === 'Enter' || e.key === ' ') {
+                    const element = e.target;
+                    if (element.classList.contains('accordion-header') || element.classList.contains('stat-chip')) {
+                        e.preventDefault();
+                        element.click();
+                    }
+                }
+            };
+            accordionContainer.addEventListener('keydown', handleKeydown);
+            statsBar.addEventListener('keydown', handleKeydown);
+
+            // Evento de busca
+            searchInput.addEventListener('input', (e) => {
+                searchTerm = e.target.value.trim();
+                renderArcanos();
+            });
+
+            // Evento de alternância de modo
+            toggleModeBtn.addEventListener('click', () => {
+                container.classList.toggle('compact-mode');
+                const isCompact = container.classList.contains('compact-mode');
+                toggleModeBtn.textContent = isCompact ? 'Normal' : 'Compacto';
+
+                // Fecha todos ao alternar
+                document.querySelectorAll('.accordion-item.active').forEach(item => {
+                    item.classList.remove('active');
+                    item.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            // Evento dos filtros (chips)
+            statsBar.addEventListener('click', (e) => {
+                const chip = e.target.closest('.stat-chip');
+                if (!chip) return;
+
+                statsBar.querySelector('.active').classList.remove('active');
+                chip.classList.add('active');
+
+                const filterText = chip.textContent.toLowerCase();
+                if (filterText.includes('todos')) currentFilter = 'todos';
+                else if (filterText.includes('positivos')) currentFilter = 'positivo';
+                else if (filterText.includes('neutros')) currentFilter = 'neutro';
+                else if (filterText.includes('desafios')) currentFilter = 'desafio';
+                
+                renderArcanos();
+            });
+
+            // Renderização inicial
+            renderArcanos();
+        });
+    </script>
+</body>
+</html>
