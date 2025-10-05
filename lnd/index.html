@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisador Denotativo Lenormand</title>
+    <!-- Link to your external CSS file -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Analisador Denotativo Lenormand</h1>
+            <p class="subtitle">Selecione de 2 a 3 cartas para comparar suas categorias</p>
+        </header>
+
+        <section class="comparator-section">
+            <h2 id="comparator-title">Selecione as Cartas</h2>
+            <p id="comparator-instructions" class="instructions">Toque nas cartas abaixo para escolher</p>
+            <div id="card-selector-grid"></div>
+            <div class="comparator-controls">
+                <button id="clear-selection-btn" class="comparator-btn">Limpar</button>
+                <button id="compare-btn" class="comparator-btn" disabled>Comparar</button>
+            </div>
+            
+            <div id="results-area" class="hidden">
+                <div id="view-toggle-tabs">
+                    <button class="view-tab active" data-view="simple">✔️ Visão Simples</button>
+                    <button class="view-tab" data-view="detailed">📄 Visão Detalhada</button>
+                </div>
+                <div id="comparison-container"></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Link to your external JavaScript files -->
+    <!-- IMPORTANT: data.js must be loaded BEFORE script.js -->
+    <script src="js/data.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
