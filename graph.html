@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RELATÓRIO: ESTEVES vs MASTER</title>
+    <title>RELATÓRIO: ESTEVES VS MASTER</title>
     
-    <!-- Fonts: Space Mono (Tech) & Inter (Readability) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -21,8 +20,10 @@
             --cyan: #00f3ff;   /* Esteves */
             --red: #ff0055;    /* Master */
             --green: #00ff41;  /* Intersection */
-            --gold: #ffaa00;   /* Warning */
+            --gold: #ffaa00;   /* Warning/Crisis */
             --white: #ffffff;  /* Regulator */
+            --blue-historic: #00aaff; /* BTG History */
+            --grey-line: #333;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,31 +36,31 @@
             line-height: 1.6;
         }
 
-        /* --- HEADER & GLITCH EFFECT --- */
         header {
             padding: 40px 20px;
             text-align: center;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid var(--grey-line);
             background: radial-gradient(circle at center, #111 0%, #050505 100%);
         }
 
         h1 {
             font-family: 'Space Mono', monospace;
-            font-size: 2.5rem;
+            font-size: 2.3rem; /* Adjusted for mobile */
             text-transform: uppercase;
             letter-spacing: -1px;
             margin-bottom: 10px;
             position: relative;
             display: inline-block;
+            text-shadow: 0 0 5px var(--cyan), 0 0 10px var(--cyan), 0 0 15px var(--cyan), 0 0 20px var(--cyan);
         }
 
         .subtitle {
             font-family: 'Space Mono', monospace;
             color: var(--cyan);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
         }
 
-        /* --- CONTROLS --- */
         .controls {
             position: sticky;
             top: 0;
@@ -68,75 +69,69 @@
             z-index: 100;
             display: flex;
             justify-content: center;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
             gap: 10px;
-            border-bottom: 1px solid #222;
+            border-bottom: 1px solid var(--grey-line);
             backdrop-filter: blur(5px);
         }
 
         .btn {
             background: transparent;
-            border: 1px solid #333;
-            color: #666;
+            border: 1px solid var(--grey-line);
+            color: var(--text-dim);
             padding: 8px 16px;
             font-family: 'Space Mono', monospace;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
+            border-radius: 3px;
         }
 
         .btn:hover { border-color: #fff; color: #fff; }
-        .btn.active-all { border-color: #fff; color: #fff; background: #111; }
-        .btn.active-esteves { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
-        .btn.active-master { border-color: var(--red); color: var(--red); box-shadow: 0 0 10px rgba(255, 0, 85, 0.2); }
+        .btn.active-all { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 8px rgba(0, 243, 255, 0.3); }
+        .btn.active-esteves { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 8px rgba(0, 243, 255, 0.3); }
+        .btn.active-master { border-color: var(--red); color: var(--red); box-shadow: 0 0 8px rgba(255, 0, 85, 0.3); }
+        .btn.active-historic { border-color: var(--blue-historic); color: var(--blue-historic); box-shadow: 0 0 8px rgba(0, 170, 255, 0.3); }
 
-        /* --- TIMELINE CONTAINER --- */
         .timeline {
             position: relative;
-            max-width: 800px;
+            max-width: 900px; /* Increased slightly for desktop */
             margin: 40px auto;
             padding: 0 20px;
         }
 
-        /* The Vertical Line */
-        .timeline::after {
+        .timeline::after { /* The Vertical Line */
             content: '';
             position: absolute;
             width: 2px;
-            background: #333;
+            background: var(--grey-line);
             top: 0;
             bottom: 0;
-            left: 50%; /* Center by default */
+            left: 50%;
             margin-left: -1px;
             z-index: 0;
         }
 
-        /* --- CARDS --- */
         .card-container {
             padding: 10px 40px;
             position: relative;
-            background-color: inherit;
             width: 50%;
-            transition: all 0.5s ease;
+            opacity: 0; /* Start hidden for animation */
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            animation-fill-mode: forwards;
+        }
+
+        .card-container.show { /* Trigger for animation */
             opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Left side (Master) */
         .left { left: 0; text-align: right; }
-        
-        /* Right side (Esteves) */
         .right { left: 50%; text-align: left; }
+        .center { width: 100%; left: 0; text-align: center; padding: 10px 0; z-index: 2; }
 
-        /* Center (Intersection) */
-        .center {
-            width: 100%;
-            left: 0;
-            text-align: center;
-            padding: 10px 0;
-            z-index: 2;
-        }
-
-        /* The Dot */
         .dot {
             width: 16px;
             height: 16px;
@@ -146,7 +141,8 @@
             top: 25px;
             z-index: 1;
             border-radius: 50%;
-            transition: transform 0.3s;
+            transition: transform 0.3s, border-color 0.3s;
+            box-shadow: 0 0 5px rgba(255,255,255,0.2);
         }
         
         .left .dot { right: -8px; }
@@ -154,13 +150,12 @@
         .center .dot { 
             left: 50%; 
             margin-left: -8px; 
-            top: -10px; /* Moves dot to top for center cards */
+            top: -10px; 
             background: var(--green);
             box-shadow: 0 0 10px var(--green);
             border: none;
         }
 
-        /* Card Content */
         .content {
             padding: 20px;
             background-color: var(--card-bg);
@@ -168,60 +163,68 @@
             position: relative;
             cursor: pointer;
             transition: transform 0.2s, border-color 0.2s;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
-        .content:hover { transform: translateY(-2px); border-color: #444; }
+        .content:hover { transform: translateY(-3px); border-color: #444; }
 
         /* Color Coding Borders */
         .type-ESTEVES .content { border-left: 3px solid var(--cyan); }
         .type-ESTEVES_CRISIS .content { border-left: 3px solid var(--gold); }
+        .type-BTG_HISTORIC .content { border-left: 3px solid var(--blue-historic); }
         
         .type-MASTER .content { border-right: 3px solid var(--red); }
-        .left.type-MASTER .content { border-right: 3px solid var(--red); border-left: 1px solid #222;} /* Fix border side */
+        .left.type-MASTER .content { border-right: 3px solid var(--red); border-left: 1px solid #222;} /* Fix side */
         
         .type-INTERSECTION .content { 
             border: 1px solid var(--green); 
             background: rgba(0, 255, 65, 0.05);
-            max-width: 500px;
+            max-width: 450px; /* Slightly narrower for center */
             margin: 0 auto;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
         }
-
         .type-REGULATOR .content { border-top: 3px solid var(--white); }
+        .left.type-REGULATOR .content { border-top: 3px solid var(--white); border-left: 1px solid #222; }
 
         /* Text Styles */
         .date {
             font-family: 'Space Mono', monospace;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-dim);
             margin-bottom: 5px;
             display: block;
+            font-weight: bold;
         }
 
         h2 {
             font-size: 1.1rem;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             text-transform: uppercase;
+            color: var(--text-main);
+            text-shadow: 0 0 3px rgba(255,255,255,0.2);
         }
 
         p.desc {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: #bbb;
+            margin-bottom: 12px;
         }
 
         /* EXPANDABLE DETAILS */
         .details {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease-out;
+            transition: max-height 0.4s ease-out, margin-top 0.4s ease-out, padding-top 0.4s ease-out;
             margin-top: 0;
             padding-top: 0;
             font-size: 0.85rem;
-            color: #888;
+            color: #aaa;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
         .content.active .details {
-            max-height: 500px; /* Arbitrary large number */
+            max-height: 500px; 
             margin-top: 15px;
             padding-top: 10px;
         }
@@ -229,70 +232,99 @@
         .content.active h2 { color: #fff; text-shadow: 0 0 5px rgba(255,255,255,0.5); }
         
         .expand-hint {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-family: 'Space Mono', monospace;
             color: #444;
             margin-top: 10px;
             text-transform: uppercase;
+            text-align: center;
+            width: 100%;
+            display: block;
         }
         .content.active .expand-hint { display: none; }
 
         /* --- MOBILE RESPONSIVENESS --- */
-        @media screen and (max-width: 600px) {
-            .timeline::after { left: 30px; } /* Move line to left */
+        @media screen and (max-width: 768px) {
+            .timeline::after { left: 30px; margin-left: -1px; } /* Move line to left */
             
             .card-container {
                 width: 100%;
-                padding-left: 70px;
+                padding-left: 70px; /* Space for line and dot */
                 padding-right: 20px;
             }
             
-            .left, .right { text-align: left; }
+            .left, .right { 
+                left: 0; 
+                width: 100%;
+                text-align: left;
+                padding-left: 70px; /* Align content to the left */
+            }
             
             .left .dot, .right .dot { 
-                left: 22px; 
+                left: 22px; /* Position dot on the left line */
                 right: auto;
             }
 
-            .left.type-MASTER .content { border-left: 3px solid var(--red); border-right: 1px solid #222; }
-            
+            .left.type-MASTER .content, .left.type-REGULATOR .content, .left.type-ESTEVES_CRISIS .content { 
+                border-left: 3px solid var(--red); /* Left border for Master */
+                border-right: none; /* Remove right border */
+            }
+             .right.type-ESTEVES .content, .right.type-BTG_HISTORIC .content { 
+                border-left: 3px solid var(--cyan); /* Left border for Esteves */
+                border-right: none;
+            }
+
             h1 { font-size: 1.8rem; }
             
             .center {
                 text-align: left;
-                padding-left: 70px;
+                padding-left: 70px; /* Align center content too */
             }
             .center .dot {
                 left: 22px;
                 margin-left: 0;
-                top: 25px;
+                top: -10px; /* Keep dot at top for center */
             }
             .type-INTERSECTION .content { margin: 0; }
+            .controls { flex-direction: column; align-items: center; }
         }
 
         /* --- UTILS --- */
         .hidden { display: none; }
-
         footer {
             text-align: center;
             padding: 50px 20px;
-            color: #444;
+            color: var(--text-dim);
             font-family: 'Space Mono', monospace;
             font-size: 0.7rem;
+            border-top: 1px solid var(--grey-line);
+        }
+
+        /* Animation Keyframes */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse { /* For the central dot */
+          0% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.4); opacity: 0.7; }
+          100% { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>LOG DO SISTEMA</h1>
+        <h1>LOG DO SISTEMA FINANCEIRO</h1>
         <div class="subtitle">ESTEVES [SYS] vs MASTER [ERR]</div>
     </header>
 
     <div class="controls">
         <button class="btn active-all" onclick="filterData('all', this)">TODOS</button>
-        <button class="btn" onclick="filterData('ESTEVES', this)">ESTEVES</button>
-        <button class="btn" onclick="filterData('MASTER', this)">MASTER</button>
+        <button class="btn active-historic" onclick="filterData('BTG_HISTORIC', this)">BTG HIST.</button>
+        <button class="btn active-esteves" onclick="filterData('ESTEVES', this)">ESTEVES</button>
+        <button class="btn active-master" onclick="filterData('MASTER', this)">MASTER</button>
     </div>
 
     <div class="timeline" id="timeline-root">
@@ -300,202 +332,317 @@
     </div>
 
     <footer>
-        RELATÓRIO GERADO PARA ANÁLISE.<br>
-        2025 © DADOS PÚBLICOS & INVESTIGAÇÃO.
+        RELATÓRIO DE VULNERABILIDADE & PODER. ANÁLISE DE CONTEXTO E INFLUÊNCIA.
     </footer>
 
     <script>
         // --- THE DATA ---
         const timelineData = [
+            // --- BTG HISTORICAL (Blue) ---
             {
-                date: "1989",
-                title: "INÍCIO DA JORNADA",
-                desc: "André Esteves entra como estagiário no Pactual.",
-                details: "Esteves começou na área de tecnologia do banco, consertando computadores, antes de migrar para a mesa de operações onde seu talento matemático o destacou.",
-                cat: "ESTEVES",
-                side: "right"
+                date: "1983", title: "FUNDAÇÃO PACTUAL", desc: "Origem da corretora no Rio.",
+                details: "O Banco Pactual original foi fundado em 1983, estabelecendo as bases para o futuro império financeiro.",
+                cat: "BTG_HISTORIC", side: "left"
             },
             {
-                date: "2009",
-                title: "O GRANDE RECOMEÇO",
-                desc: "Recompra do Pactual do UBS ($2.5bi) e fundação do BTG.",
-                details: "Após vender o banco em 2006, Esteves recompra a operação criando o BTG Pactual, transformando-o no maior banco de investimentos da América Latina.",
-                cat: "ESTEVES",
-                side: "right"
+                date: "2006", title: "VENDA AO UBS", desc: "Pactual vendido por US$ 2.6-3.1 bilhões.",
+                details: "A venda para o banco suíço UBS marcou o fim de uma era e o início de um novo capítulo global para Esteves.",
+                cat: "BTG_HISTORIC", side: "left"
             },
             {
-                date: "2015",
-                title: "CHOQUE LAVA JATO",
-                desc: "Prisão preventiva e afastamento do controle.",
-                details: "Acusado de obstrução de justiça (tentativa de silenciar Delcídio do Amaral). As ações do banco derreteram, forçando a venda de ativos.",
-                cat: "ESTEVES_CRISIS",
-                side: "right"
+                date: "2008", title: "NASCE O BTG GLOBAL", desc: "Esteves funda BTG Global Investment.",
+                details: "Deixando o UBS, Esteves articula a criação de um novo veículo de investimento com antigos colegas.",
+                cat: "BTG_HISTORIC", side: "left"
             },
             {
-                date: "2017",
-                title: "INÍCIO DO RISCO",
-                desc: "Daniel Vorcaro funda o Banco Master.",
-                details: "O banco cresceu com um modelo agressivo: captar depósitos caros garantidos pelo FGC e investir em ativos ilíquidos e de alto risco.",
-                cat: "MASTER",
-                side: "left"
+                date: "2009", title: "RECOMPRA E FORMAÇÃO DO BTG PACTUAL", desc: "Aquisição do UBS Pactual por US$ 2.5 bilhões.",
+                details: "O BTG Pactual renasce sob a liderança de Esteves, combinando expertise e capital.",
+                cat: "ESTEVES", side: "right" /* This is a key Esteves moment */
+            },
+             {
+                date: "2011", title: "AQUISIÇÃO BANCO PANAMERICANO", desc: "BTG Pactual adquire 51%.",
+                details: "Expansão para o setor bancário de varejo e crédito.",
+                cat: "BTG_HISTORIC", side: "left"
             },
             {
-                date: "2018",
-                title: "RETORNO AO COMANDO",
-                desc: "Absolvição total e volta como Controlador.",
-                details: "O STF absolveu Esteves por falta de provas. Ele retorna ao banco, primeiro como Senior Partner, depois consolidando seu poder.",
-                cat: "ESTEVES",
-                side: "right"
+                date: "2013", title: "EXPANSÃO GLOBAL E DIGITAL", desc: "Novas aquisições e lançamento do BTG Pactual Digital.",
+                details: "O banco investe em presença internacional e em tecnologia para serviços financeiros.",
+                cat: "BTG_HISTORIC", side: "left"
             },
             {
-                date: "DEZ 2023",
-                title: "PRESSÃO REGULATÓRIA",
-                desc: "BC exige ativos de baixo risco.",
-                details: "Nova regulação do Banco Central obrigou bancos como o Master a manterem mais títulos públicos, colidindo frontalmente com seu modelo de alta alavancagem.",
-                cat: "REGULATOR",
-                side: "left"
+                date: "2014", title: "COMPRA DO BSI", desc: "Aquisição do banco privado suíço.",
+                details: "Fortalecimento da presença internacional em gestão de fortunas.",
+                cat: "BTG_HISTORIC", side: "left"
+            },
+
+            // --- ESTEVES / CRISIS ---
+            {
+                date: "NOV 2015", title: "CHOQUE LAVA JATO", desc: "Prisão preventiva de Esteves.",
+                details: "Acusado de obstrução da justiça. A renúncia e o afastamento abalam o BTG Pactual, forçando vendas de ativos e turbulência no mercado.",
+                cat: "ESTEVES_CRISIS", side: "right"
             },
             {
-                date: "2024",
-                title: "AUGE FINANCEIRO",
-                desc: "Fortuna de Esteves atinge R$ 51bi.",
-                details: "O BTG distribui R$ 10 bilhões em dividendos. Esteves consolida sua influência política e econômica no Brasil.",
-                cat: "ESTEVES",
-                side: "right"
+                date: "DEZ 2015", title: "PRISÃO DOMICILIAR", desc: "Esteves é transferido para casa.",
+                details: "Após 23 dias na prisão, a medida busca aliviar a pressão sobre o banco.",
+                cat: "ESTEVES_CRISIS", side: "right"
             },
             {
-                date: "NOV 2024",
-                title: "NEGOCIAÇÃO FALHA",
-                desc: "Master tenta vender operação para o BTG.",
-                details: "Buscando liquidez, Vorcaro inicia conversas com o BTG. A 'Due Diligence' (análise de risco) provavelmente apontou problemas insuperáveis.",
-                cat: "MASTER",
-                side: "left"
+                date: "ABR 2016", title: "REVOGAÇÃO DA PRISÃO", desc: "Esteves retorna ao BTG como Sócio Sênior.",
+                details: "A liberdade é restabelecida, mas sem cargos de gestão direta, focado em aconselhamento estratégico.",
+                cat: "ESTEVES", side: "right"
             },
             {
-                date: "28 MAR 2025",
-                title: "PLANO DE FUGA (BRB)",
-                desc: "Anúncio de fusão com Banco de Brasília.",
-                details: "Tentativa de transferir o controle (58%) para um banco estatal (BRB), o que diluiria o risco privado com capital público.",
-                cat: "MASTER",
-                side: "left"
+                date: "JUL 2018", title: "ABSOLVIÇÃO TOTAL", desc: "Esteves inocentado na Lava Jato.",
+                details: "Falta de provas leva à absolvição completa, permitindo um retorno mais firme ao controle da instituição.",
+                cat: "ESTEVES", side: "right"
             },
             {
-                date: "31 MAR 2025",
-                title: "DIÁLOGO ESTRATÉGICO",
-                desc: "Reunião: Esteves & Gabriel Galípolo (BC).",
-                details: "Apenas 3 dias após o anúncio do BRB, Esteves se reúne com o presidente do BC. Pauta oficial: Institucional. Pauta real: Risco sistêmico do Master.",
-                cat: "INTERSECTION",
-                side: "center"
+                date: "AGO 2019", title: "NOVA FASE LAVA JATO", desc: "Buscas ligadas a Sete Brasil e Petrobras.",
+                details: "Esteves e o BTG são novamente alvo de investigações, desta vez relacionadas a negócios passados com a Petrobras e a Sete Brasil.",
+                cat: "ESTEVES_CRISIS", side: "right"
+            },
+             {
+                date: "ABR 2022", title: "RECONDUZIDO AO CHAIRMAN", desc: "Esteves retorna oficialmente à presidência do conselho.",
+                details: "Sinaliza o completo restabelecimento de seu poder e influência na instituição.",
+                cat: "ESTEVES", side: "right"
             },
             {
-                date: "27 MAI 2025",
-                title: "INJEÇÃO DE CAPITAL",
-                desc: "BTG compra R$ 1.5bi em ativos de Vorcaro.",
-                details: "Para dar sobrevida momentânea, o BTG compra participações na Light e Méliuz pertencentes a Vorcaro. Uma operação cirúrgica de liquidez.",
-                cat: "INTERSECTION",
-                side: "center"
+                date: "2024", title: "AUGE FINANCEIRO", desc: "Fortuna: R$ 51bi (+56%).",
+                details: "BTG Pactual distribui quase R$ 10 bilhões em JCP (Juros sobre Capital Próprio). Esteves é o 4º maior bilionário do Brasil.",
+                cat: "ESTEVES", side: "right"
+            },
+
+            // --- BANCO MASTER ---
+            {
+                date: "1974", title: "FUNDAÇÃO MÁXIMA", desc: "Origem do banco como Banco Máxima.",
+                details: "Inicia atividades com foco em crédito imobiliário.",
+                cat: "MASTER", side: "left"
             },
             {
-                date: "03 SET 2025",
-                title: "BLOQUEIO DO BC",
-                desc: "Veto à fusão Master-BRB.",
-                details: "O Banco Central bloqueia o negócio citando riscos à saúde financeira do sistema público. O Master fica sem saída.",
-                cat: "REGULATOR",
-                side: "left"
+                date: "1990", title: "LICENÇA BANCÁRIA", desc: "Obtenção de licença como Banco Máxima.",
+                details: "Formaliza a atuação como instituição bancária.",
+                cat: "MASTER", side: "left"
             },
             {
-                date: "NOV 2025",
-                title: "USUÁRIO EXPULSO",
-                desc: "Prisão de Daniel Vorcaro.",
-                details: "Investigações revelam fraude de R$ 12.2 bilhões em carteiras de crédito inexistentes. Vorcaro é preso e depois liberado com tornozeleira.",
-                cat: "MASTER_CRISIS",
-                side: "left"
+                date: "2016", title: "CRISE DE INADIMPLÊNCIA", desc: "Enfrenta problemas no portfólio imobiliário.",
+                details: "A crise imobiliária do período afeta severamente os ativos do banco.",
+                cat: "MASTER", side: "left"
             },
             {
-                date: "18 NOV 2025",
-                title: "ERRO FATAL (CRASH)",
-                desc: "Liquidação Extrajudicial decretada.",
-                details: "O fim da linha. O BC fecha o banco. O FGC (Fundo Garantidor) prepara o maior pagamento da história: R$ 41 bilhões para 1,6 milhão de credores. O mercado é 'disciplinado'.",
-                cat: "MASTER_CRISIS",
-                side: "left"
+                date: "2017", title: "REBRANDING E NOVA GESTÃO", desc: "Transforma-se em Banco Master.",
+                details: "Daniel Vorcaro e novos sócios injetam capital, diversificam ativos e mudam o foco do negócio.",
+                cat: "MASTER", side: "left"
+            },
+            {
+                date: "2019", title: "ALERTA INICIAL BC/FGC", desc: "Primeiros sinais de alerta sobre expansão agressiva.",
+                details: "O Banco Central e o FGC começam a notar a rápida expansão e a opacidade dos ativos do Master.",
+                cat: "MASTER", side: "left"
+            },
+            {
+                date: "2020-2024", title: "CRESCIMENTO EXPONENCIAL", desc: "Captação de R$ 58 bilhões em CDBs.",
+                details: "O banco cresce agressivamente com CDBs de alta rentabilidade, investindo em ativos ilíquidos e de alto risco (precatórios, participações em empresas).",
+                cat: "MASTER", side: "left"
+            },
+            {
+                date: "DEZ 2023", title: "RESOLUÇÃO 5.114 DO CMN", desc: "Restrições a captações FGC e precatórios.",
+                details: "A nova norma do Conselho Monetário Nacional impacta diretamente o modelo de negócio do Master, que dependia de precatórios.",
+                cat: "REGULATOR", side: "left"
+            },
+            {
+                date: "1º SEM 2024", title: "CRISE DE LIQUIDEZ E Escrutínio", desc: "Master tenta captar R$ 1.9 bi e vende letras ao BRB.",
+                details: "Sinais de dificuldade financeira levam a tentativas de captação e venda de ativos para instituições maiores.",
+                cat: "MASTER", side: "left"
+            },
+            {
+                date: "MAR 2025", title: "INDÍCIOS DE CRIME E ALERTA MPF", desc: "BC identifica atividade criminosa.",
+                details: "O Banco Central formaliza a suspeita de irregularidades e comunica ao Ministério Público Federal.",
+                cat: "MASTER", side: "left"
+            },
+            {
+                date: "28 MAR 2025", title: "FUSÃO COM BRB ANUNCIADA", desc: "Acordo para aquisição de 49% do Master pelo BRB.",
+                details: "A tentativa de fusão com um banco estatal (BRB) sugere uma busca por 'salvação' via capital público e diluição de risco.",
+                cat: "MASTER", side: "left"
+            },
+            {
+                date: "ABR 2025", title: "LIMINAR CONTRA BRB-MASTER", desc: "Ação pública questiona aquisição.",
+                details: "O MPDFT ajuiza ação e a Justiça do DF, inicialmente, proíbe o contrato definitivo.",
+                cat: "REGULATOR", side: "left"
+            },
+            {
+                date: "MAI 2025", title: "JUSTIÇA DERRUBA LIMINAR", desc: "Operação BRB-Master pode prosseguir.",
+                details: "A decisão judicial permite o andamento da fusão, mas o BC exige reversão de R$ 10 bi em carteiras 'problemáticas'.",
+                cat: "REGULATOR", side: "left"
+            },
+            {
+                date: "JUL-SET 2025", title: "BC ANALISA PROPOSTAS", desc: "Master busca liquidez e prorrogação de linha FGC.",
+                details: "O banco tenta desesperadamente encontrar uma saída enquanto o BC avalia diversas propostas de salvação.",
+                cat: "MASTER", side: "left"
+            },
+            {
+                date: "03 SET 2025", title: "BC BLOQUEIA FUSÃO BRB-MASTER", desc: "Preocupações com saúde financeira e 'resgate público'.",
+                details: "O veto do BC é um golpe fatal para a estratégia de salvação do Master via BRB.",
+                cat: "REGULATOR", side: "left"
+            },
+            {
+                date: "17 NOV 2025", title: "ACORDO COM FICTOCR GROUP", desc: "Vorcaro anuncia venda para capital árabe.",
+                details: "Uma última tentativa de salvação privada, anunciada na véspera da intervenção do BC.",
+                cat: "MASTER", side: "left"
+            },
+            {
+                date: "18 NOV 2025", title: "LIQUIDAÇÃO EXTRAJUDICIAL", desc: "BC decreta o fim do Banco Master.",
+                details: "Crise de liquidez, deterioração financeira e violações regulatórias levam à intervenção. O FGC se prepara para um pagamento recorde de R$ 41 bilhões.",
+                cat: "MASTER_CRISIS", side: "left"
+            },
+            {
+                date: "18 NOV 2025 (Noite)", title: "PRISÃO DE VORCARO (OP. COMPLIANCE ZERO)", desc: "Suspeita de fraude de R$ 12.2 bilhões.",
+                details: "Daniel Vorcaro é preso pela PF sob acusação de fraude em títulos falsos. O colapso se completa com a revelação criminal.",
+                cat: "MASTER_CRISIS", side: "left"
+            },
+
+            // --- INTERSECTIONS & ANALYSIS ---
+            {
+                date: "FINAL 2024", title: "CONVERSAS BTG-MASTER", desc: "BTG Pactual inicia negociações de aquisição.",
+                details: "As negociações não avançam, possivelmente devido a problemas identificados na 'due diligence' do Master.",
+                cat: "INTERSECTION", side: "center"
+            },
+            {
+                date: "MAR 2025", title: "BTG COMPRA ATIVOS DO MASTER", desc: "BTG adquire R$ 1.5 bi em ativos de Vorcaro.",
+                details: "BTG Pactual adquire participações em Light, Méliuz, imóveis e recebíveis de Daniel Vorcaro. BTG nega interesse em comprar o banco.",
+                cat: "INTERSECTION", side: "center"
+            },
+            {
+                date: "MAR-SET 2025", title: "REUNIÕES ESTEVES-GALÍPOLO (BC)", desc: "Discussões sobre o caso Master.",
+                details: "André Esteves se reúne com o Presidente do BC em momentos cruciais, indicando o alto nível de preocupação e articulação sobre o futuro do Master.",
+                cat: "INTERSECTION", side: "center"
+            },
+            {
+                date: "NOV 2025 (Relatos)", title: "BTG POSICIONADO PARA ATIVOS", desc: "BTG Pactual pode adquirir ativos pós-liquidação.",
+                details: "Rumores de mercado sugerem que a área de 'Special Situations' do BTG estaria pronta para capitalizar com a venda de portfólios do Master liquidados.",
+                cat: "INTERSECTION", side: "center"
+            },
+            {
+                date: "15 DEZ 2025", title: "TCU QUESTIONA BC", desc: "Críticas à 'precipitação' da liquidação.",
+                details: "O Tribunal de Contas da União levanta dúvidas sobre a celeridade da decisão do BC, sugerindo possíveis pressões externas ou falhas no processo.",
+                cat: "REGULATOR", side: "left" /* Tied to BC action */
+            },
+            {
+                date: "22 DEZ 2025", title: "ALEXANDRE DE MORAES E O BC", desc: "STF acredita em 'perseguição de mercado'.",
+                details: "Malu Gaspar revela que o Ministro Alexandre de Moraes contatou o BC, defendendo que o Master sofria perseguição. Sugere intervenção política em favor do Master.",
+                cat: "INTERSECTION", side: "center"
+            },
+            {
+                date: "24 DEZ 2025", title: "RUMORES DE PRESSÃO BTG/ESTEVES", desc: "Influência na aceleração da liquidação.",
+                details: "Crescem os rumores na mídia de bastidores sobre a atuação de Esteves/BTG para acelerar a liquidação e bloquear alternativas de salvação.",
+                cat: "INTERSECTION", side: "center"
+            },
+            {
+                date: "27 DEZ 2025", title: "BC DEFENDE AÇÃO NO STF", desc: "BC protocolou recurso para esclarecer cronologia.",
+                details: "O Banco Central busca justificar suas ações e a cronologia da intervenção, em meio a alegações de pressões e desconsideração de interlocuções.",
+                cat: "REGULATOR", side: "left"
+            },
+            {
+                date: "30 DEZ 2025", title: "ACAREAÇÃO JUDICIAL", desc: "Vorcaro, ex-BRB e Diretor do BC em audiência.",
+                details: "O processo judicial busca esclarecer as responsabilidades e a sequência de eventos que levaram à liquidação.",
+                cat: "INTERSECTION", side: "center"
             }
         ];
 
         const root = document.getElementById('timeline-root');
-
-        // --- RENDER FUNCTION ---
-        function renderTimeline(filterCat = 'all') {
-            root.innerHTML = ''; // Clear current
-
-            timelineData.forEach((item, index) => {
-                // Filter Logic
-                if (filterCat !== 'all') {
-                    if (filterCat === 'ESTEVES' && !item.cat.includes('ESTEVES') && item.cat !== 'INTERSECTION') return;
-                    if (filterCat === 'MASTER' && !item.cat.includes('MASTER') && item.cat !== 'REGULATOR' && item.cat !== 'INTERSECTION') return;
-                }
-
-                // Create Elements
-                const container = document.createElement('div');
-                container.className = `card-container ${item.side} type-${item.cat}`;
-                
-                // Animation delay for cascading effect
-                container.style.animation = `fadeIn 0.5s ease forwards ${index * 0.1}s`;
-
-                const dot = document.createElement('div');
-                dot.className = 'dot';
-                dot.style.borderColor = getCatColor(item.cat);
-
-                const content = document.createElement('div');
-                content.className = 'content';
-                content.onclick = function() { this.classList.toggle('active'); };
-
-                content.innerHTML = `
-                    <span class="date" style="color:${getCatColor(item.cat)}">[${item.date}]</span>
-                    <h2>${item.title}</h2>
-                    <p class="desc">${item.desc}</p>
-                    <div class="expand-hint">+ TOQUE PARA EXPANDIR</div>
-                    <div class="details">${item.details}</div>
-                `;
-
-                container.appendChild(dot);
-                container.appendChild(content);
-                root.appendChild(container);
-            });
-        }
+        let currentFilter = 'all'; // Track current filter
 
         // --- HELPER: GET COLOR ---
         function getCatColor(cat) {
-            if(cat.includes('ESTEVES')) {
-                if(cat.includes('CRISIS')) return 'var(--gold)';
-                return 'var(--cyan)';
-            }
-            if(cat.includes('MASTER')) {
-                if(cat.includes('CRISIS')) return '#ff0000';
-                return 'var(--red)';
-            }
-            if(cat === 'INTERSECTION') return 'var(--green)';
-            if(cat === 'REGULATOR') return 'var(--white)';
+            if (cat === 'ESTEVES') return 'var(--cyan)';
+            if (cat === 'ESTEVES_CRISIS') return 'var(--gold)';
+            if (cat === 'MASTER') return 'var(--red)';
+            if (cat === 'MASTER_CRISIS') return '#ff0000'; /* Pure Red */
+            if (cat === 'INTERSECTION') return 'var(--green)';
+            if (cat === 'REGULATOR') return 'var(--white)';
+            if (cat === 'BTG_HISTORIC') return 'var(--blue-historic)';
             return '#fff';
+        }
+
+        // --- RENDER FUNCTION ---
+        function renderTimeline(filterCat = 'all') {
+            currentFilter = filterCat; // Update filter state
+            root.innerHTML = ''; // Clear current
+
+            let visibleItems = 0;
+            let animationDelay = 0;
+
+            timelineData.forEach((item, index) => {
+                let shouldShow = false;
+                if (filterCat === 'all') shouldShow = true;
+                else if (filterCat === 'ESTEVES' && (item.cat === 'ESTEVES' || item.cat === 'ESTEVES_CRISIS')) shouldShow = true;
+                else if (filterCat === 'MASTER' && (item.cat === 'MASTER' || item.cat === 'MASTER_CRISIS')) shouldShow = true;
+                else if (filterCat === 'BTG_HISTORIC' && item.cat === 'BTG_HISTORIC') shouldShow = true;
+                else if (filterCat === 'ALL' && (item.cat.includes('ESTEVES') || item.cat.includes('MASTER') || item.cat === 'INTERSECTION' || item.cat === 'REGULATOR' || item.cat === 'BTG_HISTORIC')) shouldShow = true;
+
+
+                if (shouldShow) {
+                    visibleItems++;
+                    const container = document.createElement('div');
+                    container.className = `card-container ${item.side} type-${item.cat}`;
+                    container.style.animationDelay = `${animationDelay}s`;
+                    container.classList.add('show'); // Apply animation class
+
+                    const dot = document.createElement('div');
+                    dot.className = 'dot';
+                    dot.style.borderColor = getCatColor(item.cat);
+
+                    const content = document.createElement('div');
+                    content.className = 'content';
+                    content.onclick = function() { this.classList.toggle('active'); };
+
+                    // Wrap description text for better readability
+                    const wrappedDesc = item.desc.split('\n').map(line => line.trim()).join('<br>');
+                    const wrappedDetails = item.details.split('\n').map(line => line.trim()).join('<br>');
+
+                    content.innerHTML = `
+                        <span class="date" style="color:${getCatColor(item.cat)}">${item.date}</span>
+                        <h2>${item.title}</h2>
+                        <p class="desc">${wrappedDesc}</p>
+                        <div class="expand-hint">+ TOQUE PARA DETALHES</div>
+                        <div class="details">${wrappedDetails}</div>
+                    `;
+
+                    container.appendChild(dot);
+                    container.appendChild(content);
+                    root.appendChild(container);
+                    animationDelay += 0.08; // Increment delay for next visible item
+                }
+            });
         }
 
         // --- INTERACTION: FILTER ---
         function filterData(cat, btnElement) {
-            // Update buttons
             document.querySelectorAll('.btn').forEach(b => {
-                b.className = 'btn'; // Reset
+                b.className = 'btn'; // Reset all buttons
             });
-            
-            // Add active class based on category
-            if(cat === 'all') btnElement.classList.add('active-all');
-            else if(cat === 'ESTEVES') btnElement.classList.add('active-esteves');
-            else if(cat === 'MASTER') btnElement.classList.add('active-master');
+            btnElement.className = `btn active-${cat}`; // Activate clicked button
 
             renderTimeline(cat);
         }
 
         // --- INIT ---
-        window.onload = () => renderTimeline('all');
+        window.onload = () => {
+            renderTimeline('all'); // Initial render
+            // Adjust header font size for mobile on load
+             if (window.innerWidth < 768) {
+                document.querySelector('h1').style.fontSize = '1.8rem';
+            }
+        };
 
+        // --- REAL-TIME ADJUSTMENT FOR MOBILE ---
+        window.addEventListener('resize', () => {
+            if (window.innerWidth < 768) {
+                document.querySelector('h1').style.fontSize = '1.8rem';
+            } else {
+                document.querySelector('h1').style.fontSize = '2.3rem';
+            }
+            // Re-render on resize to fix layout if needed, though CSS should handle most
+            renderTimeline(currentFilter); 
+        });
     </script>
 </body>
 </html>
