@@ -45,7 +45,7 @@
 
         h1 {
             font-family: 'Space Mono', monospace;
-            font-size: 2.3rem; /* Adjusted for mobile */
+            font-size: 2.3rem; /* Base size, adjusted by JS */
             text-transform: uppercase;
             letter-spacing: -1px;
             margin-bottom: 10px;
@@ -69,7 +69,7 @@
             z-index: 100;
             display: flex;
             justify-content: center;
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            flex-wrap: wrap;
             gap: 10px;
             border-bottom: 1px solid var(--grey-line);
             backdrop-filter: blur(5px);
@@ -96,7 +96,7 @@
 
         .timeline {
             position: relative;
-            max-width: 900px; /* Increased slightly for desktop */
+            max-width: 900px;
             margin: 40px auto;
             padding: 0 20px;
         }
@@ -111,19 +111,20 @@
             left: 50%;
             margin-left: -1px;
             z-index: 0;
+            transition: left 0.5s ease; /* Smooth transition for mobile */
         }
 
         .card-container {
             padding: 10px 40px;
             position: relative;
             width: 50%;
-            opacity: 0; /* Start hidden for animation */
+            opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease, padding 0.5s ease; /* Added padding transition */
             animation-fill-mode: forwards;
         }
 
-        .card-container.show { /* Trigger for animation */
+        .card-container.show {
             opacity: 1;
             transform: translateY(0);
         }
@@ -141,7 +142,7 @@
             top: 25px;
             z-index: 1;
             border-radius: 50%;
-            transition: transform 0.3s, border-color 0.3s;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
             box-shadow: 0 0 5px rgba(255,255,255,0.2);
         }
         
@@ -175,12 +176,12 @@
         .type-BTG_HISTORIC .content { border-left: 3px solid var(--blue-historic); }
         
         .type-MASTER .content { border-right: 3px solid var(--red); }
-        .left.type-MASTER .content { border-right: 3px solid var(--red); border-left: 1px solid #222;} /* Fix side */
+        .left.type-MASTER .content { border-right: 3px solid var(--red); border-left: 1px solid #222;} 
         
         .type-INTERSECTION .content { 
             border: 1px solid var(--green); 
             background: rgba(0, 255, 65, 0.05);
-            max-width: 450px; /* Slightly narrower for center */
+            max-width: 450px;
             margin: 0 auto;
             box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
         }
@@ -243,50 +244,59 @@
         }
         .content.active .expand-hint { display: none; }
 
-        /* --- MOBILE RESPONSIVENESS --- */
+        /* --- MEDIA QUERIES FOR RESPONSIVENESS --- */
         @media screen and (max-width: 768px) {
-            .timeline::after { left: 30px; margin-left: -1px; } /* Move line to left */
+            .timeline::after { 
+                left: 30px; /* Move line to left */
+                margin-left: -1px;
+            }
             
             .card-container {
                 width: 100%;
                 padding-left: 70px; /* Space for line and dot */
                 padding-right: 20px;
+                padding-top: 15px; /* Added spacing between stacked cards */
+                padding-bottom: 15px;
             }
             
-            .left, .right { 
+            /* Stack all cards to the left */
+            .left, .right, .center { 
                 left: 0; 
                 width: 100%;
                 text-align: left;
-                padding-left: 70px; /* Align content to the left */
+                padding-left: 70px; 
             }
             
-            .left .dot, .right .dot { 
+            .left .dot, .right .dot, .center .dot { 
                 left: 22px; /* Position dot on the left line */
                 right: auto;
             }
+            .center .dot { top: -10px; } /* Keep center dot at top */
 
-            .left.type-MASTER .content, .left.type-REGULATOR .content, .left.type-ESTEVES_CRISIS .content { 
-                border-left: 3px solid var(--red); /* Left border for Master */
-                border-right: none; /* Remove right border */
+            /* Adjust borders for left-aligned cards */
+            .left.type-MASTER .content, 
+            .left.type-REGULATOR .content, 
+            .left.type-ESTEVES_CRISIS .content { 
+                border-left: 3px solid var(--red); /* Master Red */
+                border-right: none; 
             }
-             .right.type-ESTEVES .content, .right.type-BTG_HISTORIC .content { 
-                border-left: 3px solid var(--cyan); /* Left border for Esteves */
+            .right.type-ESTEVES .content, 
+            .right.type-BTG_HISTORIC .content { 
+                border-left: 3px solid var(--cyan); /* Esteves Cyan */
                 border-right: none;
             }
-
-            h1 { font-size: 1.8rem; }
+            .type-INTERSECTION .content { /* Center card remains centered-ish */
+                 margin: 0 auto; 
+                 max-width: calc(100% - 90px); /* Adjust max-width to fit */
+                 border-left: 3px solid var(--green); /* Add left border for consistency */
+                 border-right: none;
+            }
             
-            .center {
-                text-align: left;
-                padding-left: 70px; /* Align center content too */
-            }
-            .center .dot {
-                left: 22px;
-                margin-left: 0;
-                top: -10px; /* Keep dot at top for center */
-            }
-            .type-INTERSECTION .content { margin: 0; }
+            h1 { font-size: 1.8rem; }
+            .subtitle { font-size: 0.75rem; }
+            
             .controls { flex-direction: column; align-items: center; }
+            .btn { width: 80%; max-width: 250px; } /* Make buttons wider on mobile */
         }
 
         /* --- UTILS --- */
@@ -306,7 +316,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes pulse { /* For the central dot */
+        @keyframes pulse { 
           0% { transform: scale(1); opacity: 1; }
           50% { transform: scale(1.4); opacity: 0.7; }
           100% { transform: scale(1); opacity: 1; }
@@ -357,7 +367,7 @@
             {
                 date: "2009", title: "RECOMPRA E FORMAÇÃO DO BTG PACTUAL", desc: "Aquisição do UBS Pactual por US$ 2.5 bilhões.",
                 details: "O BTG Pactual renasce sob a liderança de Esteves, combinando expertise e capital.",
-                cat: "ESTEVES", side: "right" /* This is a key Esteves moment */
+                cat: "ESTEVES", side: "right"
             },
              {
                 date: "2011", title: "AQUISIÇÃO BANCO PANAMERICANO", desc: "BTG Pactual adquire 51%.",
@@ -450,7 +460,7 @@
             },
             {
                 date: "1º SEM 2024", title: "CRISE DE LIQUIDEZ E Escrutínio", desc: "Master tenta captar R$ 1.9 bi e vende letras ao BRB.",
-                details: "Sinais de dificuldade financeira levam a tentativas de captação e venda de ativos para instituições maiores.",
+                details: "Sinais de dificuldade financeira levam a tentatives de captação e venda de ativos para instituições maiores.",
                 cat: "MASTER", side: "left"
             },
             {
@@ -523,7 +533,7 @@
             {
                 date: "15 DEZ 2025", title: "TCU QUESTIONA BC", desc: "Críticas à 'precipitação' da liquidação.",
                 details: "O Tribunal de Contas da União levanta dúvidas sobre a celeridade da decisão do BC, sugerindo possíveis pressões externas ou falhas no processo.",
-                cat: "REGULATOR", side: "left" /* Tied to BC action */
+                cat: "REGULATOR", side: "left" 
             },
             {
                 date: "22 DEZ 2025", title: "ALEXANDRE DE MORAES E O BC", desc: "STF acredita em 'perseguição de mercado'.",
@@ -564,10 +574,10 @@
 
         // --- RENDER FUNCTION ---
         function renderTimeline(filterCat = 'all') {
-            currentFilter = filterCat; // Update filter state
+            currentFilter = filterCat;
             root.innerHTML = ''; // Clear current
 
-            let visibleItems = 0;
+            let visibleItemsCount = 0;
             let animationDelay = 0;
 
             timelineData.forEach((item, index) => {
@@ -576,15 +586,31 @@
                 else if (filterCat === 'ESTEVES' && (item.cat === 'ESTEVES' || item.cat === 'ESTEVES_CRISIS')) shouldShow = true;
                 else if (filterCat === 'MASTER' && (item.cat === 'MASTER' || item.cat === 'MASTER_CRISIS')) shouldShow = true;
                 else if (filterCat === 'BTG_HISTORIC' && item.cat === 'BTG_HISTORIC') shouldShow = true;
-                else if (filterCat === 'ALL' && (item.cat.includes('ESTEVES') || item.cat.includes('MASTER') || item.cat === 'INTERSECTION' || item.cat === 'REGULATOR' || item.cat === 'BTG_HISTORIC')) shouldShow = true;
+                // Note: Intersections and Regulators are shown with Esteves/Master filters if relevant,
+                // or always with 'all'. Explicitly showing them here if needed:
+                // else if (filterCat === 'INTERSECTION' && item.cat === 'INTERSECTION') shouldShow = true;
+                // else if (filterCat === 'REGULATOR' && item.cat === 'REGULATOR') shouldShow = true;
+                
+                // Special handling for 'all' and filtering 'Intersections'/'Regulators'
+                // If 'all' is selected, show everything. If a specific category is selected,
+                // also show intersections and regulators if they relate to that category's timeframe/context.
+                if (filterCat === 'all') {
+                    shouldShow = true;
+                } else if (filterCat === 'ESTEVES' && (item.cat === 'ESTEVES' || item.cat === 'ESTEVES_CRISIS' || item.cat === 'INTERSECTION' || item.cat === 'REGULATOR')) {
+                    shouldShow = true;
+                } else if (filterCat === 'MASTER' && (item.cat === 'MASTER' || item.cat === 'MASTER_CRISIS' || item.cat === 'INTERSECTION' || item.cat === 'REGULATOR')) {
+                    shouldShow = true;
+                } else if (filterCat === 'BTG_HISTORIC' && item.cat === 'BTG_HISTORIC') {
+                    shouldShow = true;
+                }
 
 
                 if (shouldShow) {
-                    visibleItems++;
+                    visibleItemsCount++;
                     const container = document.createElement('div');
                     container.className = `card-container ${item.side} type-${item.cat}`;
                     container.style.animationDelay = `${animationDelay}s`;
-                    container.classList.add('show'); // Apply animation class
+                    container.classList.add('show');
 
                     const dot = document.createElement('div');
                     dot.className = 'dot';
@@ -594,7 +620,6 @@
                     content.className = 'content';
                     content.onclick = function() { this.classList.toggle('active'); };
 
-                    // Wrap description text for better readability
                     const wrappedDesc = item.desc.split('\n').map(line => line.trim()).join('<br>');
                     const wrappedDetails = item.details.split('\n').map(line => line.trim()).join('<br>');
 
@@ -609,7 +634,7 @@
                     container.appendChild(dot);
                     container.appendChild(content);
                     root.appendChild(container);
-                    animationDelay += 0.08; // Increment delay for next visible item
+                    animationDelay += 0.08; 
                 }
             });
         }
@@ -617,30 +642,32 @@
         // --- INTERACTION: FILTER ---
         function filterData(cat, btnElement) {
             document.querySelectorAll('.btn').forEach(b => {
-                b.className = 'btn'; // Reset all buttons
+                b.className = 'btn'; 
             });
-            btnElement.className = `btn active-${cat}`; // Activate clicked button
+            btnElement.className = `btn active-${cat}`; 
 
             renderTimeline(cat);
         }
 
-        // --- INIT ---
-        window.onload = () => {
-            renderTimeline('all'); // Initial render
-            // Adjust header font size for mobile on load
-             if (window.innerWidth < 768) {
-                document.querySelector('h1').style.fontSize = '1.8rem';
+        // --- Responsive Header Font Size ---
+        function adjustHeaderFontSize() {
+            const h1 = document.querySelector('h1');
+            if (window.innerWidth < 768) {
+                h1.style.fontSize = '1.8rem';
+            } else {
+                h1.style.fontSize = '2.3rem';
             }
+        }
+
+        // --- INIT & RESIZE LISTENER ---
+        window.onload = () => {
+            renderTimeline('all'); 
+            adjustHeaderFontSize();
         };
 
-        // --- REAL-TIME ADJUSTMENT FOR MOBILE ---
         window.addEventListener('resize', () => {
-            if (window.innerWidth < 768) {
-                document.querySelector('h1').style.fontSize = '1.8rem';
-            } else {
-                document.querySelector('h1').style.fontSize = '2.3rem';
-            }
-            // Re-render on resize to fix layout if needed, though CSS should handle most
+            adjustHeaderFontSize();
+            // Re-render might be too aggressive, but can help fix layout issues if CSS alone isn't enough
             renderTimeline(currentFilter); 
         });
     </script>
