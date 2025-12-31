@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossiê Banco Master | A Matemática do Colapso</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: #0f0f0f;
+            --text-primary: #e0e0e0;
+            --text-secondary: #888;
+            --accent-color: #d4a017; /* Amber/Gold for evidence */
+            --danger-color: #cf3030; /* Red for critical events */
+            --line-color: #222;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Header --- */
+        header {
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--line-color);
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+        }
+
+        h1 {
+            font-family: var(--font-mono);
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .intro-text {
+            max-width: 600px;
+            margin: 2rem auto 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* --- Timeline Structure --- */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            position: relative;
+        }
+
+        /* Vertical Line */
+        .container::before {
+            content: '';
+            position: absolute;
+            left: 20px; /* Mobile alignment */
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--line-color);
+            z-index: 0;
+        }
+
+        @media (min-width: 768px) {
+            .container::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        /* --- Event Card --- */
+        .event-wrapper {
+            position: relative;
+            margin-bottom: 3rem;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end; /* Mobile default */
+            opacity: 0; /* For animation */
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .event-wrapper.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (min-width: 768px) {
+            .event-wrapper:nth-child(odd) {
+                justify-content: flex-start;
+            }
+            .event-wrapper:nth-child(even) {
+                justify-content: flex-end;
+            }
+        }
+
+        .event-card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-color);
+            padding: 1.5rem;
+            width: calc(100% - 50px); /* Space for line */
+            max-width: 350px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .event-card {
+                width: 45%;
+                max-width: none;
+            }
+        }
+
+        .event-card:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(212, 160, 23, 0.1);
+        }
+
+        .event-card.critical {
+            border-left: 3px solid var(--danger-color);
+        }
+
+        /* Connector Dot */
+        .dot {
+            position: absolute;
+            top: 20px;
+            left: -44px; /* Mobile position relative to card */
+            width: 11px;
+            height: 11px;
+            background: var(--bg-color);
+            border: 2px solid var(--text-secondary);
+            border-radius: 50%;
+            z-index: 2;
+            transition: background 0.3s ease;
+        }
+
+        .event-wrapper:hover .dot {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        @media (min-width: 768px) {
+            .event-wrapper:nth-child(odd) .dot {
+                left: auto;
+                right: -46px; /* Desktop odd position */
+            }
+            .event-wrapper:nth-child(even) .dot {
+                left: -46px; /* Desktop even position */
+            }
+        }
+
+        /* --- Content Styling --- */
+        .date-badge {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            padding: 2px 6px;
+            border: 1px solid rgba(212, 160, 23, 0.3);
+            border-radius: 2px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .card-summary {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- Expanded Details --- */
+        .details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            border-top: 1px solid transparent;
+            margin-top: 0;
+        }
+
+        .event-card.active .details {
+            max-height: 500px; /* Arbitrary large number */
+            border-top: 1px solid #222;
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
+
+        .fact-list {
+            list-style: none;
+            font-size: 0.85rem;
+        }
+
+        .fact-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .fact-list li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+        }
+
+        .source-tag {
+            display: block;
+            margin-top: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: #555;
+            text-transform: uppercase;
+        }
+
+        .expand-hint {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        .event-card.active .expand-hint {
+            transform: rotate(45deg);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--line-color);
+            color: #444;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+
+        /* --- Glitch Effect for Title --- */
+        .glitch-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="subtitle">Análise Forense</div>
+        <h1><span class="glitch-wrapper">A Matemática do Colapso</span></h1>
+        <div class="intro-text">
+            Cronologia factual verificada da crise do Banco Master (2022–2025).<br>
+            Nenhuma inferência. Apenas a física dos eventos.
+        </div>
+    </header>
+
+    <div class="container" id="timeline">
+        <!-- Events will be injected here via JavaScript -->
+    </div>
+
+    <footer>
+        <p>CASO ENCERRADO // STATUS: LIQUIDADO</p>
+        <p style="margin-top: 10px;">Dados baseados em autos judiciais, diários oficiais e investigações jornalísticas.</p>
+    </footer>
+
+    <script>
+        const timelineData = [
+            {
+                period: "FASE 1: A FUNDAÇÃO",
+                date: "18 Mar 2022",
+                title: "O Contrato de R$ 129 Milhões",
+                desc: "Banco Master contrata escritório Barci de Moraes Advogados.",
+                critical: false,
+                facts: [
+                    "Valor: R$ 129.000.000,00.",
+                    "Objeto: Consultoria e representação jurídica.",
+                    "Contexto: Escritório da família do Min. Alexandre de Moraes."
+                ],
+                source: "Autos Judiciais / OAB"
+            },
+            {
+                date: "2023",
+                title: "Consultoria Lewandowski",
+                desc: "Ex-ministro do STF contratado como consultor sênior.",
+                critical: false,
+                facts: [
+                    "Valor: R$ 100.000,00 mensais.",
+                    "Função: Consultor jurídico sênior."
+                ],
+                source: "Registros Corporativos"
+            },
+            {
+                date: "Nov 2024",
+                title: "O Primeiro Alerta",
+                desc: "Banco Central detecta inconsistências graves.",
+                critical: true,
+                facts: [
+                    "BCB registra internamente alertas sobre o balanço.",
+                    "Posteriormente confirmado por Dias Toffoli: 'Alertas feitos mais de um ano antes da liquidação'."
+                ],
+                source: "Depoimento STF / Min. Dias Toffoli"
+            },
+            {
+                date: "04 Nov 2024",
+                title: "Nascimento da Tirreno",
+                desc: "Constituição da empresa pivô da fraude.",
+                critical: false,
+                facts: [
+                    "Empresa criada 30 dias antes de assinar contrato bilionário.",
+                    "Capital social incompatível com o volume operado."
+                ],
+                source: "Junta Comercial / Inquérito PF"
+            },
+            {
+                date: "05 Dez 2024",
+                title: "A Originação Fictícia",
+                desc: "Tirreno assina contrato de R$ 6,7 bi com Master.",
+                critical: true,
+                facts: [
+                    "Objeto: Originação de crédito consignado.",
+                    "Volume: R$ 6,7 bilhões em créditos sem lastro documental adequado."
+                ],
+                source: "Relatórios BCB / PF"
+            },
+            {
+                period: "FASE 2: EXECUÇÃO FINANCEIRA",
+                date: "Jan - Mar 2025",
+                title: "O Balanço Inflado",
+                desc: "Master registra R$ 4,6 bi em créditos da Tirreno.",
+                critical: false,
+                facts: [
+                    "BCB solicita documentação (lastro).",
+                    "Master não entrega os documentos físicos/digitais dos devedores."
+                ],
+                source: "Auditoria BCB"
+            },
+            {
+                date: "28 Mar 2025",
+                title: "O Anúncio do BRB",
+                desc: "Banco de Brasília anuncia compra de 58% do Master.",
+                critical: false,
+                facts: [
+                    "Valor do negócio: R$ 2 bilhões.",
+                    "Condição: Sujeito a due diligence e aprovação do BCB."
+                ],
+                source: "Fato Relevante BRB"
+            },
+            {
+                date: "02 Abr 2025",
+                title: "A Notificação Cínica",
+                desc: "Master notifica Tirreno por fraude.",
+                critical: false,
+                facts: [
+                    "Master acusa Tirreno de descumprimento contratual.",
+                    "Mesmo após notificar, Master adquire MAIS R$ 2,3 bilhões da mesma empresa em abril/maio."
+                ],
+                source: "Documentos Internos Master"
+            },
+            {
+                date: "Mai 2025",
+                title: "A Extração do BTG",
+                desc: "Venda de ativos pessoais de Vorcaro.",
+                critical: true,
+                facts: [
+                    "BTG compra Fasano Itaim, Light e Meliuz.",
+                    "Valor: R$ 1,5 bilhão.",
+                    "Dinheiro injetado no Master sob supervisão do FGC."
+                ],
+                source: "Fato Relevante / Imprensa"
+            },
+            {
+                date: "Mai 2025",
+                title: "O Bote Salva-Vidas",
+                desc: "Separação do Banco Voiter (Pleno).",
+                critical: false,
+                facts: [
+                    "Augusto Lima sai da sociedade do Master.",
+                    "Assume controle do Voiter, renomeado Banco Pleno.",
+                    "Leva a operação CredCesta consigo."
+                ],
+                source: "Alteração Contratual / BCB"
+            },
+            {
+                date: "Jan - Jun 2025",
+                title: "A Drenagem Pública",
+                desc: "BRB transfere R$ 12,2 bilhões.",
+                critical: true,
+                facts: [
+                    "Transferência ocorre ANTES da aprovação da fusão.",
+                    "Rubrica: 'Cessão de Crédito' (compra de portfólios).",
+                    "Dinheiro sai do caixa do banco estatal para o privado."
+                ],
+                source: "Balanço BRB / Autos"
+            },
+            {
+                period: "FASE 3: O ATO BUROCRÁTICO",
+                date: "Jul 2025",
+                title: "A Notícia-Crime",
+                desc: "BCB comunica fraude ao MPF.",
+                critical: true,
+                facts: [
+                    "Diretoria de Fiscalização aponta indícios de crime.",
+                    "Apesar disso, o banco não é liquidado neste momento."
+                ],
+                source: "Ofício BCB ao MPF"
+            },
+            {
+                date: "Set 2025",
+                title: "O Veto",
+                desc: "BCB nega aquisição pelo BRB.",
+                critical: false,
+                facts: [
+                    "Justificativa: Riscos financeiros e inconsistências.",
+                    "O dinheiro do BRB (12,2 bi) já havia sido transferido."
+                ],
+                source: "Comunicado Oficial"
+            },
+            {
+                period: "FASE 4: O KILL SWITCH",
+                date: "30 Out & 13 Nov 2025",
+                title: "A Anestesia",
+                desc: "BCB aprova aumentos de capital.",
+                critical: true,
+                facts: [
+                    "Ofícios nº 27.253 e 28.208.",
+                    "Contradição: BCB aprova expansão de banco denunciado por crime em julho.",
+                    "Mantém aparência de regularidade dias antes da prisão."
+                ],
+                source: "O Bastidor / Documentos BCB"
+            },
+            {
+                date: "18 Nov 2025 - 14:10",
+                title: "A Proposta Ignorada",
+                desc: "Reunião Vorcaro e BCB.",
+                critical: false,
+                facts: [
+                    "Vorcaro apresenta proposta vinculante do Grupo Fictor (R$ 3 bi).",
+                    "Informa viagem a Dubai para roadshow."
+                ],
+                source: "Ata de Reunião BCB"
+            },
+            {
+                date: "18 Nov 2025 - 15:29",
+                title: "A Ordem de Prisão",
+                desc: "79 minutos após a reunião.",
+                critical: true,
+                facts: [
+                    "Juiz Federal Ricardo Leite assina mandado.",
+                    "Documento não menciona a proposta da Fictor apresentada horas antes."
+                ],
+                source: "Mandado Judicial"
+            },
+            {
+                date: "18 Nov 2025 - 16:11",
+                title: "O Kill Switch",
+                desc: "Liquidação decretada 42 min após prisão.",
+                critical: true,
+                facts: [
+                    "Processo administrativo reativado após 28 dias parado.",
+                    "Decretação de Liquidação Extrajudicial.",
+                    "RAET para Will Bank (isolamento do ativo bom)."
+                ],
+                source: "Protocolo Eletrônico BCB"
+            },
+            {
+                date: "30 Dez 2025",
+                title: "A Inversão",
+                desc: "Toffoli interroga Vorcaro sobre o BCB.",
+                critical: false,
+                facts: [
+                    "Vorcaro questionado se BCB 'agiu com celeridade'.",
+                    "Diretor do BCB dispensado da acareação.",
+                    "Início da construção da narrativa de 'falha regulatória'."
+                ],
+                source: "Depoimento STF"
+            }
+        ];
+
+        function renderTimeline() {
+            const container = document.getElementById('timeline');
+            
+            timelineData.forEach((event, index) => {
+                // Create Period Header if exists
+                if (event.period) {
+                    const periodHeader = document.createElement('div');
+                    periodHeader.style.cssText = `
+                        width: 100%; 
+                        text-align: center; 
+                        margin: 4rem 0 2rem 0; 
+                        color: #555; 
+                        font-family: var(--font-mono);
+                        font-size: 0.8rem;
+                        letter-spacing: 2px;
+                        border-bottom: 1px solid #222;
+                        line-height: 0.1em;
+                    `;
+                    periodHeader.innerHTML = `<span style="background:var(--bg-color); padding:0 10px;">${event.period}</span>`;
+                    container.appendChild(periodHeader);
+                }
+
+                // Create Event Wrapper
+                const wrapper = document.createElement('div');
+                wrapper.className = 'event-wrapper';
+                
+                // Create Card
+                const card = document.createElement('div');
+                card.className = `event-card ${event.critical ? 'critical' : ''}`;
+                
+                // Content
+                let factsHtml = '';
+                event.facts.forEach(fact => {
+                    factsHtml += `<li>${fact}</li>`;
+                });
+
+                card.innerHTML = `
+                    <div class="dot"></div>
+                    <span class="date-badge">${event.date}</span>
+                    <div class="card-title">${event.title}</div>
+                    <div class="card-summary">${event.desc}</div>
+                    <div class="details">
+                        <ul class="fact-list">
+                            ${factsHtml}
+                        </ul>
+                        <span class="source-tag">FONTE: ${event.source}</span>
+                    </div>
+                    <div class="expand-hint">+</div>
+                `;
+
+                // Interaction
+                card.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    // Collapse others (optional, creating accordion effect)
+                    document.querySelectorAll('.event-card').forEach(c => {
+                        if (c !== this) c.classList.remove('active');
+                    });
+                });
+
+                wrapper.appendChild(card);
+                container.appendChild(wrapper);
+            });
+        }
+
+        // Animation Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTimeline();
+            document.querySelectorAll('.event-wrapper').forEach(el => observer.observe(el));
+        });
+
+    </script>
+</body>
+</html>
