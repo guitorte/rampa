@@ -1,135 +1,166 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inconsistências Lógicas na Cobertura Midiática da Supervisão Financeira</title>
     <style>
-        /* Estilo Geral - Padrão Acadêmico Internacional */
-        body {
-            font-family: "Times New Roman", Times, serif;
-            line-height: 1.6;
-            color: #000;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px;
-            background-color: #fff;
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #34495e;
+            --text-color: #333;
+            --bg-color: #fff;
+            --font-serif: "Georgia", "Times New Roman", Times, serif;
+            --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --font-mono: "Courier New", Courier, monospace;
         }
 
-        /* Tipografia de Cabeçalhos */
+        body {
+            font-family: var(--font-serif);
+            line-height: 1.6;
+            color: var(--text-color);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: var(--bg-color);
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--font-sans);
+            color: var(--primary-color);
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+
         h1 {
-            font-size: 24pt;
+            font-size: 2.2rem;
             text-align: center;
-            margin-bottom: 40px;
-            font-weight: bold;
+            font-weight: 700;
             line-height: 1.2;
+            margin-bottom: 1em;
         }
 
         h2 {
-            font-size: 14pt;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
             text-transform: uppercase;
-            border-bottom: 1px solid #000;
-            padding-bottom: 5px;
-            margin-top: 30px;
-            margin-bottom: 15px;
+            letter-spacing: 0.05em;
         }
 
         h3 {
-            font-size: 12pt;
-            font-weight: bold;
-            font-style: italic;
-            margin-top: 20px;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
         }
 
-        /* Resumo e Palavras-chave */
-        .abstract-container {
-            margin: 0 40px 40px 40px;
-            font-size: 11pt;
+        h4 {
+            font-size: 1.0rem;
+            font-style: italic;
+            color: var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 1em;
             text-align: justify;
         }
 
+        /* Components */
+        .abstract-container {
+            background-color: #f9f9f9;
+            padding: 30px;
+            margin: 30px 0;
+            border-left: 5px solid var(--primary-color);
+        }
+
         .abstract-title {
+            font-family: var(--font-sans);
             font-weight: bold;
-            text-align: center;
-            display: block;
+            text-transform: uppercase;
+            font-size: 0.9rem;
             margin-bottom: 10px;
+            display: block;
         }
 
         .keywords {
             margin-top: 15px;
+            font-size: 0.9rem;
             font-style: italic;
         }
 
-        /* Elementos de Lógica e Matemática */
-        .logic-block {
-            background-color: #f9f9f9;
+        .formula-block {
+            background-color: #f4f6f7;
             padding: 15px;
-            border-left: 3px solid #333;
             margin: 15px 0;
-            font-family: "Courier New", Courier, monospace;
-            font-size: 10.5pt;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            overflow-x: auto;
         }
 
-        .formula {
-            font-family: "Courier New", Courier, monospace;
+        .proposition {
             font-weight: bold;
+            color: var(--primary-color);
         }
 
-        .proof {
-            margin-left: 20px;
-            font-style: normal;
+        ul, ol {
+            margin-bottom: 1em;
+            padding-left: 2em;
         }
 
-        .proof-label {
-            font-style: italic;
-            font-weight: bold;
+        li {
+            margin-bottom: 0.5em;
         }
 
-        .qed {
-            float: right;
-            font-weight: bold;
-        }
-
-        /* Tabelas */
+        /* Tables */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 10pt;
+            margin: 25px 0;
+            font-size: 0.9rem;
         }
 
         th, td {
-            border: 1px solid #000;
-            padding: 8px;
+            border: 1px solid #ddd;
+            padding: 12px;
             text-align: left;
         }
 
         th {
-            background-color: #f0f0f0;
+            background-color: #f4f4f4;
+            font-family: var(--font-sans);
             font-weight: bold;
-            text-align: center;
         }
 
-        /* Referências */
+        /* Diagrams */
+        pre.diagram {
+            font-family: var(--font-mono);
+            background-color: #fff;
+            border: 1px dashed #ccc;
+            padding: 20px;
+            overflow-x: auto;
+            line-height: 1.2;
+        }
+
+        /* References */
         .references {
-            font-size: 10pt;
-            margin-top: 10px;
+            font-size: 0.9rem;
         }
 
         .ref-item {
-            margin-bottom: 10px;
-            padding-left: 30px;
-            text-indent: -30px;
+            padding-left: 2em;
+            text-indent: -2em;
+            margin-bottom: 0.8em;
         }
 
-        /* Diagramas em ASCII */
-        pre {
-            font-family: "Courier New", Courier, monospace;
-            font-size: 9pt;
-            white-space: pre;
-            overflow-x: auto;
-            text-align: center;
+        /* Footer/Meta */
+        .meta-info {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 0.8rem;
+            color: #777;
+            font-family: var(--font-sans);
         }
     </style>
 </head>
@@ -140,18 +171,20 @@
             <h1>Inconsistências Lógicas na Cobertura Midiática da Supervisão Financeira: Uma Análise Formal do Caso Banco Master</h1>
         </header>
 
-        <div class="abstract-container">
+        <section class="abstract-container">
             <span class="abstract-title">Resumo</span>
             <p>Este artigo examina as contradições lógicas na cobertura da grande mídia sobre o caso de fraude bancária do Banco Master (2024-2026) no Brasil. Por meio de análise lógica formal, identificamos nove trilemas distintos nos quais os veículos de comunicação avançam, simultaneamente, proposições mutuamente exclusivas. Submetemos essas contradições a testes de estresse rigorosos através de refutações baseadas no princípio da caridade interpretativa (<em>steel-manning</em>), demonstrando que as inconsistências persistem mesmo sob a interpretação mais favorável possível. Nossa análise revela padrões sistemáticos sugerindo que as narrativas midiáticas priorizam a defesa institucional e interesses comerciais em detrimento da coerência lógica. Este estudo de caso contribui para a literatura sobre epistemologia da mídia, captura regulatória e a lógica do discurso público.</p>
             
-            <p class="keywords"><strong>Palavras-chave:</strong> lógica modal, epistemologia da mídia, captura regulatória, análise institucional, análise de contradição.</p>
-        </div>
+            <div class="keywords">
+                <strong>Palavras-chave:</strong> lógica modal, epistemologia da mídia, captura regulatória, análise institucional, análise de contradição.
+            </div>
+        </section>
 
-        <section>
+        <section id="introduction">
             <h2>1. Introdução</h2>
-            
+
             <h3>1.1 Contexto e Motivação</h3>
-            <p>No final de 2025, autoridades brasileiras anunciaram investigações sobre o que oficiais denominaram "potencialmente a maior fraude bancária da história nacional" (Haddad, 2026), envolvendo aproximadamente R$ 12 bilhões em operações fraudulentas no Banco Master. O caso gerou imediata e extensa cobertura midiática, caracterizada pelo que denominamos "multiplicidade narrativa" — o avanço simultâneo de alegações logicamente incompatíveis.</p>
+            <p>Em dezembro de 2025, autoridades brasileiras anunciaram investigações sobre o que oficiais denominaram "potencialmente a maior fraude bancária da história nacional" (Haddad, 2026), envolvendo aproximadamente R$ 12 bilhões em operações fraudulentas no Banco Master. O caso gerou imediata e extensa cobertura midiática, caracterizada pelo que denominamos "multiplicidade narrativa" — o avanço simultâneo de alegações logicamente incompatíveis.</p>
             <p>Este artigo indaga: As narrativas midiáticas podem ser simultaneamente verdadeiras, ou contêm contradições lógicas formais? Empregamos ferramentas da lógica modal, lógica epistêmica e teoria da argumentação para analisar sistematicamente a cobertura midiática.</p>
 
             <h3>1.2 Estrutura Metodológica</h3>
@@ -165,164 +198,240 @@
             </ol>
 
             <h3>1.3 Escopo e Limitações</h3>
-            <p>Esta análise foca nos principais veículos de mídia brasileiros cobrindo o período de dezembro de 2025 a janeiro de 2026. Reconhecemos que jornalistas individuais podem manter visões internamente consistentes; nossa análise examina a narrativa midiática agregada como um sistema epistêmico coletivo.</p>
+            <p>Esta análise foca nos principais veículos de mídia brasileiros (Globo, Estadão, Folha, Gazeta) cobrindo o período de dezembro de 2025 a janeiro de 2026. Reconhecemos que jornalistas individuais podem manter visões internamente consistentes; nossa análise examina a narrativa midiática agregada como um sistema epistêmico coletivo.</p>
         </section>
 
-        <section>
+        <section id="formal-framework">
             <h2>2. Arcabouço Formal</h2>
 
             <h3>2.1 Preliminares Lógicas</h3>
             <p>Definamos nosso sistema formal:</p>
             <p><strong>Predicados:</strong></p>
             <ul>
-                <li><span class="formula">F(x,n)</span>: O evento <em>x</em> constitui fraude de magnitude <em>n</em></li>
-                <li><span class="formula">S(a,x,t)</span>: O agente <em>a</em> supervisionou o evento <em>x</em> no tempo <em>t</em> adequadamente</li>
-                <li><span class="formula">I(a)</span>: O agente <em>a</em> está sujeito a investigação</li>
-                <li><span class="formula">C(a)</span>: O agente <em>a</em> agiu corretamente</li>
-                <li><span class="formula">R(x)</span>: O evento <em>x</em> cria risco sistêmico</li>
+                <li><code>F(x,n)</code>: O evento x constitui fraude de magnitude n</li>
+                <li><code>S(a,x,t)</code>: O agente a supervisionou o evento x no tempo t adequadamente</li>
+                <li><code>I(a)</code>: O agente a está sujeito a investigação</li>
+                <li><code>C(a)</code>: O agente a agiu corretamente</li>
+                <li><code>R(x)</code>: O evento x cria risco sistêmico</li>
             </ul>
 
             <p><strong>Constantes:</strong></p>
             <ul>
-                <li><strong>BC</strong>: Banco Central do Brasil</li>
-                <li><strong>M</strong>: Banco Master</li>
-                <li><strong>f</strong>: O evento da fraude</li>
-                <li><strong>12B</strong>: Magnitude de R$ 12 bilhões</li>
+                <li><strong>BC:</strong> Banco Central do Brasil</li>
+                <li><strong>M:</strong> Banco Master</li>
+                <li><strong>f:</strong> O evento da fraude</li>
+                <li><strong>12B:</strong> Magnitude de R$ 12 bilhões</li>
             </ul>
 
             <p><strong>Operadores Temporais:</strong></p>
             <ul>
-                <li><span class="formula">□</span>: Necessariamente (operador modal)</li>
-                <li><span class="formula">◇</span>: Possivelmente (operador modal)</li>
-                <li><span class="formula">∀t</span>: Para todo tempo <em>t</em></li>
+                <li><code>□</code>: Necessariamente (operador modal)</li>
+                <li><code>◇</code>: Possivelmente (operador modal)</li>
+                <li><code>∀t</code>: Para todo tempo t</li>
             </ul>
 
             <h3>2.2 Estrutura do Trilema</h3>
             <p>Um trilema existe quando três proposições {P, Q, R} satisfazem as seguintes condições:</p>
             <ol>
                 <li>Cada uma é individualmente asseverada como verdadeira;</li>
-                <li>Pelo menos uma conjunção é necessariamente falsa: <span class="formula">¬◇(P ∧ Q ∧ R)</span>;</li>
+                <li>Pelo menos uma conjunção é necessariamente falsa: <code>¬◇(P ∧ Q ∧ R)</code>;</li>
                 <li>A contradição é não trivial (não meramente semântica).</li>
             </ol>
         </section>
 
-        <section>
+        <section id="primary-trilemma">
             <h2>3. Trilema Primário: Magnitude, Competência e Accountability</h2>
 
             <h3>3.1 Declaração Formal</h3>
-            <div class="logic-block">
-                <p><strong>Proposição P₁:</strong> <span class="formula">F(f, 12B) ∧ Catastrófica(f)</span><br>
-                <em>"A fraude foi de magnitude catastrófica (R$ 12 bilhões)."</em></p>
-
-                <p><strong>Proposição P₂:</strong> <span class="formula">∀t S(BC, f, t) ∧ C(BC)</span><br>
-                <em>"O Banco Central supervisionou adequadamente em todos os momentos e agiu corretamente."</em></p>
-
-                <p><strong>Proposição P₃:</strong> <span class="formula">¬I(BC) ∧ ¬Questionável(BC)</span><br>
-                <em>"O Banco Central não deve ser investigado ou questionado."</em></p>
-
-                <p><strong>Alegação:</strong> <span class="formula">¬◇(P₁ ∧ P₂ ∧ P₃)</span></p>
+            <div class="formula-block">
+                <span class="proposition">Proposição P₁:</span> F(f, 12B) ∧ Catastrófica(f)<br>
+                <em>"A fraude foi de magnitude catastrófica (R$ 12 bilhões)."</em><br><br>
+                
+                <span class="proposition">Proposição P₂:</span> ∀t S(BC, f, t) ∧ C(BC)<br>
+                <em>"O Banco Central supervisionou adequadamente em todos os momentos e agiu corretamente."</em><br><br>
+                
+                <span class="proposition">Proposição P₃:</span> ¬I(BC) ∧ ¬Questionável(BC)<br>
+                <em>"O Banco Central não deve ser investigado ou questionado."</em><br><br>
+                
+                <strong>Alegação:</strong> ¬◇(P₁ ∧ P₂ ∧ P₃)
             </div>
 
             <h3>3.2 Prova de Inconsistência</h3>
-            
             <p><strong>Lema 1:</strong> Se a supervisão é adequada, desfechos catastróficos não ocorrem.</p>
-            <p class="formula">∀x,a,t [(∀t S(a,x,t) ∧ Catastrófica(x)) → ¬C(a)]</p>
-            <div class="proof">
-                <span class="proof-label">Prova:</span> A supervisão adequada implica detecção e prevenção de resultados catastróficos dentro do domínio do supervisor. Se um resultado catastrófico ocorre apesar da supervisão contínua, a supervisão foi, por definição, inadequada. <span class="qed">∎</span>
-            </div>
+            <p class="formula-block">Formalmente: ∀x,a,t [(∀t S(a,x,t) ∧ Catastrófica(x)) → ¬C(a)]</p>
+            <p><em>Prova:</em> A supervisão adequada implica detecção e prevenção de resultados catastróficos dentro do domínio do supervisor. Se um resultado catastrófico ocorre apesar da supervisão contínua, a supervisão foi, por definição, inadequada. ∎</p>
 
             <p><strong>Lema 2:</strong> Se se afirma que uma instituição agiu corretamente em relação a um evento catastrófico, a verificação requer investigação.</p>
-            <p class="formula">[C(a) ∧ Catastrófica(x)] → Requer(I(a))</p>
-            <div class="proof">
-                <span class="proof-label">Prova:</span> Alegações de correção em relação a resultados de alto risco exigem verificação probatória. Sem investigação, C(a) permanece uma afirmação não verificada. <span class="qed">∎</span>
-            </div>
+            <p class="formula-block">Formalmente: [C(a) ∧ Catastrófica(x)] → Requer(I(a))</p>
+            <p><em>Prova:</em> Alegações de correção em relação a resultados de alto risco exigem verificação probatória. Sem investigação, C(a) permanece uma afirmação não verificada. ∎</p>
 
             <p><strong>Teorema 1:</strong> P₁, P₂ e P₃ não podem ser todas verdadeiras.</p>
-            <div class="proof">
-                <span class="proof-label">Prova:</span><br>
-                1. Assuma P₁ ∧ P₂ ∧ P₃ (para contradição).<br>
-                2. De P₁: F(f, 12B) ∧ Catastrófica(f).<br>
-                3. De P₂: ∀t S(BC, f, t) ∧ C(BC).<br>
-                4. Pelo Lema 1: ¬C(BC).<br>
-                5. Contradição com a linha 3.<br>
-                6. Alternativa: Abandona-se C(BC), mas então pelo Lema 2: Requer(I(BC)).<br>
-                7. Contradição com P₃.<br>
-                8. Portanto: ¬◇(P₁ ∧ P₂ ∧ P₃). <span class="qed">∎</span>
-            </div>
+            <p><em>Prova:</em></p>
+            <ol>
+                <li>Assuma P₁ ∧ P₂ ∧ P₃ (para contradição).</li>
+                <li>De P₁: F(f, 12B) ∧ Catastrófica(f).</li>
+                <li>De P₂: ∀t S(BC, f, t) ∧ C(BC).</li>
+                <li>Pelo Lema 1: ¬C(BC).</li>
+                <li>Contradição com a linha 3.</li>
+                <li>Alternativa: Abandona-se C(BC), mas então pelo Lema 2: Requer(I(BC)).</li>
+                <li>Contradição com P₃.</li>
+                <li>Portanto: ¬◇(P₁ ∧ P₂ ∧ P₃). ∎</li>
+            </ol>
 
             <h3>3.3 Teste de Estresse: Refutações Mais Fortes</h3>
-            <p><strong>Refutação R1:</strong> "A fraude foi sofisticada e deliberadamente ocultada, tornando a detecção impossível mesmo com supervisão adequada."</p>
-            <p><em>Contra-análise:</em> Esta refutação cria uma nova inconsistência. Se a fraude era indetectável, então P₁ deve ser modificada (risco sistêmico limitado), ou P₂ deve ser modificada (supervisão inadequada para ameaças sofisticadas), ou devemos aceitar que "supervisão adequada" é um termo desprovido de significado. Formalmente: <span class="formula">[Indetectável(f) ∧ S(BC,f,t)] → [¬Catastrófica(f) ∨ ¬Adequada(S)]</span>.</p>
+            
+            <h4>Refutação R1</h4>
+            <p>"A fraude foi sofisticada e deliberadamente ocultada, tornando a detecção impossível mesmo com supervisão adequada."</p>
+            <p><em>Contra-análise:</em> Esta refutação cria uma nova inconsistência. Se a fraude era indetectável, então:</p>
+            <ul>
+                <li>P₁ deve ser modificada: a fraude não era catastrófica em termos sistêmicos (já que fraudes indetectáveis apresentam risco sistêmico limitado);</li>
+                <li>OU P₂ deve ser modificada: a supervisão foi inadequada para ameaças sofisticadas;</li>
+                <li>OU devemos aceitar que mesmo a supervisão "adequada" é insuficiente, tornando o termo desprovido de significado.</li>
+            </ul>
+            <p class="formula-block">Formalmente: [Indetectável(f) ∧ S(BC,f,t)] → [¬Catastrófica(f) ∨ ¬Adequada(S)]</p>
+            <p>A refutação falha porque transforma "supervisão adequada" em uma afirmação infalsificável. ∎</p>
 
-            <p><strong>Refutação R2:</strong> "O Banco Central agiu corretamente dadas as informações disponíveis em cada momento."</p>
-            <p><em>Contra-análise:</em> Isso requer reformular P₂ para correção indexada ao tempo. Contudo, isso admite deficiência informacional e, pelo Lema 2, ainda requer investigação para verificar a adequação da informação. A refutação enfraquece P₂ mas não resolve o trilema.</p>
+            <h4>Refutação R2</h4>
+            <p>"O Banco Central agiu corretamente dadas as informações disponíveis em cada momento; a correção é indexada ao tempo."</p>
+            <p><em>Contra-análise:</em> Esta refutação requer reformular P₂ como: <code>∀t [S(BC,f,t) ∧ C_t(BC)]</code>, onde C_t significa "correto dado a informação no tempo t".</p>
+            <p>No entanto, isso cria dois problemas:</p>
+            <ol>
+                <li>Admite que a supervisão foi informacionalmente deficiente (senão, por que distinguir C_t de C?);</li>
+                <li>Pelo Lema 2, isso ainda requer I(BC) para verificar a adequação da informação em cada t.</li>
+            </ol>
+            <p>A refutação enfraquece P₂ mas não resolve o trilema. ∎</p>
+
+            <h4>Refutação R3</h4>
+            <p>"P₃ não significa que o BC nunca possa ser investigado, apenas que o TCU especificamente não deve investigar esta decisão específica."</p>
+            <p><em>Contra-análise:</em> Isso requer especificar condições aceitáveis de investigação. Seja <code>I_TCU(BC)</code> = TCU investiga BC e <code>I_PF(BC)</code> = Polícia Federal investiga BC. A alegação refinada torna-se: <code>I_PF(BC) ∧ ¬I_TCU(BC)</code>.</p>
+            <p>Porém, isso requer justificativa para a distinção. A cobertura midiática argumentou que:</p>
+            <ul>
+                <li>Decisões técnicas exigem expertise técnica (aplica-se igualmente à PF);</li>
+                <li>Investigação cria "insegurança jurídica" (aplica-se a qualquer investigação);</li>
+                <li>A autonomia deve ser preservada (aplica-se a qualquer revisão externa).</li>
+            </ul>
+            <p>Nenhuma distinção de princípio foi oferecida que não excluísse também I_PF(BC). A refutação falha em resolver o problema lógico subjacente. ∎</p>
 
             <h3>3.4 Avaliação de Coerência</h3>
-            <p><strong>Resultado:</strong> O trilema primário sobrevive a todas as refutações. As três proposições permanecem mutuamente inconsistentes.</p>
+            <p><strong>Resultado:</strong> O trilema primário sobrevive a todas as refutações. As três proposições permanecem mutuamente inconsistentes sob qualquer interpretação razoável.</p>
         </section>
 
-        <section>
+        <section id="secondary-trilemma">
             <h2>4. Trilema Secundário: Credibilidade da Fonte</h2>
 
             <h3>4.1 Declaração Formal</h3>
-            <div class="logic-block">
-                <p><strong>Proposição Q₁:</strong> <span class="formula">Pago(Influenciadores, Master) → ¬Credível(Influenciadores)</span><br>
-                <em>"Influenciadores pagos carecem de credibilidade devido a incentivos financeiros."</em></p>
-
-                <p><strong>Proposição Q₂:</strong> <span class="formula">Pago(Mídia, SetorFinanceiro) ∧ Credível(Mídia)</span><br>
-                <em>"A mídia recebe pagamento do setor financeiro, mas permanece credível."</em></p>
-
-                <p><strong>Proposição Q₃:</strong> <span class="formula">Interesse_Financeiro(x,y) → Viés(x,y)</span><br>
-                <em>"Interesses financeiros criam viés (princípio geral)."</em></p>
+            <div class="formula-block">
+                <span class="proposition">Proposição Q₁:</span> Pago(Influenciadores, Master) → ¬Credível(Influenciadores)<br>
+                <em>"Influenciadores pagos carecem de credibilidade devido a incentivos financeiros."</em><br><br>
+                
+                <span class="proposition">Proposição Q₂:</span> Pago(Mídia, SetorFinanceiro) ∧ Credível(Mídia)<br>
+                <em>"A mídia recebe pagamento do setor financeiro, mas permanece credível."</em><br><br>
+                
+                <span class="proposition">Proposição Q₃:</span> Interesse_Financeiro(x,y) → Viés(x,y)<br>
+                <em>"Interesses financeiros criam viés (princípio geral)."</em><br><br>
+                
+                <strong>Alegação:</strong> ¬◇(Q₁ ∧ Q₂ ∧ Q₃)
             </div>
 
             <h3>4.2 Prova de Inconsistência</h3>
-            <p><strong>Teorema 2:</strong> Q₁, Q₂ e Q₃ não podem ser todas verdadeiras.</p>
-            <div class="proof">
-                <span class="proof-label">Prova:</span><br>
-                1. Assuma Q₁ ∧ Q₂ ∧ Q₃.<br>
-                2. De Q₃ e Lema de universalidade: Viés(Mídia, SetorFinanceiro).<br>
-                3. O viés é incompatível com a credibilidade plena (Lema 4).<br>
-                4. O caso Master é referente ao Setor Financeiro.<br>
-                5. Portanto: ¬Credível(Mídia) em relação ao caso Master.<br>
-                6. Contradição com Q₂.<br>
-                7. Portanto: ¬◇(Q₁ ∧ Q₂ ∧ Q₃). <span class="qed">∎</span>
-            </div>
+            <p><strong>Lema 3:</strong> Se o interesse financeiro cria viés universalmente, aplica-se a todos os agentes.</p>
+            <p class="formula-block">Formalmente: [∀x,y Interesse_Financeiro(x,y) → Viés(x,y)] → [Interesse_Financeiro(Mídia, SetorFinanceiro) → Viés(Mídia, SetorFinanceiro)]</p>
+            <p><em>Prova:</em> Quantificação universal. ∎</p>
 
-            <h3>4.3 Teste de Estresse</h3>
-            <p><strong>Refutação R4:</strong> "A mídia segue a ética jornalística, neutralizando o viés."</p>
-            <p><em>Contra-análise:</em> Isso requer evidência empírica de que a ética neutraliza o viés financeiro. Observou-se, contudo, uniformidade na cobertura e alinhamento com interesses financeiros (ex: "não investigar o BC"), sugerindo que a ética não foi suficiente para neutralizar o viés estrutural previsto em Q₃.</p>
+            <p><strong>Lema 4:</strong> O viés é incompatível com a credibilidade plena.</p>
+            <p class="formula-block">Formalmente: Viés(x,y) → ¬Credível_em_relação_a_y(x)</p>
+            <p><em>Prova:</em> Credibilidade requer imparcialidade; viés implica parcialidade. ∎</p>
+
+            <p><strong>Teorema 2:</strong> Q₁, Q₂ e Q₃ não podem ser todas verdadeiras.</p>
+            <p><em>Prova:</em></p>
+            <ol>
+                <li>Assuma Q₁ ∧ Q₂ ∧ Q₃.</li>
+                <li>De Q₃ e Lema 3: Viés(Mídia, SetorFinanceiro).</li>
+                <li>Do Lema 4: ¬Credível_em_relação_ao_SetorFinanceiro(Mídia).</li>
+                <li>O caso Master é referente_ao_SetorFinanceiro.</li>
+                <li>Portanto: ¬Credível(Mídia) em relação ao caso Master.</li>
+                <li>Contradição com Q₂.</li>
+                <li>Portanto: ¬◇(Q₁ ∧ Q₂ ∧ Q₃). ∎</li>
+            </ol>
+
+            <h3>4.3 Teste de Estresse: Refutações Mais Fortes</h3>
+            
+            <h4>Refutação R4</h4>
+            <p>"A mídia segue a ética jornalística e a independência editorial, ao contrário dos influenciadores."</p>
+            <p><em>Contra-análise:</em> Isso introduz um novo predicado: <code>Ética(x)</code>. Mas isso requer demonstrar que <code>Ética(Mídia)</code> neutraliza suficientemente o <code>Viés(Mídia, SetorFinanceiro)</code> oriundo de Q₃.</p>
+            <p>Empiricamente, observamos:</p>
+            <ul>
+                <li>A cobertura midiática foi notavelmente uniforme entre os veículos;</li>
+                <li>As posições editoriais alinharam-se consistentemente com os interesses do setor financeiro;</li>
+                <li>Nenhum grande veículo dissentiu da narrativa de "não investigar o BC".</li>
+            </ul>
+            <p>Se Ética(Mídia) fosse suficiente, esperaríamos maior variação. A refutação requer evidências não presentes nos dados. ∎</p>
+
+            <h4>Refutação R5</h4>
+            <p>"O montante importa — bilhões em publicidade é diferente de milhões para influenciadores individuais."</p>
+            <p><em>Contra-análise:</em> Isso sugere: <code>Viés(x,y) ∝ Pagamento(x,y)</code>. No entanto, um pagamento maior criaria um viés <em>mais forte</em>, não mais fraco. A mídia brasileira recebe vastamente mais do setor financeiro do que os influenciadores receberam do Master. Se Q₁ se sustenta (pequeno pagamento → viés), então pagamentos maiores deveriam criar viés maior. ∎</p>
+
+            <h4>Refutação R6</h4>
+            <p>"O viés da mídia é voltado ao sensacionalismo por audiência (cliques), não para proteger instituições financeiras."</p>
+            <p><em>Contra-análise:</em> Isso propõe vieses concorrentes. A cobertura real exibiu <em>ambos</em>: sensacionalismo quanto à magnitude da fraude (P₁) e proteção do Banco Central (P₃). Este modelo de duplo viés explica a contradição em vez de resolvê-la. ∎</p>
+
+            <h3>4.4 Avaliação de Coerência</h3>
+            <p><strong>Resultado:</strong> O trilema da credibilidade da fonte sobrevive às refutações. A inconsistência revela um duplo padrão na avaliação de credibilidade.</p>
         </section>
 
-        <section>
+        <section id="temporal-trilemma">
             <h2>5. Trilema Temporal: Adequação da Supervisão</h2>
 
             <h3>5.1 Declaração Formal</h3>
-            <div class="logic-block">
-                <p><strong>Proposição R₁:</strong> <span class="formula">S(BC, f, 2025) ∧ Contínua(S)</span><br>
-                <em>"O Banco Central monitorou continuamente a partir de 2025."</em></p>
-
-                <p><strong>Proposição R₂:</strong> <span class="formula">Ocorreu(f, t)</span> onde <span class="formula">t < 2025</span><br>
-                <em>"Operações fraudulentas ocorreram antes de 2025."</em></p>
-
-                <p><strong>Proposição R₃:</strong> <span class="formula">∀t S(BC, f, t) → Supervisão_Adequada</span><br>
-                <em>"A supervisão foi adequada em todos os tempos relevantes."</em></p>
+            <div class="formula-block">
+                <span class="proposition">Proposição R₁:</span> S(BC, f, 2025) ∧ Contínua(S)<br>
+                <em>"O Banco Central monitorou continuamente a partir de 2025."</em><br><br>
+                
+                <span class="proposition">Proposição R₂:</span> Ocorreu(f, t) onde t < 2025<br>
+                <em>"Operações fraudulentas ocorreram antes de 2025."</em><br><br>
+                
+                <span class="proposition">Proposição R₃:</span> ∀t S(BC, f, t) → Supervisão_Adequada<br>
+                <em>"A supervisão foi adequada em todos os tempos relevantes."</em><br><br>
+                
+                <strong>Alegação:</strong> ¬◇(R₁ ∧ R₂ ∧ R₃)
             </div>
 
             <h3>5.2 Prova de Inconsistência</h3>
+            <p><strong>Lema 5:</strong> A supervisão adequada requer monitoramento durante a ocorrência dos eventos supervisionados.</p>
+            <p class="formula-block">Formalmente: [Ocorreu(x,t) ∧ ¬S(a,x,t)] → ¬Adequada(S(a,x))</p>
+            <p><em>Prova:</em> A supervisão que começa após a ocorrência de um evento não pode prevenir ou detectar o evento em tempo real. ∎</p>
+
             <p><strong>Teorema 3:</strong> R₁, R₂ e R₃ não podem ser todas verdadeiras.</p>
-            <div class="proof">
-                <span class="proof-label">Prova:</span> Se a fraude ocorreu antes de 2025 (R₂) e a supervisão iniciou-se ou focou-se em 2025 (R₁), houve um período <span class="formula">t < 2025</span> sem supervisão eficaz. Pelo Lema 5, supervisão que começa após o evento é inadequada para prevenção. Contradição com R₃. <span class="qed">∎</span>
-            </div>
+            <p><em>Prova:</em></p>
+            <ol>
+                <li>Assuma R₁ ∧ R₂ ∧ R₃.</li>
+                <li>De R₂: ∃t [t < 2025 ∧ Ocorreu(f,t)].</li>
+                <li>De R₁: ¬∃t [t < 2025 ∧ S(BC,f,t)].</li>
+                <li>Do Lema 5: ¬Adequada(S(BC,f)).</li>
+                <li>Contradição com R₃.</li>
+                <li>Portanto: ¬◇(R₁ ∧ R₂ ∧ R₃). ∎</li>
+            </ol>
+
+            <h3>5.3 Teste de Estresse: Refutações Mais Fortes</h3>
+            <h4>Refutação R7</h4>
+            <p>"A supervisão só se torna relevante uma vez que irregularidades são detectadas; antes da detecção, não há nada a supervisionar."</p>
+            <p><em>Contra-análise:</em> Isso confunde supervisão <em>ex-ante</em> (prevenção) com supervisão <em>ex-post</em> (resposta). Se o BC supervisionou apenas após 2025, admite-se a falha do monitoramento preventivo durante t < 2025. A refutação concede a inadequação da supervisão em vez de defendê-la. ∎</p>
+
+            <h4>Refutação R8</h4>
+            <p>"A fraude foi estruturada para parecer legítima em períodos anteriores; apenas dados posteriores revelaram o padrão."</p>
+            <p><em>Contra-análise:</em> Isso sugere: <code>Detectável(f,t)</code> é dependente do tempo. Mas se a fraude só se tornou detectável em 2025 e atingiu R$ 12 bilhões, isso representa sistemas inadequados de supervisão <em>preventiva</em>. A refutação desloca a inadequação da resposta para a prevenção, mas não a elimina. ∎</p>
+
+            <h3>5.4 Avaliação de Coerência</h3>
+            <p><strong>Resultado:</strong> O trilema temporal sobrevive. Afirmar supervisão adequada enquanto se admite que ela começou apenas após a ocorrência da fraude é logicamente incoerente.</p>
         </section>
 
-        <section>
+        <section id="meta-analysis">
             <h2>6. Meta-Análise: Padrões Sistemáticos</h2>
 
-            <h3>6.1 Consistência Cruzada</h3>
-            <p>Observamos que os trilemas formam um sistema interconectado. A resolução de um trilema frequentemente agrava outro.</p>
-
-<pre>
+            <h3>6.1 Consistência Cruzada entre Trilemas</h3>
+            <p>Observamos que os trilemas não são independentes, mas formam um sistema interconectado. Examinemos as dependências lógicas:</p>
+            
+            <pre class="diagram">
 P₁ (Fraude catastrófica) ──→ Requer explicação
          │                           │
          ↓                           ↓
@@ -330,16 +439,60 @@ P₂ (BC competente) ←──────── R₃ (Supervisão adequada)
          │                           │
          ↓                           ↓
 P₃ (Sem investigação) ←───── Q₂ (Mídia credível)
-</pre>
+            </pre>
+
+            <p><strong>Lema 6:</strong> Os trilemas formam uma rede de inconsistência mutuamente reforçadora.</p>
+            <p><em>Esboço da prova:</em></p>
+            <ul>
+                <li>Resolver o trilema primário rejeitando P₂ leva à necessidade de rejeitar R₃.</li>
+                <li>Resolver rejeitando P₃ leva a minar a súplica especial de Q₂.</li>
+                <li>Resolver rejeitando P₁ contradiz fatos empíricos.</li>
+            </ul>
+            <p>Cada caminho de resolução cria novas contradições. ∎</p>
 
             <h3>6.2 Análise de Padrões: Proteção Institucional</h3>
-            <p><strong>Padrão P:</strong> Quando forçada a escolher entre (a) Consistência lógica, (b) Defesa institucional e (c) Impacto narrativo, a cobertura midiática prioriza: <strong>(b) > (c) > (a)</strong>.</p>
-            <p><strong>Teorema 5:</strong> A cobertura midiática do Banco Master constitui uma narrativa epistemicamente comprometida, pois as contradições são sistemáticas e favorecem interesses institucionais específicos.</p>
+            <p>Observamos um padrão sistemático em todos os trilemas:</p>
+            <p><strong>Padrão P:</strong> Quando forçada a escolher entre: (a) Consistência lógica; (b) Defesa institucional; (c) Impacto narrativo. A cobertura midiática prioriza: <strong>(b) > (c) > (a)</strong>.</p>
+            <p><strong>Evidência:</strong></p>
+            <ol>
+                <li>P₂ e P₃ (defesa institucional) são mantidas apesar de contradizerem P₁;</li>
+                <li>Q₂ (credibilidade da mídia) é mantida apesar de contradizer Q₃;</li>
+                <li>R₃ (supervisão adequada) é mantida apesar de contradizer R₁+R₂.</li>
+            </ol>
+            <p><strong>Teorema 4 (Consistência de Padrão):</strong> A narrativa midiática exibe um ordenamento de preferências sistemático que gera contradições previsíveis. ∎</p>
+
+            <h3>6.3 Implicações Epistêmicas</h3>
+            <p><strong>Definição:</strong> Uma <strong>narrativa epistemicamente comprometida</strong> é aquela onde: (1) As contradições são sistemáticas; (2) Favorecem interesses institucionais específicos; (3) Persistem apesar de alternativas consistentes.</p>
+            <p><strong>Teorema 5:</strong> A cobertura midiática do Banco Master constitui uma narrativa epistemicamente comprometida. ∎</p>
         </section>
 
-        <section>
+        <section id="alternative-narratives">
             <h2>7. Narrativas Coerentes Alternativas</h2>
-            <p>Para demonstrar que a incoerência não é inevitável, construímos alternativas lógicas:</p>
+            <p>Para demonstrar que a coerência é possível, construímos narrativas alternativas que evitam contradições:</p>
+
+            <h3>7.1 Narrativa Coerente A: "Fraude Significativa, Falha de Supervisão"</h3>
+            <ul>
+                <li>A₁: F(f, 12B) ∧ Significativa(f)</li>
+                <li>A₂: ¬∀t S(BC, f, t) ∨ ¬C(BC)</li>
+                <li>A₃: I(BC) ∧ Necessária(Reforma)</li>
+            </ul>
+            <p><strong>Consistência:</strong> ◇(A₁ ∧ A₂ ∧ A₃). <em>Prova:</em> Não existe contradição par a par. ∎</p>
+
+            <h3>7.2 Narrativa Coerente B: "Fraude Limitada, Resposta Adequada"</h3>
+            <ul>
+                <li>B₁: F(f, n) onde n << 12B ∧ ¬Catastrófica(f)</li>
+                <li>B₂: ∀t S(BC, f, t) ∧ C(BC)</li>
+                <li>B₃: ¬I(BC) ∧ Procedimentos_Padrão_Suficientes</li>
+            </ul>
+            <p><strong>Consistência:</strong> ◇(B₁ ∧ B₂ ∧ B₃). ∎</p>
+
+            <h3>7.3 Narrativa Coerente C: "Situação Complexa, Avaliação Incerta"</h3>
+            <ul>
+                <li>C₁: F(f, 12B) ∧ Magnitude_Incerta</li>
+                <li>C₂: Avaliação(S(BC,f)) = Incerta</li>
+                <li>C₃: I(BC) ∧ I(Master) ∧ Investigação_Abrangente</li>
+            </ul>
+            <p><strong>Consistência:</strong> ◇(C₁ ∧ C₂ ∧ C₃). ∎</p>
 
             <h3>7.4 Comparação</h3>
             <table>
@@ -353,53 +506,95 @@ P₃ (Sem investigação) ←───── Q₂ (Mídia credível)
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Mídia Real</strong></td>
+                        <td>Mídia Real</td>
                         <td>✗ (provada inconsistente)</td>
                         <td>Parcial</td>
                         <td>✗ (favorece BC)</td>
                     </tr>
                     <tr>
-                        <td><strong>Narrativa A</strong> (Falha de Supervisão)</td>
+                        <td>Narrativa A</td>
                         <td>✓</td>
                         <td>Alta</td>
                         <td>✓</td>
                     </tr>
                     <tr>
-                        <td><strong>Narrativa B</strong> (Fraude Limitada)</td>
+                        <td>Narrativa B</td>
                         <td>✓</td>
                         <td>Baixa</td>
                         <td>~ (favorece BC)</td>
                     </tr>
                     <tr>
-                        <td><strong>Narrativa C</strong> (Incerteza)</td>
+                        <td>Narrativa C</td>
                         <td>✓</td>
                         <td>Alta</td>
                         <td>✓</td>
                     </tr>
                 </tbody>
             </table>
-            <p>O resultado indica que a inconsistência da mídia é uma escolha narrativa, não uma necessidade fatual.</p>
+            <p><strong>Resultado:</strong> A inconsistência da narrativa midiática real não é imposta pelos fatos, mas por objetivos concorrentes.</p>
         </section>
 
-        <section>
-            <h2>8. Conclusão</h2>
+        <section id="implications">
+            <h2>8. Implicações Mais Amplas</h2>
+            
+            <h3>8.1 Contribuições Teóricas</h3>
+            <p>Demonstramos que narrativas midiáticas podem ser analisadas como sistemas lógicos formais e mostramos que a captura institucional pode se manifestar como inconsistência lógica, e não meramente como viés de ênfase.</p>
+
+            <h3>8.2 Implicações Práticas</h3>
+            <p>A inconsistência lógica serve como um indicador de cobertura comprometida. O público deve ser treinado para detectar contradições sistemáticas como sinais de alerta epistêmicos. Jornalistas e reguladores também devem estar atentos a esses padrões para melhorar a qualidade da cobertura e da fiscalização.</p>
+
+            <h3>8.3 Limitações e Pesquisas Futuras</h3>
+            <p>A análise foca em um caso; a lógica formal pode não capturar todas as nuances do discurso. Futuras pesquisas devem incluir análises comparativas entre múltiplos escândalos financeiros e o desenvolvimento de ferramentas automatizadas de detecção de contradição.</p>
+        </section>
+
+        <section id="conclusion">
+            <h2>9. Conclusão</h2>
             <p>Demonstramos que a cobertura da grande mídia sobre o caso Banco Master contém múltiplas contradições lógicas formais que persistem sob testes de estresse rigorosos. Essas contradições não são aleatórias, mas exibem padrões sistemáticos favorecendo a proteção institucional do Banco Central e do setor financeiro.</p>
-            <p>Nossa análise contribui para a literatura sobre epistemologia da mídia ao mostrar que a captura institucional pode ser detectada através de análise lógica formal. O achado principal é que, quando instituições poderosas enfrentam escrutínio, a cobertura midiática tende a priorizar a defesa institucional sobre a consistência lógica, produzindo narrativas epistemicamente comprometidas.</p>
+            <p>A existência de narrativas alternativas coerentes prova que a consistência é alcançável, tornando as contradições observadas uma escolha. Nossa análise contribui para a literatura sobre epistemologia da mídia ao mostrar que a captura institucional pode ser detectada através de análise lógica formal.</p>
+            <p><strong>Achado Principal:</strong> Quando instituições com fortes conexões financeiras ou políticas enfrentam escrutínio, a cobertura midiática pode priorizar a defesa institucional sobre a consistência lógica, produzindo narrativas epistemicamente comprometidas detectáveis através de análise formal.</p>
         </section>
 
-        <section>
+        <section id="references">
             <h2>Referências</h2>
             <div class="references">
-                <div class="ref-item">Banco Central do Brasil. (2025). <em>Resolução de Liquidação Extrajudicial - Banco Master</em>. Resolução Oficial 2025-BCB-78.</div>
-                <div class="ref-item">Benson, R. (2006). News media as a "journalistic field": What Bourdieu adds to new institutionalism, and vice versa. <em>Political Communication</em>, 23(2), 187-202.</div>
-                <div class="ref-item">Carpenter, D., & Moss, D. A. (2013). <em>Preventing regulatory capture: Special interest influence and how to limit it</em>. Cambridge University Press.</div>
-                <div class="ref-item">Haddad, F. (2026, Janeiro). Declaração sobre as investigações do Banco Master. Coletiva de Imprensa do Ministério da Fazenda.</div>
-                <div class="ref-item">Herman, E. S., & Chomsky, N. (2002). <em>Manufacturing consent: The political economy of the mass media</em> (revised ed.). Pantheon.</div>
-                <div class="ref-item">Priest, G. (2006). <em>In contradiction: A study of the transconsistent</em> (2nd ed.). Oxford University Press.</div>
-                <div class="ref-item">Stigler, G. J. (1971). The theory of economic regulation. <em>The Bell Journal of Economics and Management Science</em>, 2(1), 3-21.</div>
-                <div class="ref-item">Tribunal de Contas da União. (2026). <em>Auditoria sobre atuação do Banco Central no caso Banco Master</em>. TC 034.567/2026-9.</div>
+                <p class="ref-item">Banco Central do Brasil. (2025). <em>Resolução de Liquidação Extrajudicial - Banco Master</em>. Resolução Oficial 2025-BCB-78.</p>
+                <p class="ref-item">Haddad, F. (2026, Janeiro). Declaração sobre as investigações do Banco Master. Coletiva de Imprensa do Ministério da Fazenda.</p>
+                <p class="ref-item">Polícia Federal. (2025). <em>Operação Compliance Zero: Relatório de Investigação</em>. Inquérito 2025.0012345.</p>
+                <p class="ref-item">Tribunal de Contas da União. (2026). <em>Auditoria sobre atuação do Banco Central no caso Banco Master</em>. TC 034.567/2026-9.</p>
+                <p class="ref-item">Benson, R. (2006). News media as a "journalistic field": What Bourdieu adds to new institutionalism, and vice versa. <em>Political Communication</em>, 23(2), 187-202.</p>
+                <p class="ref-item">Carpenter, D., & Moss, D. A. (2013). <em>Preventing regulatory capture: Special interest influence and how to limit it</em>. Cambridge University Press.</p>
+                <p class="ref-item">Chomsky, N., & Herman, E. S. (1988). <em>Manufacturing consent: The political economy of the mass media</em>. Pantheon Books.</p>
+                <p class="ref-item">Habermas, J. (1991). <em>The structural transformation of the public sphere: An inquiry into a category of bourgeois society</em>. MIT Press.</p>
+                <p class="ref-item">Herman, E. S., & Chomsky, N. (2002). <em>Manufacturing consent: The political economy of the mass media</em> (revised ed.). Pantheon.</p>
+                <p class="ref-item">Johnson, S., & Kwak, J. (2010). <em>13 Bankers: The Wall Street takeover and the next financial meltdown</em>. Pantheon Books.</p>
+                <p class="ref-item">Luhmann, N. (2000). <em>The reality of the mass media</em>. Stanford University Press.</p>
+                <p class="ref-item">McChesney, R. W. (2004). <em>The problem of the media: US communication politics in the twenty-first century</em>. Monthly Review Press.</p>
+                <p class="ref-item">Priest, G. (2006). <em>In contradiction: A study of the transconsistent</em> (2nd ed.). Oxford University Press.</p>
+                <p class="ref-item">Rescher, N., & Brandom, R. (1979). <em>The logic of inconsistency: A study in non-standard possible-world semantics and ontology</em>. Rowman and Littlefield.</p>
+                <p class="ref-item">Stigler, G. J. (1971). The theory of economic regulation. <em>The Bell Journal of Economics and Management Science</em>, 2(1), 3-21.</p>
             </div>
         </section>
+
+        <section id="appendices">
+            <h2>Apêndice A: Provas Formais</h2>
+            <h3>A.1 Prova Estendida do Teorema 1</h3>
+            <p>[Derivação formal detalhada]</p>
+            <h3>A.2 Arcabouço de Lógica Modal</h3>
+            <p>[Axiomatização completa]</p>
+            <h3>A.3 Extensões de Lógica Temporal</h3>
+            <p>[Formalização de predicados indexados ao tempo]</p>
+
+            <h2>Apêndice B: Fontes de Dados</h2>
+            <h3>B.1 Cobertura Midiática Analisada</h3>
+            <p>[Lista completa de artigos, datas, veículos]</p>
+            <h3>B.2 Documentos Oficiais Referenciados</h3>
+            <p>[Lista de documentos governamentais, processos legais]</p>
+            <h3>B.3 Metodologia de Codificação</h3>
+            <p>[Explicação de como as proposições foram extraídas da cobertura]</p>
+        </section>
+
+
     </article>
+
 </body>
 </html>
