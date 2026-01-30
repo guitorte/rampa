@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Uma análise comparativa de eficiência em apropriação de recursos públicos no contexto do presidencialismo de coalizão brasileiro">
+    <title>Campeonato de corrupção: Emendas parlamentares vs. Mensalão</title>
+
+    <!-- Google Fonts - Inspired by Quanta Magazine -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-primary: #1a1a1a;
+            --color-secondary: #4a4a4a;
+            --color-accent: #d4731f;
+            --color-bg: #ffffff;
+            --color-bg-alt: #f8f8f8;
+            --color-border: #e0e0e0;
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Merriweather', serif;
+            --font-sans: 'Inter', sans-serif;
+            --max-width: 680px;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 2rem;
+            --spacing-lg: 3rem;
+            --spacing-xl: 4rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--color-primary);
+            background-color: var(--color-bg);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header / Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--color-border);
+            padding: var(--spacing-sm) var(--spacing-md);
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            font-family: var(--font-sans);
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        nav a {
+            color: var(--color-secondary);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--color-accent);
+        }
+
+        /* Article Container */
+        article {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--spacing-md);
+        }
+
+        /* Title Section */
+        .article-header {
+            padding: var(--spacing-lg) 0 var(--spacing-md);
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .category {
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-accent);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-primary);
+        }
+
+        .subtitle {
+            font-family: var(--font-body);
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--color-secondary);
+            font-style: italic;
+        }
+
+        .article-meta {
+            font-family: var(--font-sans);
+            font-size: 14px;
+            color: var(--color-secondary);
+            margin-top: var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--color-border);
+        }
+
+        /* Typography */
+        h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            line-height: 1.3;
+            margin-top: var(--spacing-xl);
+            margin-bottom: var(--spacing-md);
+            color: var(--color-primary);
+        }
+
+        h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.35rem, 3vw, 1.75rem);
+            font-weight: 700;
+            line-height: 1.4;
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-primary);
+        }
+
+        h4 {
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-top: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-primary);
+        }
+
+        p {
+            margin-bottom: var(--spacing-md);
+        }
+
+        strong {
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        em {
+            font-style: italic;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: var(--spacing-md);
+            padding-left: var(--spacing-md);
+        }
+
+        li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        /* Blockquotes / Callouts */
+        .callout {
+            background: var(--color-bg-alt);
+            border-left: 4px solid var(--color-accent);
+            padding: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+            font-style: italic;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: var(--spacing-md) 0;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-sans);
+            font-size: 15px;
+            background: var(--color-bg);
+        }
+
+        th {
+            background: var(--color-bg-alt);
+            padding: var(--spacing-sm);
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--color-border);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: var(--spacing-sm);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: var(--color-bg-alt);
+        }
+
+        /* Score Box */
+        .score-box {
+            background: linear-gradient(135deg, #1a1a1a 0%, #4a4a4a 100%);
+            color: white;
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            margin: var(--spacing-lg) 0;
+            text-align: center;
+        }
+
+        .score-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .score-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-value {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 900;
+            display: block;
+            margin: var(--spacing-xs) 0;
+        }
+
+        .score-label {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.8;
+        }
+
+        .winner {
+            background: var(--color-accent);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: 4px;
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: var(--spacing-sm);
+            display: inline-block;
+        }
+
+        /* Footer */
+        footer {
+            max-width: var(--max-width);
+            margin: var(--spacing-xl) auto;
+            padding: var(--spacing-lg) var(--spacing-md);
+            border-top: 1px solid var(--color-border);
+            font-family: var(--font-sans);
+            font-size: 14px;
+            color: var(--color-secondary);
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            body {
+                font-size: 16px;
+            }
+
+            article {
+                padding: var(--spacing-sm);
+            }
+
+            .article-header {
+                padding: var(--spacing-md) 0 var(--spacing-sm);
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            th, td {
+                padding: var(--spacing-xs);
+            }
+
+            .score-comparison {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-sm);
+            }
+        }
+
+        @media (min-width: 768px) {
+            article {
+                padding: var(--spacing-lg) var(--spacing-md);
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-primary: #e8e8e8;
+                --color-secondary: #b8b8b8;
+                --color-bg: #121212;
+                --color-bg-alt: #1e1e1e;
+                --color-border: #333333;
+            }
+
+            header {
+                background: rgba(18, 18, 18, 0.95);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#intro">Introdução</a> ·
+            <a href="#analise">Análise</a> ·
+            <a href="#conclusao">Conclusão</a>
+        </nav>
+    </header>
+
+    <article>
+        <div class="article-header">
+            <div class="category">Análise Política</div>
+            <h1>Campeonato de corrupção: Emendas parlamentares vs. Mensalão</h1>
+            <p class="subtitle">Uma análise comparativa de eficiência em "apropriação de recursos públicos" no contexto do presidencialismo de coalizão brasileiro</p>
+            <div class="article-meta">
+                Atualizado em 30 de janeiro de 2026
+            </div>
+        </div>
+
+        <section id="intro">
+            <h2>I. Introdução: sobre metodologia, métricas e a morte da inocência</h2>
+
+            <p>Esta é uma análise comparativa satírica usando métricas rigorosas para determinar qual esquema de corrupção causou menos danos à sociedade brasileira: o Mensalão (2003-2005) versus as Emendas Parlamentares (desde 2006).</p>
+
+            <div class="callout">
+                <strong>Conceito-chave:</strong> A pontuação reflete o impacto social negativo – quanto maior o dano, menor a pontuação.
+            </div>
+
+            <h3>1.1 Cinco Métricas de Avaliação</h3>
+            <ol>
+                <li><strong>Custo-Benefício Social (25%)</strong> – Relação entre recursos desviados e resultados políticos/sociais obtidos</li>
+                <li><strong>Sofisticação Jurídica (20%)</strong> – Grau de proteção legal e dificuldade de processamento</li>
+                <li><strong>Escala e Sustentabilidade (20%)</strong> – Capacidade de operar ao longo do tempo sem colapso</li>
+                <li><strong>Impunidade Estrutural (20%)</strong> – Percentual dos envolvidos que efetivamente enfrentaram consequências legais</li>
+                <li><strong>Inovação Institucional (15%)</strong> – Contribuição para a evolução dos mecanismos de captura do Estado</li>
+            </ol>
+        </section>
+
+        <section id="analise">
+            <h2>II. Análise quantitativa (os números não mentem, mas contam histórias interessantes)</h2>
+
+            <h3>2.1 Tabela Comparativa</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Métrica</th>
+                            <th>Mensalão (2003-2005)</th>
+                            <th>Emendas Parl. (2006-2024)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Valor Total Estimado</strong></td>
+                            <td>R$ 55-100 milhões</td>
+                            <td>R$ 520 bilhões</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Período de Operação</strong></td>
+                            <td>~24 meses</td>
+                            <td>216+ meses (em andamento)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Custo Mensal Médio</strong></td>
+                            <td>R$ 3,6 milhões</td>
+                            <td>R$ 2,4 bilhões</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Parlamentares Envolvidos</strong></td>
+                            <td>~40 deputados</td>
+                            <td>594 (todos)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Custo por Parlamentar/Mês</strong></td>
+                            <td>R$ 90 mil</td>
+                            <td>R$ 4,04 milhões</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Status Legal</strong></td>
+                            <td>Ilegal (25 condenados)</td>
+                            <td>Legal (0 condenados)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Transparência Formal</strong></td>
+                            <td>Zero</td>
+                            <td>"Total"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Transparência Real</strong></td>
+                            <td>Planilhas vazadas</td>
+                            <td>RP9, indicações fantasma</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Obras Públicas Diretas</strong></td>
+                            <td>Zero diretas</td>
+                            <td>Milhares</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Achados Principais:</h4>
+            <ul>
+                <li><strong>Explosão do custo unitário:</strong> De R$ 90 mil/deputado/mês para R$ 4 milhões – aumento de 4.350%</li>
+                <li><strong>Escala:</strong> R$ 520 bilhões = 9x o orçamento anual do Bolsa Família, ou 1,2x todo o gasto acumulado do Bolsa Família 2006-2024</li>
+                <li><strong>Emendas 2024 sozinhas:</strong> R$ 52 bilhões = 0,4% do PIB anual</li>
+            </ul>
+
+            <h3>2.3 Linha do Tempo da Evolução</h3>
+            <ul>
+                <li><strong>2006-2010:</strong> R$ 6-8 bilhões/ano (trauma pós-Mensalão)</li>
+                <li><strong>2011-2014:</strong> R$ 10-15 bilhões/ano (normalização)</li>
+                <li><strong>2015-2019:</strong> R$ 15-25 bilhões/ano (pós-EC 86: emendas obrigatórias)</li>
+                <li><strong>2020-2022:</strong> R$ 15-20 bilhões/ano em RP9 (orçamento secreto)</li>
+                <li><strong>2023-2024:</strong> R$ 35-40 bilhões/ano (pós-STF)</li>
+            </ul>
+
+            <div class="callout">
+                <strong>Padrão observado:</strong> Cada "reforma moralizadora" aumentou o custo total
+            </div>
+
+            <h2>III. Análise qualitativa: a transformação de vício em virtude através da papelada</h2>
+
+            <h3>3.1 Sofisticação Jurídica</h3>
+
+            <h4>MENSALÃO:</h4>
+            <ul>
+                <li>Proteção: 2/10</li>
+                <li>Ilegal, rastreável quando exposto, 25 condenações possíveis</li>
+                <li><strong>Por que bom para a sociedade:</strong> Sistemas processáveis podem ser punidos e desmantelados</li>
+            </ul>
+
+            <h4>EMENDAS PARLAMENTARES:</h4>
+            <ul>
+                <li>Proteção: 9,5/10</li>
+                <li>Arquitetura legal: Constituição → Lei Orçamentária → Emenda → Município → Licitação → Construtora</li>
+                <li><strong>Por que terrível para a sociedade:</strong> Juridicamente impenetrável, não pode ser punido</li>
+            </ul>
+
+            <h4>Inovações-chave:</h4>
+            <ul>
+                <li><strong>EC 86/2015 (Emendas Obrigatórias):</strong> Transformou discricionariedade executiva em obrigação constitucional</li>
+                <li><strong>RP9/Orçamento Secreto (2020-2021):</strong> R$ 15-20 bilhões/ano distribuídos em modo stealth – "Mensalão × 300" em volume mas legal</li>
+                <li><strong>Transferências Especiais (pós-2019):</strong> Dinheiro sem contrapartida ou exigências de prestação de contas</li>
+            </ul>
+
+            <h3>3.2 Impunidade Estrutural</h3>
+
+            <h4>MENSALÃO:</h4>
+            <ul>
+                <li>25 condenados (STF)</li>
+                <li>Penas de 6-12 anos</li>
+                <li>Estigma social: carreiras políticas destruídas</li>
+                <li>Taxa de impunidade: ~40%</li>
+            </ul>
+
+            <h4>EMENDAS PARLAMENTARES:</h4>
+            <ul>
+                <li>0 condenados</li>
+                <li>0 investigações</li>
+                <li>Deputados fazem campanha com os valores que conseguiram</li>
+                <li>Taxa de impunidade: 100%</li>
+            </ul>
+
+            <div class="callout">
+                <strong>Diferença crítica:</strong> Mensalão tinha vergonha. Emendas têm orgulho.
+            </div>
+
+            <h3>3.3 Multiplicação de Atores</h3>
+            <p><strong>MENSALÃO:</strong> Modelo Cartel – ~40 deputados, controle centralizado</p>
+            <p><strong>EMENDAS:</strong> Modelo Mercado – 594 parlamentares, ~9.300 micro-esquemas/ano, ~50.000 atores envolvidos</p>
+
+            <h2>IV. O paradoxo da moralização: quanto mais do bem, mais do mal</h2>
+
+            <h3>4.1 Cronologia das Boas Intenções</h3>
+            <p><strong>2005:</strong> Mensalão explode → Reação esperada: "Acabar com compra de apoio parlamentar" → Reação real: "Legalizar para não ser crime novamente"</p>
+
+            <h4>Linha do Tempo:</h4>
+            <ul>
+                <li><strong>2005-2006:</strong> Escândalo, CPI, indignação nacional</li>
+                <li><strong>2015:</strong> EC 86 – emendas individuais obrigatórias</li>
+                <li><strong>2019-2021:</strong> Bolsonaro cria orçamento secreto</li>
+                <li><strong>2022:</strong> STF declara RP9 inconstitucional</li>
+                <li><strong>2023-2024:</strong> Lula 3 mantém ~R$ 38 bilhões/ano</li>
+            </ul>
+
+            <div class="callout">
+                <strong>Padrão:</strong> Cada "crise de corrupção" foi respondida aumentando o orçamento de emendas.
+            </div>
+
+            <h3>4.2 Teoria dos Incentivos Perversos</h3>
+
+            <p><strong>MENSALÃO (ilegal):</strong></p>
+            <ul>
+                <li>Custo para participar = Risco de prisão × Severidade da sentença</li>
+                <li>Mercado limitado (apenas quem precisa de dinheiro tem incentivo para arriscar)</li>
+            </ul>
+
+            <p><strong>EMENDAS (legal):</strong></p>
+            <ul>
+                <li>Custo para participar = 0 (é legal)</li>
+                <li>Mercado ilimitado (todos querem entrar)</li>
+            </ul>
+
+            <p><strong>Resultado:</strong> Legalização removeu o único freio do sistema</p>
+
+            <h2>V. Como chegamos aqui</h2>
+
+            <p><strong>Quase Inocência (pré-2005):</strong> Acreditava-se que a corrupção era exceção, não regra</p>
+
+            <p><strong>Revelação (2005-2006):</strong> Roberto Jefferson revela o Mensalão – deputados recebiam mensalidades para votar com o governo</p>
+
+            <p><strong>Formalização (2007-2024):</strong> O sistema aprendeu:</p>
+            <ol>
+                <li>Comprar apoio funciona</li>
+                <li>Comprar apoio não pode ser ilegal</li>
+                <li>Solução: Criar mecanismos legais para comprar apoio</li>
+            </ol>
+
+            <p><strong>O Novo Normal (2024):</strong> R$ 38 bilhões/ano em emendas é "normal" – ninguém se escandaliza</p>
+
+            <h2>VI. Consequências não-intencionais (na real, muito intencionais)</h2>
+
+            <h3>6.1 Morte da Vergonha Institucional</h3>
+            <ul>
+                <li><strong>Mensalão:</strong> Confissões com lágrimas, negações, renúncias – havia vergonha</li>
+                <li><strong>Emendas:</strong> Outdoors gabando "EU TROUXE R$ 50 MILHÕES!" – zero vergonha</li>
+            </ul>
+
+            <h3>6.2 Multiplicação de Rachadinhas</h3>
+            <ul>
+                <li><strong>Mensalão:</strong> 1 esquema central, ~100 pessoas sabiam</li>
+                <li><strong>Emendas:</strong> ~9.300 micro-esquemas/ano, ~50.000 atores envolvidos</li>
+            </ul>
+
+            <h3>6.3 Efeito Catraca: Só sobe</h3>
+            <ul>
+                <li>2006: R$ 6 bilhões</li>
+                <li>2024: R$ 38 bilhões</li>
+                <li>Única queda significativa: quando o STF interveio</li>
+            </ul>
+
+            <h3>6.4 Institucionalização Completa</h3>
+            <ul>
+                <li>Mudança de poder de 70% Executivo/30% Legislativo → 30% Executivo/70% Legislativo</li>
+                <li>Qualquer presidente precisa distribuir R$ 35-40 bilhões/ano para governar</li>
+            </ul>
+        </section>
+
+        <section id="conclusao">
+            <h2>VII. Veredicto: declarando o vencedor</h2>
+
+            <div class="score-box">
+                <h3>PLACAR FINAL</h3>
+                <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 1rem;">Lembre-se: Maior dano = Menor pontuação</p>
+
+                <div class="score-comparison">
+                    <div class="score-item">
+                        <span class="score-label">Mensalão</span>
+                        <span class="score-value">7.35</span>
+                        <span class="winner">Vencedor</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-label">Emendas</span>
+                        <span class="score-value">1.55</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Pontuação Detalhada</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Critério (peso)</th>
+                            <th>Mensalão</th>
+                            <th>Emendas</th>
+                            <th>Análise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Custo-Benefício Social (25%)</strong></td>
+                            <td>7/10</td>
+                            <td>2/10</td>
+                            <td>R$ 55M compraram governabilidade real. R$ 520B compraram governabilidade precária</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Sofisticação Jurídica (20%)</strong></td>
+                            <td>8/10</td>
+                            <td>1/10</td>
+                            <td>Ilegal mas punível vs. imunidade constitucional</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Escala & Sustentabilidade (20%)</strong></td>
+                            <td>9/10</td>
+                            <td>1/10</td>
+                            <td>R$ 55M, 24 meses, morreu vs. R$ 520B+, 18 anos, crescendo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Impunidade Estrutural (20%)</strong></td>
+                            <td>6/10</td>
+                            <td>1/10</td>
+                            <td>40% de impunidade vs. 100% de impunidade</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Inovação Institucional (15%)</strong></td>
+                            <td>7/10</td>
+                            <td>2/10</td>
+                            <td>Protótipo ilegal vs. arquitetura constitucional permanente</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>VIII. Conclusão: o que fizemos e por quê?</h2>
+
+            <div class="callout">
+                <strong>Argumento central:</strong> Este artigo não é uma apologia ao Mensalão. É uma autópsia de como a tentativa de "moralizar" a política brasileira através da formalização criou um monstro infinitamente pior que o problema original.
+            </div>
+
+            <h3>Por que o Mensalão venceu:</h3>
+            <ol>
+                <li><strong>Escala controlada:</strong> R$ 55 milhões vs. R$ 520 bilhões (9.450x menor dano)</li>
+                <li><strong>Duração limitada:</strong> 24 meses vs. 18+ anos contínuos</li>
+                <li><strong>Accountability parcial:</strong> 60% dos envolvidos condenados vs. 0%</li>
+                <li><strong>Morte após exposição:</strong> sistema desmantelado vs. sistema que se fortalece</li>
+                <li><strong>Sem legado institucional:</strong> não criou precedente legal vs. tornou-se modelo constitucional</li>
+            </ol>
+
+            <div class="callout">
+                <p><strong>A lição brutal:</strong> Ao formalizar a corrupção, não a eliminamos – tornamo-la indestrutível.</p>
+            </div>
+
+            <p><strong>Declaração final:</strong> "Mensalão foi um vírus. Emendas são uma doença autoimune onde o corpo ataca a si mesmo mas chama de 'funcionamento normal.'"</p>
+
+            <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--color-border);">
+
+            <p style="font-size: 0.9rem; color: var(--color-secondary);"><em><strong>Nota:</strong> Esta é uma análise satírica usando metodologia consequencialista deliberadamente provocativa. Todos os dados factuais são verificáveis em fontes públicas oficiais (STF, Congresso, Portal da Transparência). A conclusão de que o Mensalão é o "vencedor" reflete exclusivamente que causou menos dano social agregado que o sistema atual, não que fosse moralmente defensável.</em></p>
+        </section>
+    </article>
+
+    <footer>
+        <p>Atualizado em 30 de janeiro de 2026</p>
+        <p style="margin-top: 0.5rem; opacity: 0.7;">Design inspirado em Quanta Magazine · Mobile-First</p>
+    </footer>
+</body>
+</html>
