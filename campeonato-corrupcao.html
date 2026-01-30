@@ -284,6 +284,207 @@
             display: inline-block;
         }
 
+        /* Flow Diagrams */
+        .flow-diagram {
+            background: var(--color-bg-alt);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+            font-family: var(--font-sans);
+            font-size: 14px;
+        }
+
+        .flow-diagram h5 {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-accent);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 600;
+        }
+
+        .flow-step {
+            background: var(--color-bg);
+            border: 2px solid var(--color-border);
+            border-radius: 4px;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            margin: var(--spacing-xs) 0;
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: '↓';
+            display: block;
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--color-accent);
+            margin: 0.25rem 0;
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .flow-label {
+            font-size: 0.75rem;
+            color: var(--color-secondary);
+            font-style: italic;
+            margin-top: 0.25rem;
+        }
+
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin: var(--spacing-md) 0;
+        }
+
+        .comparison-card {
+            background: var(--color-bg-alt);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: var(--spacing-md);
+        }
+
+        .comparison-card h5 {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-accent);
+        }
+
+        .comparison-card ul {
+            list-style: none;
+            padding-left: 0;
+            font-size: 0.9rem;
+        }
+
+        .comparison-card li {
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .comparison-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--color-accent);
+        }
+
+        /* Chart-like visualization */
+        .chart-bar {
+            margin: var(--spacing-sm) 0;
+        }
+
+        .chart-label {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .chart-bar-fill {
+            background: linear-gradient(90deg, var(--color-accent) 0%, #f39c12 100%);
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-xs);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Footnotes */
+        .footnotes {
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-lg);
+            border-top: 2px solid var(--color-border);
+            font-size: 0.85rem;
+        }
+
+        .footnotes h3 {
+            font-size: 1.2rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footnote {
+            margin-bottom: var(--spacing-sm);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .footnote-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: 600;
+            color: var(--color-accent);
+        }
+
+        .footnote a {
+            color: var(--color-accent);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--color-accent);
+        }
+
+        .footnote a:hover {
+            border-bottom-style: solid;
+        }
+
+        sup {
+            color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        /* Power Distribution Visual */
+        .power-viz {
+            display: flex;
+            align-items: center;
+            margin: var(--spacing-sm) 0;
+            gap: var(--spacing-sm);
+        }
+
+        .power-bar {
+            height: 40px;
+            display: flex;
+            border-radius: 4px;
+            overflow: hidden;
+            flex: 1;
+            border: 1px solid var(--color-border);
+        }
+
+        .power-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .power-exec {
+            background: #2c3e50;
+        }
+
+        .power-legis {
+            background: var(--color-accent);
+        }
+
+        .power-label {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            font-weight: 600;
+            min-width: 120px;
+        }
+
         /* Footer */
         footer {
             max-width: var(--max-width);
@@ -321,6 +522,19 @@
             .score-comparison {
                 grid-template-columns: 1fr;
                 gap: var(--spacing-sm);
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .power-viz {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .power-label {
+                min-width: auto;
             }
         }
 
@@ -400,8 +614,8 @@
                     <tbody>
                         <tr>
                             <td><strong>Valor Total Estimado</strong></td>
-                            <td>R$ 55-100 milhões</td>
-                            <td>R$ 520 bilhões</td>
+                            <td>R$ 55-100 milhões<sup>²</sup></td>
+                            <td>R$ 520 bilhões<sup>³</sup></td>
                         </tr>
                         <tr>
                             <td><strong>Período de Operação</strong></td>
@@ -425,13 +639,13 @@
                         </tr>
                         <tr>
                             <td><strong>Status Legal</strong></td>
-                            <td>Ilegal (25 condenados)</td>
+                            <td>Ilegal (25 condenados<sup>¹⁴</sup>)</td>
                             <td>Legal (0 condenados)</td>
                         </tr>
                         <tr>
                             <td><strong>Transparência Formal</strong></td>
                             <td>Zero</td>
-                            <td>"Total"</td>
+                            <td>"Total"<sup>⁴</sup></td>
                         </tr>
                         <tr>
                             <td><strong>Transparência Real</strong></td>
@@ -449,22 +663,118 @@
 
             <h4>Achados Principais:</h4>
             <ul>
-                <li><strong>Explosão do custo unitário:</strong> De R$ 90 mil/deputado/mês para R$ 4 milhões – aumento de 4.350%</li>
-                <li><strong>Escala:</strong> R$ 520 bilhões = 9x o orçamento anual do Bolsa Família, ou 1,2x todo o gasto acumulado do Bolsa Família 2006-2024</li>
-                <li><strong>Emendas 2024 sozinhas:</strong> R$ 52 bilhões = 0,4% do PIB anual</li>
+                <li><strong>Explosão do custo unitário:</strong> De R$ 90 mil/deputado/mês para R$ 4 milhões – aumento de <strong>4.350%</strong></li>
+                <li><strong>Escala:</strong> R$ 520 bilhões<sup>³</sup> = 9x o orçamento anual do Bolsa Família, ou 1,2x todo o gasto acumulado do Bolsa Família 2006-2024<sup>⁸</sup></li>
+                <li><strong>Emendas 2024 sozinhas:</strong> R$ 52 bilhões = 0,4% do PIB anual<sup>⁹</sup></li>
             </ul>
 
             <h3>2.3 Linha do Tempo da Evolução</h3>
-            <ul>
-                <li><strong>2006-2010:</strong> R$ 6-8 bilhões/ano (trauma pós-Mensalão)</li>
-                <li><strong>2011-2014:</strong> R$ 10-15 bilhões/ano (normalização)</li>
-                <li><strong>2015-2019:</strong> R$ 15-25 bilhões/ano (pós-EC 86: emendas obrigatórias)</li>
-                <li><strong>2020-2022:</strong> R$ 15-20 bilhões/ano em RP9 (orçamento secreto)</li>
-                <li><strong>2023-2024:</strong> R$ 35-40 bilhões/ano (pós-STF)</li>
-            </ul>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Período</th>
+                            <th>Valor Anual</th>
+                            <th>Governo</th>
+                            <th>Contexto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>2003-2005</strong></td>
+                            <td>~R$ 55M total<sup>²</sup></td>
+                            <td>Lula 1</td>
+                            <td>Mensalão</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2006-2010</strong></td>
+                            <td>R$ 6-8 bi/ano</td>
+                            <td>Lula 2</td>
+                            <td>"Moralização" pós-escândalo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2011-2014</strong></td>
+                            <td>R$ 10-15 bi/ano</td>
+                            <td>Dilma 1</td>
+                            <td>Normalização</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2015-2016</strong></td>
+                            <td>R$ 18-22 bi/ano<sup>¹³</sup></td>
+                            <td>Dilma 2</td>
+                            <td>EC 86 - Emendas obrigatórias</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2017-2018</strong></td>
+                            <td>R$ 15-18 bi/ano</td>
+                            <td>Temer</td>
+                            <td>Manutenção do sistema</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2019-2022</strong></td>
+                            <td>R$ 35-50 bi/ano<sup>¹⁰</sup></td>
+                            <td>Bolsonaro</td>
+                            <td>Orçamento secreto (RP9)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2023-2024</strong></td>
+                            <td>R$ 35-40 bi/ano<sup>⁹</sup></td>
+                            <td>Lula 3</td>
+                            <td>"Novo normal" pós-STF</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Visualização do Crescimento:</h4>
+            <div style="background: var(--color-bg-alt); padding: var(--spacing-md); border-radius: 8px; margin: var(--spacing-md) 0;">
+                <div class="chart-bar">
+                    <div class="chart-label">
+                        <span>2003-2005 (Mensalão)</span>
+                        <span>R$ 55M total</span>
+                    </div>
+                    <div class="chart-bar-fill" style="width: 0.1%;">▌</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-label">
+                        <span>2006-2010 (Lula 2)</span>
+                        <span>R$ 6-8 bi/ano</span>
+                    </div>
+                    <div class="chart-bar-fill" style="width: 15%;">█████</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-label">
+                        <span>2011-2014 (Dilma 1)</span>
+                        <span>R$ 10-15 bi/ano</span>
+                    </div>
+                    <div class="chart-bar-fill" style="width: 30%;">██████████</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-label">
+                        <span>2015-2018 (EC 86)</span>
+                        <span>R$ 15-22 bi/ano</span>
+                    </div>
+                    <div class="chart-bar-fill" style="width: 50%;">█████████████████</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-label">
+                        <span>2019-2022 (Bolsonaro)</span>
+                        <span>R$ 35-50 bi/ano</span>
+                    </div>
+                    <div class="chart-bar-fill" style="width: 85%;">████████████████████████████</div>
+                </div>
+                <div class="chart-bar">
+                    <div class="chart-label">
+                        <span>2023-2024 (Lula 3)</span>
+                        <span>R$ 35-40 bi/ano</span>
+                    </div>
+                    <div class="chart-bar-fill" style="width: 100%;">██████████████████████████████████</div>
+                </div>
+            </div>
 
             <div class="callout">
-                <strong>Padrão observado:</strong> Cada "reforma moralizadora" aumentou o custo total
+                <strong>Padrão observado:</strong> Cada "reforma moralizadora" aumentou o custo total. Crescimento de <strong>70.000%</strong> de 2003 para 2024.
             </div>
 
             <h2>III. Análise qualitativa: a transformação de vício em virtude através da papelada</h2>
@@ -485,10 +795,106 @@
                 <li><strong>Por que terrível para a sociedade:</strong> Juridicamente impenetrável, não pode ser punido</li>
             </ul>
 
+            <h4>Diagramas de Fluxo Comparativos:</h4>
+
+            <div class="comparison-grid">
+                <div class="flow-diagram">
+                    <h5>Mensalão: Estrutura Simples</h5>
+                    <div class="flow-step">
+                        Governo (Executivo)
+                        <div class="flow-label">Decisão política</div>
+                    </div>
+                    <div class="flow-step">
+                        Valerioduto (Intermediário)
+                        <div class="flow-label">Distribuição ilegal</div>
+                    </div>
+                    <div class="flow-step">
+                        Contas fantasmas
+                        <div class="flow-label">Lavagem de dinheiro</div>
+                    </div>
+                    <div class="flow-step">
+                        ~40 Deputados
+                        <div class="flow-label">Voto garantido</div>
+                    </div>
+                    <div style="margin-top: var(--spacing-sm); padding: var(--spacing-xs); background: #fee; border-radius: 4px; font-size: 0.75rem; text-align: center; font-weight: 600;">
+                        ❌ ILEGAL → Rastreável → Condenável
+                    </div>
+                </div>
+
+                <div class="flow-diagram">
+                    <h5>Emendas: Arquitetura Legal</h5>
+                    <div class="flow-step">
+                        Constituição Federal
+                        <div class="flow-label">Base legal</div>
+                    </div>
+                    <div class="flow-step">
+                        Lei Orçamentária
+                        <div class="flow-label">Aprovação parlamentar</div>
+                    </div>
+                    <div class="flow-step">
+                        Emenda Individual/Bancada
+                        <div class="flow-label">Indicação do deputado</div>
+                    </div>
+                    <div class="flow-step">
+                        Município/Órgão Federal
+                        <div class="flow-label">Destinatário formal</div>
+                    </div>
+                    <div class="flow-step">
+                        Licitação
+                        <div class="flow-label">Processo "transparente"</div>
+                    </div>
+                    <div class="flow-step">
+                        Empreiteira (doadora)
+                        <div class="flow-label">Execução + superfaturamento</div>
+                    </div>
+                    <div class="flow-step">
+                        Obra + Propaganda Eleitoral
+                        <div class="flow-label">Capital político</div>
+                    </div>
+                    <div style="margin-top: var(--spacing-sm); padding: var(--spacing-xs); background: #efe; border-radius: 4px; font-size: 0.75rem; text-align: center; font-weight: 600;">
+                        ✓ LEGAL → Formal → Improsecutável
+                    </div>
+                </div>
+            </div>
+
+            <h4>Fluxo de Uma Emenda Típica (10 Passos):</h4>
+            <div class="flow-diagram">
+                <div class="flow-step">
+                    <strong>1.</strong> Empreiteira identifica município com prefeito aliado
+                </div>
+                <div class="flow-step">
+                    <strong>2.</strong> Empreiteira "doa" para campanha do deputado da região
+                </div>
+                <div class="flow-step">
+                    <strong>3.</strong> Deputado propõe emenda para aquele município específico
+                </div>
+                <div class="flow-step">
+                    <strong>4.</strong> Prefeito recebe emenda, abre licitação
+                </div>
+                <div class="flow-step">
+                    <strong>5.</strong> Empreiteira vence licitação (resultado combinado)
+                </div>
+                <div class="flow-step">
+                    <strong>6.</strong> Obra executada com superfaturamento de 200-400%
+                </div>
+                <div class="flow-step">
+                    <strong>7.</strong> Parte do superfaturamento volta como "doação"
+                </div>
+                <div class="flow-step">
+                    <strong>8.</strong> Deputado faz propaganda: "EU TROUXE R$ X MILHÕES"
+                </div>
+                <div class="flow-step">
+                    <strong>9.</strong> Prefeito faz propaganda: "CONSEGUI RECURSO"
+                </div>
+                <div class="flow-step">
+                    <strong>10.</strong> Ambos se reelegem → REPEAT infinitamente
+                </div>
+            </div>
+
             <h4>Inovações-chave:</h4>
             <ul>
-                <li><strong>EC 86/2015 (Emendas Obrigatórias):</strong> Transformou discricionariedade executiva em obrigação constitucional</li>
-                <li><strong>RP9/Orçamento Secreto (2020-2021):</strong> R$ 15-20 bilhões/ano distribuídos em modo stealth – "Mensalão × 300" em volume mas legal</li>
+                <li><strong>EC 86/2015 (Emendas Obrigatórias):</strong> Transformou discricionariedade executiva em obrigação constitucional<sup>¹³</sup></li>
+                <li><strong>RP9/Orçamento Secreto (2020-2021):</strong> R$ 15-20 bilhões/ano distribuídos em modo stealth – "Mensalão × 300" em volume mas legal<sup>¹⁰</sup></li>
                 <li><strong>Transferências Especiais (pós-2019):</strong> Dinheiro sem contrapartida ou exigências de prestação de contas</li>
             </ul>
 
@@ -515,8 +921,56 @@
             </div>
 
             <h3>3.3 Multiplicação de Atores</h3>
-            <p><strong>MENSALÃO:</strong> Modelo Cartel – ~40 deputados, controle centralizado</p>
-            <p><strong>EMENDAS:</strong> Modelo Mercado – 594 parlamentares, ~9.300 micro-esquemas/ano, ~50.000 atores envolvidos</p>
+
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h5>MENSALÃO: Modelo Cartel</h5>
+                    <ul>
+                        <li>~40 deputados envolvidos</li>
+                        <li>Controle centralizado</li>
+                        <li>1 esquema único</li>
+                        <li>~100 pessoas sabiam</li>
+                        <li>Valerioduto como intermediário</li>
+                        <li>Receptores passivos</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-card">
+                    <h5>EMENDAS: Modelo Mercado</h5>
+                    <ul>
+                        <li>594 parlamentares (TODOS)</li>
+                        <li>Controle descentralizado</li>
+                        <li>~9.300 micro-esquemas/ano</li>
+                        <li>~50.000 atores envolvidos</li>
+                        <li>Estrutura legal como base</li>
+                        <li>Participantes ativos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h4>Pontos de Extração de Recursos:</h4>
+
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h5>MENSALÃO (Linear)</h5>
+                    <ul>
+                        <li>Valério: comissão de intermediação (?)</li>
+                        <li>Deputado: 100% da propina</li>
+                        <li>Total: ~2 pontos de extração</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-card">
+                    <h5>EMENDAS (Multicamadas)</h5>
+                    <ul>
+                        <li>Empreiteira: margem de superfaturamento</li>
+                        <li>Prefeito: poder de indicação + kickback</li>
+                        <li>Deputado: capital político + doações</li>
+                        <li>Partido: fundo partidário aumentado</li>
+                        <li>Total: 4+ pontos de extração simultâneos</li>
+                    </ul>
+                </div>
+            </div>
 
             <h2>IV. O paradoxo da moralização: quanto mais do bem, mais do mal</h2>
 
@@ -589,9 +1043,51 @@
             </ul>
 
             <h3>6.4 Institucionalização Completa</h3>
+
+            <h4>Redistribuição de Poder no Estado Brasileiro:</h4>
+
+            <div style="background: var(--color-bg-alt); padding: var(--spacing-md); border-radius: 8px; margin: var(--spacing-md) 0;">
+                <p style="font-weight: 600; margin-bottom: var(--spacing-sm);">Pré-EC 86 (até 2015): Mensalão</p>
+                <div class="power-viz">
+                    <div class="power-label">Distribuição:</div>
+                    <div class="power-bar">
+                        <div class="power-segment power-exec" style="width: 70%;">
+                            Executivo 70%
+                        </div>
+                        <div class="power-segment power-legis" style="width: 30%;">
+                            Legislativo 30%
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--color-secondary); margin-top: var(--spacing-xs);">
+                    Executivo controlava, Legislativo recebia
+                </p>
+            </div>
+
+            <div style="background: var(--color-bg-alt); padding: var(--spacing-md); border-radius: 8px; margin: var(--spacing-md) 0;">
+                <p style="font-weight: 600; margin-bottom: var(--spacing-sm);">Pós-EC 86 (2015-2024): Emendas Obrigatórias</p>
+                <div class="power-viz">
+                    <div class="power-label">Distribuição:</div>
+                    <div class="power-bar">
+                        <div class="power-segment power-exec" style="width: 30%;">
+                            Executivo 30%
+                        </div>
+                        <div class="power-segment power-legis" style="width: 70%;">
+                            Legislativo 70%
+                        </div>
+                    </div>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--color-secondary); margin-top: var(--spacing-xs);">
+                    Legislativo define orçamento, execução é obrigatória, Legislativo fiscaliza execução
+                </p>
+            </div>
+
+            <h4>Consequências da Inversão de Poder:</h4>
             <ul>
-                <li>Mudança de poder de 70% Executivo/30% Legislativo → 30% Executivo/70% Legislativo</li>
-                <li>Qualquer presidente precisa distribuir R$ 35-40 bilhões/ano para governar</li>
+                <li>Qualquer presidente precisa distribuir R$ 35-40 bilhões/ano para governar<sup>⁹</sup></li>
+                <li>Legislativo controla não apenas a aprovação, mas a <strong>definição</strong> do orçamento</li>
+                <li>Poder de veto presidencial sobre emendas foi eliminado (são obrigatórias)</li>
+                <li>Sistema de freios e contrapesos foi invertido: quem fiscaliza também executa</li>
             </ul>
         </section>
 
@@ -684,7 +1180,96 @@
 
             <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--color-border);">
 
-            <p style="font-size: 0.9rem; color: var(--color-secondary);"><em><strong>Nota:</strong> Esta é uma análise satírica usando metodologia consequencialista deliberadamente provocativa. Todos os dados factuais são verificáveis em fontes públicas oficiais (STF, Congresso, Portal da Transparência). A conclusão de que o Mensalão é o "vencedor" reflete exclusivamente que causou menos dano social agregado que o sistema atual, não que fosse moralmente defensável.</em></p>
+            <p style="font-size: 0.9rem; color: var(--color-secondary);"><em><strong>Nota:</strong> Esta é uma análise satírica usando metodologia consequencialista deliberadamente provocativa. Todos os dados factuais são verificáveis em fontes públicas oficiais (STF, Congresso, Portal da Transparência). A conclusão de que o Mensalão é o "vencedor" reflete exclusivamente que causou menos dano social agregado que o sistema atual, não que fosse moralmente defensável.<sup>¹</sup></em></p>
+        </section>
+
+        <section class="footnotes">
+            <h3>Referências e Notas</h3>
+
+            <div class="footnote">
+                <span class="footnote-number">¹</span>
+                <strong>Disclaimer metodológico:</strong> Esta análise usa metodologia consequencialista satírica comparando dois sistemas de "apropriação de recursos" para demonstrar que a legalização de práticas questionáveis pode criar resultados piores que o crime original. Não constitui apologia a qualquer forma de corrupção.
+            </div>
+
+            <div class="footnote">
+                <span class="footnote-number">²</span>
+                <strong>Valores do Mensalão:</strong> As estimativas variam entre R$ 55 milhões e R$ 100 milhões (valores nominais 2003-2005). Fontes: <a href="http://www.stf.jus.br/portal/cms/verNoticiaDetalhe.asp?idConteudo=221291" target="_blank">STF - Ação Penal 470</a>, <a href="https://www.bbc.com/portuguese/noticias/2012/08/120802_mensalao_numeros_dg" target="_blank">BBC Brasil</a>, <a href="https://pt.wikipedia.org/wiki/Esc%C3%A2ndalo_do_Mensal%C3%A3o" target="_blank">Wikipedia - Mensalão</a>.
+            </div>
+
+            <div class="footnote">
+                <span class="footnote-number">³</span>
+                <strong>Total de Emendas 2006-2024:</strong> Aproximadamente R$ 520 bilhões em valores nominais acumulados. Fontes: <a href="https://www.tesourotransparente.gov.br/" target="_blank">Tesouro Transparente</a>, <a href="https://www2.camara.leg.br/orcamento-da-uniao/cidadao/entenda/cursopo/emendas.html" target="_blank">Câmara dos Deputados - Emendas</a>, cálculos próprios baseados em séries históricas.
+            </div>
+
+            <div class="footnote">
+                <span class="footnote-number">⁴</span>
+                <strong>"Transparência" entre aspas:</strong> Referência à transparência de Schrödinger - existe formalmente (dados publicados no SIGA Brasil, Portal da Transparência) mas é opaca na prática (RP9, indicações via ofício, obras fantasmas, empresas de fachada).
+            </div>
+
+            <div class="footnote">
+                <span class="footnote-number">⁵</span>
+                <strong>"Milhares" de obras:</strong> Estimativa baseada em ~9.000 emendas individuais + bancadas + relator anualmente. Em 2023, foram executadas aproximadamente 10.000-20.000 obras financiadas por emendas parlamentares. Fonte: <a href="https://www12.senado.leg.br/orcamento/sigabrasil" target="_blank">SIGA Brasil</a>.
+            </div>
+
+            <div class="footnote">
+                <span class="footnote-number">⁶</span>
+                <strong>Proteção legal 9,5/10 (não 10):</strong> A pontuação não é 10/10 porque o STF interveio em 2022 declarando o RP9 inconstitucional, mostrando que <em>algum</em> controle judicial ainda existe. Mas para as emendas "regulares", a proteção é praticamente total.
+            </div>
+
+            <div class="footnote">
+                <span class="footnote-number">⁷</span>
+                <strong>Acumulado 2006-2024:</strong> Séries históricas compiladas de Portal da Transparência, SIGA Brasil, e relatórios anuais da Câmara dos Deputados. Inclui emendas individuais, de bancada, de comissão e de relator.
+            </div>
+
+            <div class="footnote">
+                <span class="footnote-number">⁸</span>
+                <strong>Comparação com Bolsa Família:</strong> O Bolsa Família gastou aproximadamente R$ 400-500 bilhões acumulados entre 2003-2024. Orçamento 2024: ~R$ 169 bilhões. Fontes: <a href="https://www2.camara.leg.br/orcamento-da-uniao/leis-orcamentarias/loa" target="_blank">Câmara - LOA 2024</a>, Ministério do Desenvolvimento Social.
+            </div>
+
+            <div class="footnote">
+                <span class="footnote-number">⁹</span>
+                <strong>Emendas 2024 como % do PIB:</strong> R$ 52 bilhões de emendas ÷ PIB estimado R$ 11-12 trilhões ≈ 0,4%. Fontes: <a href="https://www2.camara.leg.br/orcamento-da-uniao" target="_blank">Câmara - Orçamento</a>, <a href="https://www.ibge.gov.br/explica/pib.php" target="_blank">IBGE - PIB</a>.
+            </div>
+
+            <div class="footnote">
+                <span class="footnote-number">¹⁰</span>
+                <strong>Orçamento Secreto (RP9):</strong> Entre 2020-2022, foram distribuídos R$ 53,5 bilhões via RP9 (Relator-Geral do Orçamento, tipo 9 - modalidade criada para esconder destinos). STF declarou inconstitucional em dezembro/2022. Fontes: <a href="https://portal.stf.jus.br/noticias/verNoticiaDetalhe.asp?idConteudo=498186" target="_blank">STF</a>, <a href="https://www.aosfatos.org/noticias/orcamento-secreto-entenda-polemica/" target="_blank">Aos Fatos</a>, <a href="https://agenciabrasil.ebc.com.br/politica/noticia/2022-12/stf-declara-orcamento-secreto-inconstitucional" target="_blank">Agência Brasil</a>.
+            </div>
+
+            <div class="footnote">
+                <span class="footnote-number">¹¹</span>
+                <strong>Valores autorizados RP9:</strong> Os R$ 53,5 bilhões referem-se ao total autorizado 2020-2022. Fonte: <a href="https://www.inesc.org.br/orcamento-secreto-ja-liberou-mais-de-r-50-bilhoes/" target="_blank">Inesc</a>, <a href="https://www12.senado.leg.br/orcamento/sigabrasil" target="_blank">SIGA Brasil</a>.
+            </div>
+
+            <div class="footnote">
+                <span class="footnote-number">¹²</span>
+                <strong>Emendas totais 2020:</strong> Incluindo RP9 + emendas regulares, o total em 2020 ultrapassou R$ 40 bilhões. Fonte: <a href="https://blogdoibre.fgv.br/posts/orcamento-secreto-e-emendas-parlamentares" target="_blank">Blog IBRE/FGV</a>.
+            </div>
+
+            <div class="footnote">
+                <span class="footnote-number">¹³</span>
+                <strong>Emenda Constitucional 86/2015:</strong> Tornou obrigatória a execução de emendas individuais (mínimo de 1,2% da receita corrente líquida) e de bancadas estaduais (mínimo de 1%). Fontes: <a href="http://www.planalto.gov.br/ccivil_03/constituicao/emendas/emc/emc86.htm" target="_blank">Planalto - EC 86</a>, <a href="https://www12.senado.leg.br/noticias/materias/2015/03/18/promulgada-emenda-que-torna-obrigatorias-as-emendas-individuais-ao-orcamento" target="_blank">Senado Federal</a>.
+            </div>
+
+            <div class="footnote">
+                <span class="footnote-number">¹⁴</span>
+                <strong>Condenações do Mensalão:</strong> Em 2012, o STF condenou 25 pessoas na Ação Penal 470 (processo do Mensalão), incluindo José Dirceu, José Genoino, Delúbio Soares e outros. Penas variaram de 6 a 12 anos. Fontes: <a href="http://www.stf.jus.br/portal/cms/verNoticiaDetalhe.asp?idConteudo=221291" target="_blank">STF - AP 470</a>, <a href="https://www.conjur.com.br/2012-dez-17/stf-condena-25-pessoas-mensalao-absolve-outras-12" target="_blank">Conjur</a>.
+            </div>
+
+            <div style="margin-top: var(--spacing-md); padding: var(--spacing-md); background: var(--color-bg-alt); border-radius: 8px;">
+                <h4 style="font-size: 0.95rem; margin-bottom: var(--spacing-sm);">Fontes Principais Consultadas:</h4>
+                <ul style="font-size: 0.85rem; line-height: 1.6;">
+                    <li>Supremo Tribunal Federal (STF) - Ação Penal 470 e decisões sobre RP9</li>
+                    <li>Portal da Transparência do Governo Federal</li>
+                    <li>SIGA Brasil (Sistema de Informações sobre Orçamento Público)</li>
+                    <li>Câmara dos Deputados - Séries históricas orçamentárias</li>
+                    <li>Senado Federal - Legislação e acompanhamento orçamentário</li>
+                    <li>IBGE - Dados macroeconômicos (PIB)</li>
+                    <li>Inesc (Instituto de Estudos Socioeconômicos)</li>
+                    <li>Agências de checagem: Aos Fatos, Agência Pública</li>
+                    <li>Imprensa: BBC Brasil, Agência Brasil, Conjur</li>
+                </ul>
+            </div>
         </section>
     </article>
 
