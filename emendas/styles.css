@@ -1,0 +1,120 @@
+/* Custom styles beyond Tailwind */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for webkit */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c7d2fe;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #818cf8;
+}
+
+/* Animation classes */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Technical mode styles */
+.technical-mode .technical-content {
+    display: block !important;
+}
+
+.technical-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+/* Timeline connector line */
+.timeline-connector {
+    position: absolute;
+    left: 24px;
+    top: 48px;
+    bottom: -24px;
+    width: 2px;
+    background: #e5e7eb;
+    z-index: 0;
+}
+
+.timeline-item:last-child .timeline-connector {
+    display: none;
+}
+
+/* Card hover effects */
+.story-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.story-card:active {
+    transform: scale(0.98);
+}
+
+/* Image aspect ratio */
+.aspect-story {
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+/* Quiz animations */
+.quiz-correct {
+    background: #10b981 !important;
+    color: white !important;
+}
+
+.quiz-wrong {
+    background: #ef4444 !important;
+    color: white !important;
+}
+
+/* Bottom nav safe area for mobile */
+.safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Typography improvements for mobile readability */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Prevent text selection on interactive elements */
+.no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Focus visible for accessibility */
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid #4f46e5;
+    outline-offset: 2px;
+}

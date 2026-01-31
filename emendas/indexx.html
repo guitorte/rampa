@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EmendaFácil - Entenda as Emendas Parlamentares</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        },
+                        secondary: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans text-gray-800 pb-20">
+    
+    <!-- Header -->
+    <header class="bg-primary-600 text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-md mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-feather="landmark" class="w-6 h-6"></i>
+                <h1 class="font-bold text-lg">EmendaFácil</h1>
+            </div>
+            <button onclick="toggleDetails()" class="text-sm bg-primary-700 px-3 py-1 rounded-full flex items-center gap-1">
+                <i data-feather="info" class="w-4 h-4"></i>
+                <span>Modo Técnico</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-md mx-auto px-4 py-6 space-y-8">
+        
+        <!-- Hero Section -->
+        <section class="text-center space-y-4">
+            <div class="bg-gradient-to-br from-primary-100 to-secondary-100 rounded-2xl p-6 shadow-sm">
+                <div class="w-16 h-16 bg-primary-500 rounded-full flex items-center justify-center mx-auto mb-4 text-white">
+                    <i data-feather="users" class="w-8 h-8"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Como funciona o dinheiro público?</h2>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    Acompanhe a história de pessoas reais (fictícias) e entenda como as emendas parlamentares chegam até sua cidade.
+                </p>
+            </div>
+        </section>
+
+        <!-- Characters Introduction -->
+        <section class="space-y-4">
+            <h3 class="font-bold text-lg flex items-center gap-2">
+                <i data-feather="user" class="w-5 h-5 text-primary-600"></i>
+                Conheça os Personagens
+            </h3>
+            
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-2 text-orange-600">
+                        <i data-feather="user" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="font-semibold text-sm">Carlos</h4>
+                    <p class="text-xs text-gray-500 mt-1">Morador que precisa de uma escola</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2 text-blue-600">
+                        <i data-feather="user" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="font-semibold text-sm">Ana</h4>
+                    <p class="text-xs text-gray-500 mt-1">Prefeita da cidade</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2 text-purple-600">
+                        <i data-feather="user" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="font-semibold text-sm">Maria</h4>
+                    <p class="text-xs text-gray-500 mt-1">Deputada Federal</p>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-2 text-green-600">
+                        <i data-feather="user" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="font-semibold text-sm">João</h4>
+                    <p class="text-xs text-gray-500 mt-1">Assessor da deputada</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Timeline -->
+        <section class="space-y-6" id="story-section">
+            <h3 class="font-bold text-lg flex items-center gap-2">
+                <i data-feather="book-open" class="w-5 h-5 text-primary-600"></i>
+                A História: Do Problema à Solução
+            </h3>
+
+            <!-- Timeline Item 1 -->
+            <timeline-item 
+                step="1" 
+                title="O Problema" 
+                character="Carlos"
+                character-color="orange"
+                date="15 de Janeiro, 2024"
+                image="http://static.photos/education/640x360/123">
+                <p class="text-sm text-gray-600 mb-2">
+                    Carlos é pai de três crianças na cidade de Esperança/BR. A escola do bairro está com o telhado quebrado e as crianças estudam em salas molhadas quando chove.
+                </p>
+                <p class="text-sm text-gray-600">
+                    "Precisamos arrumar essa escola urgentemente!" - pensou Carlos.
+                </p>
+                
+                <div slot="technical" class="technical-content hidden mt-4 pt-4 border-t border-gray-200">
+                    <div class="bg-blue-50 p-3 rounded-lg text-xs text-blue-800">
+                        <strong>Termo técnico:</strong> <em>Demanda identificada pela sociedade civil</em>. Art. 167 da Constituição Federal prevê que a União pode transferir recursos para estados e municípios mediante emendas parlamentares.
+                    </div>
+                </div>
+            </timeline-item>
+
+            <!-- Timeline Item 2 -->
+            <timeline-item 
+                step="2" 
+                title="Buscando Ajuda" 
+                character="Carlos → Ana"
+                character-color="blue"
+                date="20 de Janeiro, 2024"
+                image="http://static.photos/cityscape/640x360/456">
+                <p class="text-sm text-gray-600 mb-2">
+                    Carlos vai até a prefeitura e marca uma audiência com a Prefeita Ana. Ele explica a situação e mostra fotos da escola.
+                </p>
+                <p class="text-sm text-gray-600">
+                    Ana responde: "Gostaria de ajudar, mas o orçamento municipal está apertado este ano. Vou tentar conseguir ajuda federal."
+                </p>
+                
+                <div slot="technical" class="technical-content hidden mt-4 pt-4 border-t border-gray-200">
+                    <div class="bg-blue-50 p-3 rounded-lg text-xs text-blue-800">
+                        <strong>Contexto orçamentário:</strong> Municípios dependem de transferências constitucionais (FPM, FPE) e voluntárias. Emendas são transferências voluntárias indicadas por parlamentares (Art. 165, §8º, CF).
+                    </div>
+                </div>
+            </timeline-item>
+
+            <!-- Timeline Item 3 -->
+            <timeline-item 
+                step="3" 
+                title="O Pedido Formal" 
+                character="Ana → Maria"
+                character-color="purple"
+                date="05 de Fevereiro, 2024"
+                image="http://static.photos/office/640x360/789">
+                <p class="text-sm text-gray-600 mb-2">
+                    A Prefeita Ana liga para o escritório da Deputada Federal Maria, que representa o estado. Ela envia um ofício formal solicitando R$ 500 mil para reformar a escola.
+                </p>
+                <p class="text-sm text-gray-600">
+                    "Precisamos incluir isso no Orçamento de 2025", explica Ana.
+                </p>
+                
+                <div slot="technical" class="technical-content hidden mt-4 pt-4 border-t border-gray-200">
+                    <div class="bg-blue-50 p-3 rounded-lg text-xs text-blue-800">
+                        <strong>Processo legislativo:</strong> Emendas individuais devem ser apresentadas durante a tramitação da Lei Orçamentária Anual (LOA), geralmente entre agosto e dezembro, para o exercício seguinte.
+                    </div>
+                </div>
+            </timeline-item>
+
+            <!-- Timeline Item 4 -->
+            <timeline-item 
+                step="4" 
+                title="Análise Técnica" 
+                character="João (Assessor)"
+                character-color="green"
+                date="12 de Fevereiro, 2024"
+                image="http://static.photos/workspace/640x360/321">
+                <p class="text-sm text-gray-600 mb-2">
+                    João, assessor da deputada, recebe o pedido. Ele verifica se a documentação está completa: projeto básico, parecer técnico e certidões negativas do município.
+                </p>
+                <p class="text-sm text-gray-600">
+                    "Tudo certo aqui. A escola está cadastrada no Siconv e o município está em dia com suas obrigações", diz João para Maria.
+                </p>
+                
+                <div slot="technical" class="technical-content hidden mt-4 pt-4 border-t border-gray-200">
+                    <div class="bg-blue-50 p-3 rounded-lg text-xs text-blue-800">
+                        <strong>Requisitos técnicos:</strong> Para emendas de transferência especial (modalidade projeto), é necessário: projeto básico/simplificado, comprovação de contrapartida (se exigida), e regularidade fiscal do convenente (Lei 8.666/93 e IN 01/2018 do MPOG).
+                    </div>
+                </div>
+            </timeline-item>
+
+            <!-- Timeline Item 5 -->
+            <timeline-item 
+                step="5" 
+                title="Apresentação da Emenda" 
+                character="Maria"
+                character-color="purple"
+                date="15 de Outubro, 2024"
+                image="http://static.photos/indoor/640x360/654">
+                <p class="text-sm text-gray-600 mb-2">
+                    Na Câmara dos Deputados, Maria apresenta a Emenda Individual nº 1234/2024 à LOA 2025. Ela destina R$ 500 mil para o Ministério da Educação repassar ao município de Esperança.
+                </p>
+                <p class="text-sm text-gray-600">
+                    "Esta emenda vai garantir que as crianças estudem com dignidade", discursa Maria.
+                </p>
+                
+                <div slot="technical" class="technical-content hidden mt-4 pt-4 border-t border-gray-200">
+                    <div class="bg-blue-50 p-3 rounded-lg text-xs text-blue-800">
+                        <strong>Tipos de emendas:</strong> Individual (cada deputado tem cota), de Bancada (estado/DF), ou de Comissão. Limites: até 1% da receita corrente líquida para emendas individuais (Resolução 1/2006, CN).
+                    </div>
+                </div>
+            </timeline-item>
+
+            <!-- Timeline Item 6 -->
+            <timeline-item 
+                step="6" 
+                title="Aprovação e Sanção" 
+                character="Congresso"
+                character-color="indigo"
+                date="22 de Dezembro, 2024"
+                image="http://static.photos/legal/640x360/987">
+                <p class="text-sm text-gray-600 mb-2">
+                    Após negociações, o Orçamento é aprovado. O Presidente da República sanciona a Lei nº 14.500/2024 (LOA 2025), mantendo a emenda de Maria.
+                </p>
+                <p class="text-sm text-gray-600">
+                    Agora o dinheiro está garantido no orçamento, mas ainda precisa ser "liberado".
+                </p>
+                
+                <div slot="technical" class="technical-content hidden mt-4 pt-4 border-t border-gray-200">
+                    <div class="bg-blue-50 p-3 rounded-lg text-xs text-blue-800">
+                        <strong>Execução orçamentária:</strong> Apropriação (reserva de valor) ≠ Disponibilidade (empenho). O Poder Executivo pode contingenciar (bloquear) emendas via decreto, mas desde 2015 (EC 86/2015) há limites ao contingenciamento de emendas individuais.
+                    </div>
+                </div>
+            </timeline-item>
+
+            <!-- Timeline Item 7 -->
+            <timeline-item 
+                step="7" 
+                title="Liberação do Recurso" 
+                character="Ministério → Prefeitura"
+                character-color="blue"
+                date="10 de Março, 2025"
+                image="http://static.photos/finance/640x360/147">
+                <p class="text-sm text-gray-600 mb-2">
+                    O Ministério da Educação assina o convênio com a Prefeitura de Esperança. O dinheiro cai na conta do município: R$ 500 mil, em duas parcelas.
+                </p>
+                <p class="text-sm text-gray-600">
+                    Ana recebe a notícia: "Podemos começar a obra!"
+                </p>
+                
+                <div slot="technical" class="technical-content hidden mt-4 pt-4 border-t border-gray-200">
+                    <div class="bg-blue-50 p-3 rounded-lg text-xs text-blue-800">
+                        <strong>Instrumentos de transferência:</strong> Convênio, Contrato de Repasse, ou Termo de Execução Descentralizada (TED). O repasse segue o cronograma físico-financeiro estabelecido no plano de trabalho.
+                    </div>
+                </div>
+            </timeline-item>
+
+            <!-- Timeline Item 8 -->
+            <timeline-item 
+                step="8" 
+                title="Execução e Prestação de Contas" 
+                character="Ana e Carlos"
+                character-color="orange"
+                date="15 de Agosto, 2025"
+                image="http://static.photos/construction/640x360/258">
+                <p class="text-sm text-gray-600 mb-2">
+                    A escola é reformada! Carlos vê o telhado novo e as salas pintadas. As crianças voltam às aulas em ambiente adequado.
+                </p>
+                <p class="text-sm text-gray-600">
+                    A prefeitura envia fotos e notas fiscais para Brasília, comprovando que usou o dinheiro corretamente.
+                </p>
+                
+                <div slot="technical" class="technical-content hidden mt-4 pt-4 border-t border-gray-200">
+                    <div class="bg-blue-50 p-3 rounded-lg text-xs text-blue-800">
+                        <strong>Fiscalização:</strong> Obras públicas devem seguir a Lei 8.666/93 (licitações). A prestação de contas é feita no Sistema de Gestão de Convênios (Siconv) e auditada pelo TCU e CGU. Irregularidades podem gerar descredenciamento e devolução dos recursos.
+                    </div>
+                </div>
+            </timeline-item>
+        </section>
+
+        <!-- Technical Details Section (Hidden by default) -->
+        <section id="technical-section" class="hidden space-y-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+            <h3 class="font-bold text-lg text-primary-700 flex items-center gap-2">
+                <i data-feather="file-text" class="w-5 h-5"></i>
+                Glossário Técnico Completo
+            </h3>
+            
+            <div class="space-y-4 text-sm">
+                <div class="border-l-4 border-primary-500 pl-4">
+                    <h4 class="font-semibold text-gray-900">Emenda Parlamentar</h4>
+                    <p class="text-gray-600 mt-1">Proposta de modificação na Lei Orçamentária Anual (LOA) apresentada por parlamentares para alterar a destinação de recursos públicos previstos no orçamento.</p>
+                </div>
+                
+                <div class="border-l-4 border-secondary-500 pl-4">
+                    <h4 class="font-semibold text-gray-900">Emenda Individual vs. Bancada</h4>
+                    <p class="text-gray-600 mt-1"><strong>Individual:</strong> De autoria de um parlamentar, sujeita a limites individuais.<br>
+                    <strong>Bancada:</strong> De autoria de todos os deputados de um estado/DF, com limites maiores e destinada a projetos de maior impacto regional.</p>
+                </div>
+                
+                <div class="border-l-4 border-primary-500 pl-4">
+                    <h4 class="font-semibold text-gray-900">Modalidades de Emendas</h4>
+                    <p class="text-gray-600 mt-1">
+                        <strong>Obras:</strong> Para construção/reforma de equipamentos públicos.<br>
+                        <strong>Transferência Especial:</strong> Para projetos específicos com execução obrigatória.<br>
+                        <strong>Transferência Voluntária:</strong> Para ações genéricas (menor controle).
+                    </p>
+                </div>
+                
+                <div class="border-l-4 border-secondary-500 pl-4">
+                    <h4 class="font-semibold text-gray-900">Poder de Portaria</h4>
+                    <p class="text-gray-600 mt-1">Desde 2019 (EC 104/2019 e Lei 13.955/2019), emendas individuais de bancada têm execução obrigatória, mas o Poder Executivo mantém o "poder de portaria" - ou seja, escolhe qual projeto específico dentro da área indicada será beneficiado.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Quiz -->
+        <section class="bg-gradient-to-br from-primary-600 to-primary-700 rounded-2xl p-6 text-white shadow-lg">
+            <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                <i data-feather="help-circle" class="w-5 h-5"></i>
+                Teste seu Conhecimento
+            </h3>
+            
+            <div id="quiz-container" class="space-y-4">
+                <p class="text-sm opacity-90">Quem pode apresentar uma emenda parlamentar?</p>
+                
+                <div class="space-y-2">
+                    <button onclick="checkAnswer(this, false)" class="w-full text-left bg-white/10 hover:bg-white/20 p-3 rounded-lg text-sm transition flex items-center justify-between group">
+                        <span>Qualquer cidadão brasileiro</span>
+                        <i data-feather="chevron-right" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
+                    </button>
+                    <button onclick="checkAnswer(this, true)" class="w-full text-left bg-white/10 hover:bg-white/20 p-3 rounded-lg text-sm transition flex items-center justify-between group">
+                        <span>Somente deputados federais e senadores</span>
+                        <i data-feather="chevron-right" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
+                    </button>
+                    <button onclick="checkAnswer(this, false)" class="w-full text-left bg-white/10 hover:bg-white/20 p-3 rounded-lg text-sm transition flex items-center justify-between group">
+                        <span>Prefeitos e governadores</span>
+                        <i data-feather="chevron-right" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
+                    </button>
+                </div>
+                
+                <div id="quiz-feedback" class="hidden mt-4 p-3 bg-white/20 rounded-lg text-sm"></div>
+            </div>
+        </section>
+
+        <!-- Data Transparency -->
+        <section class="space-y-4">
+            <h3 class="font-bold text-lg flex items-center gap-2">
+                <i data-feather="search" class="w-5 h-5 text-primary-600"></i>
+                Consulte Dados Reais
+            </h3>
+            <p class="text-sm text-gray-600">
+                Quer saber quais emendas foram para sua cidade? Acesse:
+            </p>
+            <div class="grid grid-cols-1 gap-3">
+                <a href="https://www.portaltransparencia.gov.br/emendas" target="_blank" class="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:border-primary-300 transition">
+                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600">
+                        <i data-feather="external-link" class="w-5 h-5"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-sm">Portal da Transparência</h4>
+                        <p class="text-xs text-gray-500">Dados oficiais do governo federal</p>
+                    </div>
+                </a>
+                
+                <a href="https://www.camara.leg.br/transparencia/emendas" target="_blank" class="flex items-center gap-3 bg-white p-4 rounded-xl shadow-sm border border-gray-100 hover:border-primary-300 transition">
+                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+                        <i data-feather="external-link" class="w-5 h-5"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-sm">Câmara dos Deputados</h4>
+                        <p class="text-xs text-gray-500">Emendas em tramitação</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <bottom-nav></bottom-nav>
+
+    <!-- Scripts -->
+    <script src="components/timeline-item.js"></script>
+    <script src="components/bottom-nav.js"></script>
+    <script src="script.js"></script>
+    <script>feather.replace();</script>
+</body>
+</html>
