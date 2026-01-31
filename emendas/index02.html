@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Como Funcionam as Emendas? | Guia Cidadão</title>
+    
+    <!-- Fonte Inter (Padrão moderno de UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (Estilização) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Ícones (Phosphor Icons) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            blue: '#3b82f6',
+                            purple: '#8b5cf6',
+                            orange: '#f97316',
+                            bg: '#f8fafc'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Esconde a barra de rolagem horizontal mas mantém a função */
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Animação suave para troca de abas */
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-brand-bg text-slate-800 antialiased pb-20">
+
+    <!-- HERO SECTION: A Metáfora -->
+    <header class="bg-brand-dark text-white p-6 rounded-b-[2.5rem] shadow-xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 opacity-10 text-9xl">
+            <i class="ph ph-bank"></i>
+        </div>
+        <span class="text-xs font-bold tracking-widest text-brand-blue uppercase mb-2 block">Guia Explicativo</span>
+        <h1 class="text-3xl font-extrabold leading-tight mb-4">O que os políticos fazem com o <span class="text-brand-blue">nosso dinheiro?</span></h1>
+        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+            Entenda de vez o que são as <strong>Emendas Parlamentares</strong> usando a lógica do orçamento da sua casa.
+        </p>
+        
+        <!-- O Gráfico de Pizza Simplificado -->
+        <div class="bg-white/10 backdrop-blur-md rounded-xl p-4 flex items-center gap-4 border border-white/10">
+            <div class="relative w-16 h-16 shrink-0 rounded-full" style="background: conic-gradient(#3b82f6 4%, #475569 0);">
+                <div class="absolute inset-2 bg-brand-dark rounded-full flex items-center justify-center">
+                    <span class="text-xs font-bold">Orçamento</span>
+                </div>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400">A grande fatia cinza (96%) é gasto obrigatório (salários, previdência).</p>
+                <p class="text-xs text-white mt-1 font-bold"><span class="w-2 h-2 inline-block rounded-full bg-brand-blue mr-1"></span>A fatia azul (4%) são as Emendas.</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- SEÇÃO 1: Os Tipos (Horizontal Snap Scroll) -->
+    <section class="mt-8 pl-6">
+        <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <i class="ph-fill ph-cards text-brand-blue"></i>
+            Os 3 Tipos de Emenda
+        </h2>
+        <p class="text-sm text-slate-500 mb-4 pr-6">Deslize para o lado para entender a diferença de poder.</p>
+        
+        <!-- Container de Scroll Horizontal -->
+        <div class="flex gap-4 overflow-x-auto hide-scroll pr-6 snap-x snap-mandatory">
+            
+            <!-- Card 1: Individual -->
+            <div class="snap-center shrink-0 w-[85vw] bg-white p-6 rounded-2xl shadow-lg border-l-4 border-brand-blue">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="bg-blue-100 text-brand-blue p-2 rounded-lg"><i class="ph-fill ph-user text-xl"></i></div>
+                    <span class="text-xs font-bold bg-slate-100 px-2 py-1 rounded text-slate-500">O "CPF"</span>
+                </div>
+                <h3 class="text-lg font-bold mb-2">Emenda Individual</h3>
+                <p class="text-sm text-slate-600 mb-4">Cada deputado tem uma cota fixa. O governo é <strong>obrigado</strong> a pagar.</p>
+                <ul class="text-xs space-y-2 text-slate-500">
+                    <li class="flex gap-2"><i class="ph-bold ph-check text-green-500"></i> Reformar pracinhas</li>
+                    <li class="flex gap-2"><i class="ph-bold ph-check text-green-500"></i> Comprar ambulância</li>
+                </ul>
+            </div>
+
+            <!-- Card 2: Bancada -->
+            <div class="snap-center shrink-0 w-[85vw] bg-white p-6 rounded-2xl shadow-lg border-l-4 border-brand-purple">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="bg-purple-100 text-brand-purple p-2 rounded-lg"><i class="ph-fill ph-users-three text-xl"></i></div>
+                    <span class="text-xs font-bold bg-slate-100 px-2 py-1 rounded text-slate-500">O "Grupo"</span>
+                </div>
+                <h3 class="text-lg font-bold mb-2">Emenda de Bancada</h3>
+                <p class="text-sm text-slate-600 mb-4">Deputados de um Estado se juntam para obras gigantes.</p>
+                <ul class="text-xs space-y-2 text-slate-500">
+                    <li class="flex gap-2"><i class="ph-bold ph-check text-green-500"></i> Construir Hospitais</li>
+                    <li class="flex gap-2"><i class="ph-bold ph-check text-green-500"></i> Duplicar Rodovias</li>
+                </ul>
+            </div>
+
+            <!-- Card 3: PIX -->
+            <div class="snap-center shrink-0 w-[85vw] bg-white p-6 rounded-2xl shadow-lg border-l-4 border-brand-orange">
+                <div class="flex justify-between items-start mb-3">
+                    <div class="bg-orange-100 text-brand-orange p-2 rounded-lg"><i class="ph-fill ph-lightning text-xl"></i></div>
+                    <span class="text-xs font-bold bg-red-100 px-2 py-1 rounded text-red-600 flex items-center gap-1">
+                        <i class="ph-bold ph-warning"></i> Polêmico
+                    </span>
+                </div>
+                <h3 class="text-lg font-bold mb-2">Emenda "Pix"</h3>
+                <p class="text-sm text-slate-600 mb-4">O dinheiro cai direto na conta da prefeitura. Rápido, mas difícil de fiscalizar.</p>
+                <ul class="text-xs space-y-2 text-slate-500">
+                    <li class="flex gap-2"><i class="ph-bold ph-x text-red-500"></i> Sem projeto prévio</li>
+                    <li class="flex gap-2"><i class="ph-bold ph-check text-green-500"></i> Alta velocidade</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 2: Simulação Interativa (Timeline) -->
+    <section class="mt-12 px-6" id="simulacao">
+        <h2 class="text-xl font-bold mb-2">Simule a Realidade</h2>
+        <p class="text-sm text-slate-500 mb-6">Veja como o fator humano muda o processo.</p>
+
+        <!-- Controles das Abas -->
+        <div class="flex p-1 bg-slate-200 rounded-xl mb-6">
+            <button onclick="switchTab('clara')" id="btn-clara" class="flex-1 py-2 text-xs font-bold rounded-lg bg-white shadow-sm transition-all text-brand-blue">
+                Burocrático
+            </button>
+            <button onclick="switchTab('ronaldo')" id="btn-ronaldo" class="flex-1 py-2 text-xs font-bold rounded-lg text-slate-500 hover:text-brand-purple transition-all">
+                Político
+            </button>
+            <button onclick="switchTab('beto')" id="btn-beto" class="flex-1 py-2 text-xs font-bold rounded-lg text-slate-500 hover:text-brand-orange transition-all">
+                "Pix"
+            </button>
+        </div>
+
+        <!-- Área de Conteúdo Dinâmico -->
+        <div id="timeline-container" class="fade-in">
+            <!-- O conteúdo será injetado aqui via JS -->
+        </div>
+
+    </section>
+
+    <footer class="mt-16 bg-slate-100 p-8 text-center text-slate-500 text-xs">
+        <p class="mb-2">Exemplo educativo de UX Jornalismo.</p>
+        <p>Dados fictícios para fins didáticos.</p>
+    </footer>
+
+    <!-- LÓGICA JAVASCRIPT -->
+    <script>
+        // Dados das simulações (JSON)
+        const simulations = {
+            clara: {
+                color: 'blue',
+                title: 'O Caso "Feijão com Arroz"',
+                desc: 'Deputada Clara (Novata) enviando verba para Ambulâncias.',
+                steps: [
+                    { date: '15 Fev', title: 'O Pedido', text: 'Prefeito Juca pede ambulâncias no gabinete. Clara aceita.', icon: 'ph-chat-circle-text' },
+                    { date: '30 Abr', title: 'Cadastro no Sistema', text: 'Equipe insere no sistema oficial. Tudo transparente.', icon: 'ph-desktop' },
+                    { date: '10 Ago', title: 'Trava Técnica', text: 'Governo barra por erro em documento. Prefeito corre para arrumar.', icon: 'ph-warning-circle', alert: true },
+                    { date: '20 Set', title: 'Empenho (Reserva)', text: 'Documento arrumado. Governo promete o pagamento.', icon: 'ph-file-dashed' },
+                    { date: '15 Dez', title: 'Dinheiro na Conta', text: 'Pagamento liberado. Ambulâncias compradas.', icon: 'ph-check-circle', success: true }
+                ]
+            },
+            ronaldo: {
+                color: 'purple',
+                title: 'O "Grande Jogo" Político',
+                desc: 'Senador Ronaldo negociando voto por obras na Rodovia.',
+                steps: [
+                    { date: '10 Mar', title: 'A Definição', text: 'Bancada decide reformar a Rodovia BR-999.', icon: 'ph-users-three' },
+                    { date: '05 Jun', title: 'Congelamento', text: 'Governo sem dinheiro trava a obra. Máquinas param.', icon: 'ph-lock-key', alert: true },
+                    { date: '13 Jul', title: 'A Crise', text: 'Governo precisa de votos urgentes para uma Lei.', icon: 'ph-gavel' },
+                    { date: '13 Jul', time: '22:00', title: 'O Jantar', text: 'Acordo: Votos do partido pela liberação do dinheiro.', icon: 'ph-handshake' },
+                    { date: '14 Jul', title: 'Liberação Relâmpago', text: 'Dinheiro sai no dia seguinte. Obras retomam.', icon: 'ph-rocket-launch', success: true }
+                ]
+            },
+            beto: {
+                color: 'orange',
+                title: 'A "Caixa Preta" (Pix)',
+                desc: 'Deputado Beto envia dinheiro rápido em ano eleitoral.',
+                steps: [
+                    { date: '02 Jan', title: 'O Acordo Eleitoral', text: 'Prefeito pede dinheiro para "festa e asfalto" antes da eleição.', icon: 'ph-confetti' },
+                    { date: '01 Mar', title: 'Envio Expresso', text: 'Beto faz Transferência Especial. Sem projeto, sem destino definido.', icon: 'ph-lightning' },
+                    { date: '15 Mai', title: 'Caiu na Conta', text: 'Dinheiro entra direto na Prefeitura. Sem fiscalização prévia.', icon: 'ph-currency-dollar', success: true },
+                    { date: 'Jun - Ago', title: 'Gasto Duvidoso', text: 'Show de banda famosa e asfalto "casca de ovo".', icon: 'ph-mask-sad', alert: true },
+                    { date: '2 Anos Depois', title: 'Problemas', text: 'Tribunal de Contas aponta irregularidades. Dinheiro já sumiu.', icon: 'ph-siren' }
+                ]
+            }
+        };
+
+        function renderTimeline(key) {
+            const data = simulations[key];
+            const container = document.getElementById('timeline-container');
+            
+            // Cores dinâmicas baseadas no tema
+            const colorClasses = {
+                blue: { bg: 'bg-blue-100', text: 'text-blue-600', border: 'border-blue-200', dot: 'bg-blue-500' },
+                purple: { bg: 'bg-purple-100', text: 'text-purple-600', border: 'border-purple-200', dot: 'bg-purple-500' },
+                orange: { bg: 'bg-orange-100', text: 'text-orange-600', border: 'border-orange-200', dot: 'bg-orange-500' }
+            };
+            const theme = colorClasses[data.color];
+
+            let html = `
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mb-6">
+                    <h3 class="font-bold text-lg ${theme.text} mb-1">${data.title}</h3>
+                    <p class="text-slate-500 text-sm">${data.desc}</p>
+                </div>
+                <div class="relative pl-4 border-l-2 ${theme.border} space-y-8">
+            `;
+
+            data.steps.forEach(step => {
+                const iconColor = step.alert ? 'text-red-500 bg-red-100' : (step.success ? 'text-green-500 bg-green-100' : 'text-slate-500 bg-slate-100');
+                
+                html += `
+                    <div class="relative pl-6">
+                        <!-- Bolinha da Timeline -->
+                        <div class="absolute -left-[21px] top-1 w-4 h-4 rounded-full border-2 border-white ${step.alert ? 'bg-red-500' : theme.dot}"></div>
+                        
+                        <!-- Conteúdo do Step -->
+                        <div class="flex flex-col">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wide mb-1">${step.date} ${step.time ? '• ' + step.time : ''}</span>
+                            <div class="flex items-start gap-3">
+                                <div class="shrink-0 w-8 h-8 rounded-full ${iconColor} flex items-center justify-center">
+                                    <i class="ph-fill ${step.icon}"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">${step.title}</h4>
+                                    <p class="text-slate-600 text-sm mt-1 leading-snug">${step.text}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `</div>`;
+            container.innerHTML = html;
+            
+            // Re-trigger animation
+            container.classList.remove('fade-in');
+            void container.offsetWidth; // trigger reflow
+            container.classList.add('fade-in');
+        }
+
+        function switchTab(key) {
+            // Atualiza botões
+            ['clara', 'ronaldo', 'beto'].forEach(k => {
+                const btn = document.getElementById(`btn-${k}`);
+                if (k === key) {
+                    btn.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-white shadow-sm transition-all text-slate-800 ring-1 ring-black/5';
+                    if(key === 'clara') btn.classList.add('text-brand-blue');
+                    if(key === 'ronaldo') btn.classList.add('text-brand-purple');
+                    if(key === 'beto') btn.classList.add('text-brand-orange');
+                } else {
+                    btn.className = 'flex-1 py-2 text-xs font-bold rounded-lg text-slate-500 hover:bg-white/50 transition-all';
+                }
+            });
+
+            // Renderiza conteúdo
+            renderTimeline(key);
+        }
+
+        // Inicializa com Clara
+        renderTimeline('clara');
+
+    </script>
+</body>
+</html>
