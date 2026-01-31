@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>O Jogo das Emendas | Como Realmente Funciona</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Space Grotesk', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif']
+                    },
+                    colors: {
+                        dark: '#0a0a0a',
+                        smoke: '#1a1a1a',
+                        ash: '#2a2a2a',
+                        steel: '#404040',
+                        muted: '#737373',
+                        accent: '#dc2626',
+                        gold: '#ca8a04',
+                        money: '#16a34a'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
+        body { background: #0a0a0a; }
+
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .fade-up { animation: fadeUp 0.6s ease-out forwards; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .img-cover { object-fit: cover; object-position: center; }
+
+        .gradient-mask {
+            mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #a3a3a3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card-hover:active { transform: scale(0.98); }
+
+        .step-line::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 48px;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #404040, transparent);
+        }
+
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+
+<body class="font-sans text-white antialiased">
+
+    <!-- HERO: Full Screen Impact -->
+    <header class="relative min-h-screen flex flex-col justify-end pb-12 overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0">
+            <img
+                src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=1200&q=80"
+                alt="Congresso Nacional"
+                class="w-full h-full img-cover opacity-40"
+            >
+            <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/80 to-transparent"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="relative z-10 px-6 max-w-lg mx-auto w-full">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="w-2 h-2 bg-accent rounded-full pulse-dot"></span>
+                <span class="text-xs font-medium tracking-widest text-accent uppercase">Guia Realista</span>
+            </div>
+
+            <h1 class="font-display text-4xl md:text-5xl font-bold leading-tight mb-4 text-gradient">
+                O Jogo das Emendas
+            </h1>
+
+            <p class="text-lg text-muted leading-relaxed mb-8">
+                Esqueça o que te contaram na escola. Aqui você vai entender como
+                <span class="text-white font-medium">realmente</span> funciona a distribuição
+                de bilhões do seu dinheiro.
+            </p>
+
+            <!-- Stats Pills -->
+            <div class="flex flex-wrap gap-3 mb-8">
+                <div class="bg-smoke/80 backdrop-blur px-4 py-2 rounded-full border border-ash">
+                    <span class="text-money font-display font-bold">R$ 50 bi</span>
+                    <span class="text-muted text-sm ml-1">/ ano</span>
+                </div>
+                <div class="bg-smoke/80 backdrop-blur px-4 py-2 rounded-full border border-ash">
+                    <span class="text-gold font-display font-bold">594</span>
+                    <span class="text-muted text-sm ml-1">parlamentares</span>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <a href="#processo" class="inline-flex items-center gap-2 text-muted hover:text-white transition group">
+                <span class="text-sm">Descer para a verdade</span>
+                <i class="ph ph-arrow-down text-xl group-hover:translate-y-1 transition-transform"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- SECTION: O Que São (Cinicamente) -->
+    <section class="py-16 px-6" id="processo">
+        <div class="max-w-lg mx-auto">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-accent/20 rounded-xl flex items-center justify-center">
+                    <i class="ph-fill ph-question text-accent text-xl"></i>
+                </div>
+                <h2 class="font-display text-2xl font-bold">O Que São Emendas?</h2>
+            </div>
+
+            <div class="bg-smoke rounded-2xl p-6 border border-ash mb-6">
+                <p class="text-muted leading-relaxed mb-4">
+                    <span class="text-white font-medium">Versão oficial:</span>
+                    "Instrumento democrático que permite parlamentares destinarem recursos para suas bases."
+                </p>
+                <p class="text-muted leading-relaxed">
+                    <span class="text-accent font-medium">Versão real:</span>
+                    Moeda de troca política. Quem vota com o governo, recebe. Quem não vota, espera sentado.
+                    É o <span class="text-white">toma lá dá cá</span> institucionalizado.
+                </p>
+            </div>
+
+            <!-- Visual Metaphor -->
+            <div class="relative rounded-2xl overflow-hidden aspect-video mb-6">
+                <img
+                    src="https://images.unsplash.com/photo-1565373679580-fc0cb538f49d?w=800&q=80"
+                    alt="Dinheiro"
+                    class="w-full h-full img-cover"
+                >
+                <div class="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-transparent"></div>
+                <div class="absolute bottom-4 left-4 right-4">
+                    <p class="text-sm text-muted">
+                        <span class="text-money font-bold">4%</span> do orçamento federal.
+                        Parece pouco? São <span class="text-white font-medium">R$ 50 bilhões</span> por ano.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: Os 3 Tipos -->
+    <section class="py-12 overflow-hidden">
+        <div class="px-6 max-w-lg mx-auto mb-6">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 bg-gold/20 rounded-xl flex items-center justify-center">
+                    <i class="ph-fill ph-cards-three text-gold text-xl"></i>
+                </div>
+                <h2 class="font-display text-2xl font-bold">Os 3 Tipos</h2>
+            </div>
+            <p class="text-muted">Deslize para conhecer as modalidades do jogo.</p>
+        </div>
+
+        <!-- Horizontal Scroll Cards -->
+        <div class="flex gap-4 overflow-x-auto hide-scroll px-6 pb-4 snap-x snap-mandatory">
+
+            <!-- Card 1: Individual -->
+            <div class="snap-center shrink-0 w-[85vw] max-w-sm bg-smoke rounded-2xl overflow-hidden border border-ash card-hover">
+                <div class="relative h-40">
+                    <img
+                        src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&q=80"
+                        alt="Deputado"
+                        class="w-full h-full img-cover"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-smoke to-transparent"></div>
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-blue-500/90 text-white text-xs font-bold px-3 py-1 rounded-full">
+                            INDIVIDUAL
+                        </span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-display text-lg font-bold mb-2">O "Meu Quinhão"</h3>
+                    <p class="text-muted text-sm leading-relaxed mb-4">
+                        Cada deputado e senador tem direito a uma cota fixa.
+                        <span class="text-white">R$ 25 milhões/ano</span> para deputados.
+                        O governo é <span class="text-blue-400">obrigado</span> a pagar.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-ash px-3 py-1 rounded-full text-muted">Ambulâncias</span>
+                        <span class="text-xs bg-ash px-3 py-1 rounded-full text-muted">Pracinhas</span>
+                        <span class="text-xs bg-ash px-3 py-1 rounded-full text-muted">Quadras</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Bancada -->
+            <div class="snap-center shrink-0 w-[85vw] max-w-sm bg-smoke rounded-2xl overflow-hidden border border-ash card-hover">
+                <div class="relative h-40">
+                    <img
+                        src="https://images.unsplash.com/photo-1577415124269-fc1140815c00?w=600&q=80"
+                        alt="Grupo político"
+                        class="w-full h-full img-cover"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-smoke to-transparent"></div>
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-purple-500/90 text-white text-xs font-bold px-3 py-1 rounded-full">
+                            BANCADA
+                        </span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-display text-lg font-bold mb-2">O "Bolão"</h3>
+                    <p class="text-muted text-sm leading-relaxed mb-4">
+                        Deputados de um estado se juntam. Juntos, têm mais poder de barganha.
+                        Bom para <span class="text-purple-400">obras grandes</span> (e para esconder quem indicou o quê).
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-ash px-3 py-1 rounded-full text-muted">Rodovias</span>
+                        <span class="text-xs bg-ash px-3 py-1 rounded-full text-muted">Hospitais</span>
+                        <span class="text-xs bg-ash px-3 py-1 rounded-full text-muted">Pontes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Pix -->
+            <div class="snap-center shrink-0 w-[85vw] max-w-sm bg-smoke rounded-2xl overflow-hidden border border-accent/50 card-hover">
+                <div class="relative h-40">
+                    <img
+                        src="https://images.unsplash.com/photo-1621264448270-9ef00e88a935?w=600&q=80"
+                        alt="Transferência rápida"
+                        class="w-full h-full img-cover"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-smoke to-transparent"></div>
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-accent/90 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                            <i class="ph-bold ph-warning"></i> PIX
+                        </span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <h3 class="font-display text-lg font-bold mb-2">O "Sem Rastro"</h3>
+                    <p class="text-muted text-sm leading-relaxed mb-4">
+                        Dinheiro cai direto na conta da prefeitura.
+                        <span class="text-accent">Sem projeto prévio</span>, sem licitação definida.
+                        Rápido? Sim. Transparente? <span class="text-accent">Nem um pouco</span>.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs bg-accent/20 px-3 py-1 rounded-full text-accent">Orçamento secreto</span>
+                        <span class="text-xs bg-ash px-3 py-1 rounded-full text-muted">Ano eleitoral</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: O Processo Real (Step by Step) -->
+    <section class="py-16 px-6">
+        <div class="max-w-lg mx-auto">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 bg-money/20 rounded-xl flex items-center justify-center">
+                    <i class="ph-fill ph-path text-money text-xl"></i>
+                </div>
+                <h2 class="font-display text-2xl font-bold">O Processo Real</h2>
+            </div>
+            <p class="text-muted mb-10">Do pedido ao dinheiro na conta. Sem romantismo.</p>
+
+            <!-- Timeline -->
+            <div class="space-y-0">
+
+                <!-- Step 1 -->
+                <div class="relative step-line pb-8">
+                    <div class="flex gap-4">
+                        <div class="shrink-0 w-10 h-10 bg-ash rounded-full flex items-center justify-center font-display font-bold text-sm z-10">
+                            1
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <div class="bg-smoke rounded-2xl overflow-hidden border border-ash">
+                                <div class="relative h-44">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1577415124269-fc1140815c00?w=600&q=80"
+                                        alt="Prefeito pedindo"
+                                        class="w-full h-full img-cover"
+                                    >
+                                    <div class="absolute inset-0 bg-gradient-to-t from-smoke via-smoke/50 to-transparent"></div>
+                                    <div class="absolute bottom-4 left-4 right-4">
+                                        <span class="text-xs text-muted">Gabinete do Deputado</span>
+                                        <h3 class="font-display font-bold text-lg">O Pedido</h3>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <p class="text-sm text-muted leading-relaxed">
+                                        O prefeito vai até Brasília (ou manda o secretário) pedir dinheiro.
+                                        <span class="text-white">Não é sobre necessidade, é sobre relacionamento.</span>
+                                        Quem apoiou na campanha tem prioridade.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative step-line pb-8">
+                    <div class="flex gap-4">
+                        <div class="shrink-0 w-10 h-10 bg-ash rounded-full flex items-center justify-center font-display font-bold text-sm z-10">
+                            2
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <div class="bg-smoke rounded-2xl overflow-hidden border border-ash">
+                                <div class="relative h-44">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80"
+                                        alt="Negociação"
+                                        class="w-full h-full img-cover"
+                                    >
+                                    <div class="absolute inset-0 bg-gradient-to-t from-smoke via-smoke/50 to-transparent"></div>
+                                    <div class="absolute bottom-4 left-4 right-4">
+                                        <span class="text-xs text-muted">Bastidores do Congresso</span>
+                                        <h3 class="font-display font-bold text-lg">A Negociação</h3>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <p class="text-sm text-muted leading-relaxed">
+                                        O deputado decide para onde vai o dinheiro.
+                                        <span class="text-gold">Critério técnico? Raramente.</span>
+                                        A emenda vai para quem ajuda na reeleição ou fortalece alianças.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative step-line pb-8">
+                    <div class="flex gap-4">
+                        <div class="shrink-0 w-10 h-10 bg-ash rounded-full flex items-center justify-center font-display font-bold text-sm z-10">
+                            3
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <div class="bg-smoke rounded-2xl overflow-hidden border border-ash">
+                                <div class="relative h-44">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=600&q=80"
+                                        alt="Sistema"
+                                        class="w-full h-full img-cover"
+                                    >
+                                    <div class="absolute inset-0 bg-gradient-to-t from-smoke via-smoke/50 to-transparent"></div>
+                                    <div class="absolute bottom-4 left-4 right-4">
+                                        <span class="text-xs text-muted">Outubro - Dezembro</span>
+                                        <h3 class="font-display font-bold text-lg">O Cadastro</h3>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <p class="text-sm text-muted leading-relaxed">
+                                        A emenda entra no sistema oficial (SIOP).
+                                        Aqui começa a <span class="text-white">burocracia real</span>:
+                                        projetos, certidões, planos de trabalho. Muita emenda morre nessa fase.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative step-line pb-8">
+                    <div class="flex gap-4">
+                        <div class="shrink-0 w-10 h-10 bg-gold rounded-full flex items-center justify-center font-display font-bold text-sm text-dark z-10">
+                            4
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <div class="bg-smoke rounded-2xl overflow-hidden border border-gold/30">
+                                <div class="relative h-44">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=600&q=80"
+                                        alt="Votação"
+                                        class="w-full h-full img-cover"
+                                    >
+                                    <div class="absolute inset-0 bg-gradient-to-t from-smoke via-smoke/50 to-transparent"></div>
+                                    <div class="absolute bottom-4 left-4 right-4">
+                                        <span class="text-xs text-gold">Momento Crítico</span>
+                                        <h3 class="font-display font-bold text-lg">A Barganha</h3>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <p class="text-sm text-muted leading-relaxed">
+                                        <span class="text-gold font-medium">"Você vota na reforma e eu libero sua emenda."</span>
+                                        Isso acontece toda semana. O orçamento vira moeda.
+                                        Quem não joga o jogo, não recebe.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="relative step-line pb-8">
+                    <div class="flex gap-4">
+                        <div class="shrink-0 w-10 h-10 bg-ash rounded-full flex items-center justify-center font-display font-bold text-sm z-10">
+                            5
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <div class="bg-smoke rounded-2xl overflow-hidden border border-ash">
+                                <div class="relative h-44">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80"
+                                        alt="Empenho"
+                                        class="w-full h-full img-cover"
+                                    >
+                                    <div class="absolute inset-0 bg-gradient-to-t from-smoke via-smoke/50 to-transparent"></div>
+                                    <div class="absolute bottom-4 left-4 right-4">
+                                        <span class="text-xs text-muted">Janeiro - Março</span>
+                                        <h3 class="font-display font-bold text-lg">O Empenho</h3>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <p class="text-sm text-muted leading-relaxed">
+                                        O governo "reserva" o dinheiro no papel.
+                                        <span class="text-white">Não significa que vai pagar.</span>
+                                        É uma promessa. E promessas no governo federal são... flexíveis.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="relative step-line pb-8">
+                    <div class="flex gap-4">
+                        <div class="shrink-0 w-10 h-10 bg-accent rounded-full flex items-center justify-center font-display font-bold text-sm z-10">
+                            6
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <div class="bg-smoke rounded-2xl overflow-hidden border border-accent/30">
+                                <div class="relative h-44">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80"
+                                        alt="Contingenciamento"
+                                        class="w-full h-full img-cover"
+                                    >
+                                    <div class="absolute inset-0 bg-gradient-to-t from-smoke via-smoke/50 to-transparent"></div>
+                                    <div class="absolute bottom-4 left-4 right-4">
+                                        <span class="text-xs text-accent">Obstáculo Comum</span>
+                                        <h3 class="font-display font-bold text-lg">O Contingenciamento</h3>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <p class="text-sm text-muted leading-relaxed">
+                                        O governo pode travar a grana por "falta de recursos".
+                                        <span class="text-accent">Adivinha quem é destravado primeiro?</span>
+                                        Os aliados. Os outros ficam na fila.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 7 -->
+                <div class="relative step-line pb-8">
+                    <div class="flex gap-4">
+                        <div class="shrink-0 w-10 h-10 bg-money rounded-full flex items-center justify-center font-display font-bold text-sm text-dark z-10">
+                            7
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <div class="bg-smoke rounded-2xl overflow-hidden border border-money/30">
+                                <div class="relative h-44">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=600&q=80"
+                                        alt="Dinheiro liberado"
+                                        class="w-full h-full img-cover"
+                                    >
+                                    <div class="absolute inset-0 bg-gradient-to-t from-smoke via-smoke/50 to-transparent"></div>
+                                    <div class="absolute bottom-4 left-4 right-4">
+                                        <span class="text-xs text-money">Finalmente</span>
+                                        <h3 class="font-display font-bold text-lg">A Liberação</h3>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <p class="text-sm text-muted leading-relaxed">
+                                        O dinheiro cai na conta do município.
+                                        <span class="text-money">Meses ou anos depois do prometido.</span>
+                                        Às vezes tão tarde que o prefeito que pediu já nem está mais no cargo.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 8 -->
+                <div class="relative pb-8">
+                    <div class="flex gap-4">
+                        <div class="shrink-0 w-10 h-10 bg-ash rounded-full flex items-center justify-center font-display font-bold text-sm z-10">
+                            8
+                        </div>
+                        <div class="flex-1 pt-1">
+                            <div class="bg-smoke rounded-2xl overflow-hidden border border-ash">
+                                <div class="relative h-44">
+                                    <img
+                                        src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=600&q=80"
+                                        alt="Obra abandonada"
+                                        class="w-full h-full img-cover"
+                                    >
+                                    <div class="absolute inset-0 bg-gradient-to-t from-smoke via-smoke/50 to-transparent"></div>
+                                    <div class="absolute bottom-4 left-4 right-4">
+                                        <span class="text-xs text-muted">A Realidade</span>
+                                        <h3 class="font-display font-bold text-lg">A Execução</h3>
+                                    </div>
+                                </div>
+                                <div class="p-4">
+                                    <p class="text-sm text-muted leading-relaxed">
+                                        A obra começa. Ou não. Ou começa e para.
+                                        <span class="text-white">30% das obras de emendas têm problemas graves.</span>
+                                        Superfaturamento, abandono, baixa qualidade. O ciclo se repete.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: Simulações -->
+    <section class="py-16 px-6 bg-smoke" id="simulacao">
+        <div class="max-w-lg mx-auto">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 bg-purple-500/20 rounded-xl flex items-center justify-center">
+                    <i class="ph-fill ph-game-controller text-purple-400 text-xl"></i>
+                </div>
+                <h2 class="font-display text-2xl font-bold">Simulação</h2>
+            </div>
+            <p class="text-muted mb-8">Três caminhos. Três realidades. Escolha um perfil.</p>
+
+            <!-- Tab Buttons -->
+            <div class="flex p-1 bg-ash rounded-xl mb-8 gap-1">
+                <button onclick="switchTab('tecnico')" id="btn-tecnico" class="tab-btn flex-1 py-3 text-xs font-bold rounded-lg bg-dark text-white transition-all">
+                    Burocrático
+                </button>
+                <button onclick="switchTab('politico')" id="btn-politico" class="tab-btn flex-1 py-3 text-xs font-bold rounded-lg text-muted hover:text-white transition-all">
+                    Político
+                </button>
+                <button onclick="switchTab('pix')" id="btn-pix" class="tab-btn flex-1 py-3 text-xs font-bold rounded-lg text-muted hover:text-white transition-all">
+                    "Pix"
+                </button>
+            </div>
+
+            <!-- Content Area -->
+            <div id="sim-container" class="fade-up">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: Dados Que Importam -->
+    <section class="py-16 px-6">
+        <div class="max-w-lg mx-auto">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-accent/20 rounded-xl flex items-center justify-center">
+                    <i class="ph-fill ph-chart-bar text-accent text-xl"></i>
+                </div>
+                <h2 class="font-display text-2xl font-bold">Números Que Doem</h2>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="bg-smoke rounded-2xl p-5 border border-ash text-center">
+                    <span class="font-display text-3xl font-bold text-money">R$ 50bi</span>
+                    <p class="text-xs text-muted mt-2">Emendas em 2024</p>
+                </div>
+                <div class="bg-smoke rounded-2xl p-5 border border-ash text-center">
+                    <span class="font-display text-3xl font-bold text-accent">30%</span>
+                    <p class="text-xs text-muted mt-2">Obras com problemas</p>
+                </div>
+                <div class="bg-smoke rounded-2xl p-5 border border-ash text-center">
+                    <span class="font-display text-3xl font-bold text-gold">R$ 25mi</span>
+                    <p class="text-xs text-muted mt-2">Cota por deputado</p>
+                </div>
+                <div class="bg-smoke rounded-2xl p-5 border border-ash text-center">
+                    <span class="font-display text-3xl font-bold text-purple-400">594</span>
+                    <p class="text-xs text-muted mt-2">Parlamentares</p>
+                </div>
+            </div>
+
+            <!-- Image with quote -->
+            <div class="relative rounded-2xl overflow-hidden">
+                <img
+                    src="https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&q=80"
+                    alt="Congresso"
+                    class="w-full h-64 img-cover opacity-50"
+                >
+                <div class="absolute inset-0 bg-gradient-to-t from-dark via-dark/60 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 right-0 p-6">
+                    <blockquote class="text-lg font-display font-medium italic mb-2">
+                        "Emenda não é caridade. É investimento político com retorno garantido."
+                    </blockquote>
+                    <cite class="text-sm text-muted">— Assessor parlamentar (anônimo)</cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: Onde Ver -->
+    <section class="py-16 px-6 bg-smoke">
+        <div class="max-w-lg mx-auto">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                    <i class="ph-fill ph-magnifying-glass text-blue-400 text-xl"></i>
+                </div>
+                <h2 class="font-display text-2xl font-bold">Fiscalize Você Mesmo</h2>
+            </div>
+            <p class="text-muted mb-6">Quer saber para onde foi o dinheiro? Os dados são públicos.</p>
+
+            <div class="space-y-3">
+                <a href="https://www.portaltransparencia.gov.br/emendas" target="_blank"
+                   class="flex items-center gap-4 bg-dark p-4 rounded-xl border border-ash hover:border-money transition group">
+                    <div class="w-12 h-12 bg-money/20 rounded-xl flex items-center justify-center text-money">
+                        <i class="ph-fill ph-bank text-2xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-medium group-hover:text-money transition">Portal da Transparência</h4>
+                        <p class="text-xs text-muted">Dados oficiais do governo</p>
+                    </div>
+                    <i class="ph ph-arrow-right text-muted group-hover:text-money transition"></i>
+                </a>
+
+                <a href="https://www.camara.leg.br/orcamento-da-uniao/" target="_blank"
+                   class="flex items-center gap-4 bg-dark p-4 rounded-xl border border-ash hover:border-blue-400 transition group">
+                    <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-400">
+                        <i class="ph-fill ph-buildings text-2xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-medium group-hover:text-blue-400 transition">Câmara dos Deputados</h4>
+                        <p class="text-xs text-muted">Orçamento e emendas</p>
+                    </div>
+                    <i class="ph ph-arrow-right text-muted group-hover:text-blue-400 transition"></i>
+                </a>
+
+                <a href="https://www12.senado.leg.br/orcamento" target="_blank"
+                   class="flex items-center gap-4 bg-dark p-4 rounded-xl border border-ash hover:border-gold transition group">
+                    <div class="w-12 h-12 bg-gold/20 rounded-xl flex items-center justify-center text-gold">
+                        <i class="ph-fill ph-scroll text-2xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-medium group-hover:text-gold transition">Senado Federal</h4>
+                        <p class="text-xs text-muted">Acompanhamento orçamentário</p>
+                    </div>
+                    <i class="ph ph-arrow-right text-muted group-hover:text-gold transition"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 px-6 border-t border-ash">
+        <div class="max-w-lg mx-auto text-center">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <i class="ph-fill ph-warning-circle text-accent"></i>
+                <span class="text-sm font-medium">Conteúdo Educativo</span>
+            </div>
+            <p class="text-xs text-muted leading-relaxed mb-4">
+                Este guia usa linguagem direta e tom crítico para explicar processos reais.
+                Os dados são baseados em informações públicas e reportagens jornalísticas.
+                Cenários de simulação são ilustrativos.
+            </p>
+            <p class="text-xs text-steel">
+                Projeto RAMPA &bull; 2024
+            </p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Simulation Data
+        const simulations = {
+            tecnico: {
+                color: 'blue',
+                title: 'O Caminho do Papel',
+                subtitle: 'Deputada Clara, novata, querendo fazer tudo certo.',
+                icon: 'ph-file-text',
+                steps: [
+                    {
+                        date: 'Fevereiro',
+                        title: 'O Pedido Formal',
+                        text: 'Prefeito envia ofício formal com projeto básico, certidões e justificativa técnica. Clara aceita.',
+                        status: 'normal'
+                    },
+                    {
+                        date: 'Abril',
+                        title: 'Cadastro no SIOP',
+                        text: 'Equipe insere no sistema. Tudo documentado, transparente, rastreável.',
+                        status: 'normal'
+                    },
+                    {
+                        date: 'Agosto',
+                        title: 'Trava Técnica',
+                        text: 'Ministério barra por erro em documento. Prefeitura tem 30 dias para corrigir.',
+                        status: 'warning'
+                    },
+                    {
+                        date: 'Outubro',
+                        title: 'Aprovação LOA',
+                        text: 'Orçamento aprovado. Emenda garantida no papel. Agora é esperar.',
+                        status: 'normal'
+                    },
+                    {
+                        date: 'Março (ano seguinte)',
+                        title: 'Empenho',
+                        text: 'Governo reserva o valor. Ainda não é dinheiro na conta.',
+                        status: 'normal'
+                    },
+                    {
+                        date: 'Dezembro',
+                        title: 'Liberação',
+                        text: 'Após 22 meses, dinheiro liberado. Obra pode começar.',
+                        status: 'success'
+                    }
+                ],
+                conclusion: 'Tempo total: quase 2 anos. A burocracia funcionou, mas a lentidão é o preço.'
+            },
+            politico: {
+                color: 'purple',
+                title: 'O Jogo de Brasília',
+                subtitle: 'Senador Ronaldo, veterano, sabe como funciona.',
+                icon: 'ph-handshake',
+                steps: [
+                    {
+                        date: 'Março',
+                        title: 'A Indicação',
+                        text: 'Bancada do estado define a obra: duplicação de rodovia. Grande visibilidade.',
+                        status: 'normal'
+                    },
+                    {
+                        date: 'Junho',
+                        title: 'Congelamento',
+                        text: 'Governo sem caixa trava a liberação. Máquinas param. Ronaldo pressiona.',
+                        status: 'warning'
+                    },
+                    {
+                        date: 'Julho',
+                        title: 'A Crise',
+                        text: 'Governo precisa de votos para aprovar reforma. Liga para lideranças.',
+                        status: 'normal'
+                    },
+                    {
+                        date: '13 de Julho, 22h',
+                        title: 'O Jantar',
+                        text: 'Acordo de cavalheiros: votos em troca de liberação. Aperto de mãos.',
+                        status: 'highlight'
+                    },
+                    {
+                        date: '14 de Julho',
+                        title: 'Liberação Relâmpago',
+                        text: 'Dinheiro sai em 24 horas. O que travou por meses, resolveu em um dia.',
+                        status: 'success'
+                    }
+                ],
+                conclusion: 'Tempo total: depende do calendário político. Obras viram moeda de troca.'
+            },
+            pix: {
+                color: 'red',
+                title: 'A Caixa Preta',
+                subtitle: 'Deputado Beto, ano eleitoral, precisa de resultado rápido.',
+                icon: 'ph-lightning',
+                steps: [
+                    {
+                        date: 'Janeiro',
+                        title: 'O Acordo',
+                        text: 'Prefeito aliado pede "ajuda" para ano eleitoral. Beto indica Transferência Especial.',
+                        status: 'normal'
+                    },
+                    {
+                        date: 'Março',
+                        title: 'Envio Direto',
+                        text: 'Dinheiro vai direto para conta da prefeitura. Sem projeto definido, sem licitação prévia.',
+                        status: 'warning'
+                    },
+                    {
+                        date: 'Maio',
+                        title: 'Na Conta',
+                        text: 'R$ 5 milhões disponíveis. Prefeito decide sozinho como gastar.',
+                        status: 'success'
+                    },
+                    {
+                        date: 'Junho-Agosto',
+                        title: 'Gastos Duvidosos',
+                        text: 'Show com cantor famoso, asfalto superfaturado, "reformas" em prédios de aliados.',
+                        status: 'warning'
+                    },
+                    {
+                        date: '2 anos depois',
+                        title: 'Auditoria',
+                        text: 'TCU aponta irregularidades. Dinheiro já foi gasto. Responsabilização? Improvável.',
+                        status: 'danger'
+                    }
+                ],
+                conclusion: 'Tempo total: semanas. Transparência: zero. Por isso chamam de orçamento secreto.'
+            }
+        };
+
+        function renderSimulation(key) {
+            const data = simulations[key];
+            const container = document.getElementById('sim-container');
+
+            const colors = {
+                blue: { bg: 'bg-blue-500/20', text: 'text-blue-400', border: 'border-blue-500/30' },
+                purple: { bg: 'bg-purple-500/20', text: 'text-purple-400', border: 'border-purple-500/30' },
+                red: { bg: 'bg-accent/20', text: 'text-accent', border: 'border-accent/30' }
+            };
+
+            const theme = colors[data.color];
+
+            const statusStyles = {
+                normal: 'bg-ash text-muted',
+                warning: 'bg-gold/20 text-gold',
+                success: 'bg-money/20 text-money',
+                danger: 'bg-accent/20 text-accent',
+                highlight: 'bg-purple-500/20 text-purple-400'
+            };
+
+            let stepsHtml = data.steps.map((step, i) => `
+                <div class="flex gap-3 ${i < data.steps.length - 1 ? 'pb-6 border-l-2 border-ash ml-3 pl-6' : 'ml-3 pl-6'}">
+                    <div class="shrink-0 -ml-9 w-6 h-6 rounded-full ${statusStyles[step.status]} flex items-center justify-center text-xs font-bold">
+                        ${i + 1}
+                    </div>
+                    <div class="flex-1 -mt-1">
+                        <span class="text-xs text-muted">${step.date}</span>
+                        <h4 class="font-medium text-sm mb-1">${step.title}</h4>
+                        <p class="text-sm text-muted leading-relaxed">${step.text}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="bg-dark rounded-2xl border ${theme.border} overflow-hidden">
+                    <div class="p-5 border-b border-ash">
+                        <div class="flex items-center gap-3 mb-2">
+                            <div class="w-10 h-10 ${theme.bg} rounded-xl flex items-center justify-center ${theme.text}">
+                                <i class="ph-fill ${data.icon} text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-display font-bold">${data.title}</h3>
+                                <p class="text-xs text-muted">${data.subtitle}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-5">
+                        ${stepsHtml}
+                    </div>
+
+                    <div class="p-5 bg-ash/30 border-t border-ash">
+                        <p class="text-sm ${theme.text} font-medium">
+                            <i class="ph-fill ph-arrow-right mr-1"></i>
+                            ${data.conclusion}
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            // Re-trigger animation
+            container.classList.remove('fade-up');
+            void container.offsetWidth;
+            container.classList.add('fade-up');
+        }
+
+        function switchTab(key) {
+            // Update buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-dark', 'text-white');
+                btn.classList.add('text-muted');
+            });
+
+            const activeBtn = document.getElementById(`btn-${key}`);
+            activeBtn.classList.remove('text-muted');
+            activeBtn.classList.add('bg-dark', 'text-white');
+
+            // Render content
+            renderSimulation(key);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSimulation('tecnico');
+
+            // Intersection Observer for animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-up');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+</html>
