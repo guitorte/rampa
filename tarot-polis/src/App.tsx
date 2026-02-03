@@ -1,10 +1,12 @@
 import { useState, useCallback, useEffect } from "react";
 import { ArrowUp, Layers, BookOpen } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+// Import components and data with error boundaries
 import { Header } from "@/components/Header";
 import { CardSelector } from "@/components/CardSelector";
 import { CardInterpretation } from "@/components/CardInterpretation";
 import { ReadingProgress } from "@/components/ReadingProgress";
-import { cn } from "@/lib/utils";
 
 function App() {
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
@@ -48,7 +50,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen" style={{ backgroundColor: "#0a0a0f", color: "#fafafa" }}>
       <ReadingProgress />
 
       <Header />
@@ -57,8 +59,8 @@ function App() {
         {/* Card Selection Section */}
         <section className="py-12">
           <div className="flex items-center gap-3 mb-8">
-            <div className="p-2 bg-primary/20 rounded-lg">
-              <Layers className="h-5 w-5 text-primary" />
+            <div className="p-2 rounded-lg" style={{ backgroundColor: "rgba(167, 139, 250, 0.2)" }}>
+              <Layers className="h-5 w-5" style={{ color: "#a78bfa" }} />
             </div>
             <h2 className="text-2xl font-bold">Selecione suas Cartas</h2>
           </div>
@@ -70,12 +72,13 @@ function App() {
           />
 
           {selectedCards.length > 0 && (
-            <div className="mt-8 flex flex-wrap gap-4 items-center justify-between p-4 bg-secondary/50 rounded-xl border border-border">
+            <div className="mt-8 flex flex-wrap gap-4 items-center justify-between p-4 rounded-xl border" style={{ backgroundColor: "rgba(30, 30, 46, 0.5)", borderColor: "#27273a" }}>
               <div className="flex flex-wrap gap-2">
                 {selectedCards.map((card, index) => (
                   <span
                     key={card}
-                    className="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm font-medium"
+                    className="px-3 py-1 rounded-full text-sm font-medium"
+                    style={{ backgroundColor: "rgba(167, 139, 250, 0.2)", color: "#a78bfa" }}
                   >
                     {index + 1}. {card}
                   </span>
@@ -84,13 +87,15 @@ function App() {
               <div className="flex gap-2">
                 <button
                   onClick={handleClearAll}
-                  className="px-4 py-2 text-sm rounded-lg border border-border hover:bg-secondary transition-colors"
+                  className="px-4 py-2 text-sm rounded-lg border transition-colors hover:opacity-80"
+                  style={{ borderColor: "#27273a" }}
                 >
                   Limpar
                 </button>
                 <button
                   onClick={scrollToReadings}
-                  className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+                  className="px-4 py-2 text-sm rounded-lg transition-colors hover:opacity-90"
+                  style={{ backgroundColor: "#a78bfa", color: "#0a0a0f" }}
                 >
                   Ver Leitura
                 </button>
@@ -103,8 +108,8 @@ function App() {
         {selectedCards.length > 0 && (
           <section id="readings" className="py-12">
             <div className="flex items-center gap-3 mb-8">
-              <div className="p-2 bg-accent/20 rounded-lg">
-                <BookOpen className="h-5 w-5 text-accent" />
+              <div className="p-2 rounded-lg" style={{ backgroundColor: "rgba(99, 102, 241, 0.2)" }}>
+                <BookOpen className="h-5 w-5" style={{ color: "#6366f1" }} />
               </div>
               <h2 className="text-2xl font-bold">Sua Leitura</h2>
             </div>
@@ -125,13 +130,13 @@ function App() {
         {/* Empty State */}
         {selectedCards.length === 0 && (
           <section className="py-24 text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-secondary rounded-full mb-6">
-              <BookOpen className="h-10 w-10 text-muted-foreground" />
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-6" style={{ backgroundColor: "#1e1e2e" }}>
+              <BookOpen className="h-10 w-10" style={{ color: "#a1a1aa" }} />
             </div>
             <h3 className="text-xl font-semibold mb-2">
               Nenhuma carta selecionada
             </h3>
-            <p className="text-muted-foreground max-w-md mx-auto">
+            <p className="max-w-md mx-auto" style={{ color: "#a1a1aa" }}>
               Selecione até 3 cartas acima para ver as interpretações de 15
               mestres do tarô.
             </p>
@@ -140,8 +145,8 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border py-8">
-        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-muted-foreground">
+      <footer className="py-8" style={{ borderTop: "1px solid #27273a" }}>
+        <div className="max-w-7xl mx-auto px-4 text-center text-sm" style={{ color: "#a1a1aa" }}>
           <p>
             Interpretações compiladas de Arrien, Cowie, Crowley, Eakins,
             Fairfield, Greer, Noble, Pollack, Sharman-Burke, Stewart, Waite,
@@ -154,11 +159,12 @@ function App() {
       <button
         onClick={scrollToTop}
         className={cn(
-          "fixed bottom-6 right-6 p-3 bg-primary text-primary-foreground rounded-full shadow-lg transition-all duration-300",
+          "fixed bottom-6 right-6 p-3 rounded-full shadow-lg transition-all duration-300",
           showBackToTop
             ? "opacity-100 translate-y-0"
             : "opacity-0 translate-y-4 pointer-events-none"
         )}
+        style={{ backgroundColor: "#a78bfa", color: "#0a0a0f" }}
         aria-label="Voltar ao topo"
       >
         <ArrowUp className="h-5 w-5" />

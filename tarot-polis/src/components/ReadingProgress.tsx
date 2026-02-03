@@ -16,10 +16,16 @@ export function ReadingProgress() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 right-0 h-1 bg-secondary z-50">
+    <div
+      className="fixed top-0 left-0 right-0 h-1 z-50"
+      style={{ backgroundColor: "#1e1e2e" }}
+    >
       <div
-        className="h-full bg-gradient-to-r from-primary via-accent to-mystic transition-all duration-150"
-        style={{ width: `${progress}%` }}
+        className="h-full transition-all duration-150"
+        style={{
+          width: `${progress}%`,
+          background: "linear-gradient(to right, #a78bfa, #6366f1, #8b5cf6)",
+        }}
       />
     </div>
   );
