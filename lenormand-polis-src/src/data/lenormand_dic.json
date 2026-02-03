@@ -1,0 +1,1039 @@
+{
+  "1. Cavaleiro": {
+    "numero": 1,
+    "nome_en": "Rider",
+    "simbolo": "🏇",
+    "elemento": "Ar",
+    "tempo": "Rápido (dias)",
+    "palavras_chave": ["notícias", "mensageiro", "velocidade", "visitante", "novidade"],
+    "significados": {
+      "Rana George": "Notícias chegando rapidamente. Um mensageiro ou visitante. Algo ou alguém se aproximando. Movimento rápido e mudança. O Cavaleiro sempre traz algo novo para a situação.",
+      "Caitlín Matthews": "O Cavaleiro anuncia chegadas e novidades. Representa a velocidade com que as coisas acontecem. Pode indicar um jovem homem ativo ou uma pessoa que traz informações importantes.",
+      "Andy Boroveshengra": "Notícias em trânsito. Velocidade e movimento. Um homem jovem e ativo. A carta do 'em breve' - algo está a caminho.",
+      "Tradição Alemã": "Der Reiter - O mensageiro que traz novidades. Rapidez nas comunicações. Um visitante chegando. Movimento positivo para frente.",
+      "Tradição Brasileira": "O Cavaleiro traz notícias e representa movimento. Indica que algo está chegando em sua vida. Pessoa jovem, ativa, mensageiro. Viagens curtas e rápidas."
+    },
+    "como_sujeito": "A notícia, o mensageiro, o visitante, o jovem",
+    "como_verbo": "Chegar, trazer notícias, visitar, mover-se rapidamente",
+    "como_adjetivo": "Rápido, novo, em movimento, chegando",
+    "contextos": {
+      "amor": "Notícias sobre relacionamento, pretendente chegando, reencontro próximo",
+      "trabalho": "Novidades profissionais, proposta chegando, mudança rápida na carreira",
+      "saude": "Recuperação rápida, notícias médicas, energia renovada",
+      "dinheiro": "Dinheiro chegando, notícias financeiras, movimentação rápida"
+    },
+    "combinacoes_notaveis": {
+      "com Carta (27)": "Notícias por escrito, email, mensagem importante",
+      "com Caixão (8)": "Notícias tristes, fim de algo chegando",
+      "com Coração (24)": "Notícias de amor, pretendente apaixonado",
+      "com Nuvens (6)": "Notícias confusas ou incertas"
+    }
+  },
+  "2. Trevo": {
+    "numero": 2,
+    "nome_en": "Clover",
+    "simbolo": "🍀",
+    "elemento": "Terra",
+    "tempo": "Muito rápido (2 dias)",
+    "palavras_chave": ["sorte", "oportunidade", "leveza", "temporário", "pequena alegria"],
+    "significados": {
+      "Rana George": "Sorte pequena e passageira. Uma oportunidade que deve ser aproveitada rapidamente. Leveza e despreocupação. O Trevo suaviza cartas negativas próximas.",
+      "Caitlín Matthews": "O Trevo representa a sorte do momento, a oportunidade que aparece brevemente. É a carta da esperança e das pequenas bênçãos cotidianas.",
+      "Andy Boroveshengra": "Sorte de curta duração. Algo positivo mas temporário. Aproveite enquanto dura. Carta que diminui impactos negativos.",
+      "Tradição Alemã": "Das Klee - Sorte pequena, esperança, otimismo. Indica que a situação é favorável mas requer ação rápida.",
+      "Tradição Brasileira": "Sorte passageira, oportunidade relâmpago. Momento de leveza e esperança. Não é grande sorte, mas ajuda no caminho."
+    },
+    "como_sujeito": "A sorte, a oportunidade, a chance",
+    "como_verbo": "Ter sorte, encontrar oportunidade, aliviar",
+    "como_adjetivo": "Sortudo, leve, temporário, oportuno",
+    "contextos": {
+      "amor": "Encontro casual afortunado, momento leve no relacionamento",
+      "trabalho": "Pequena oportunidade, golpe de sorte profissional",
+      "saude": "Melhora temporária, boa sorte com tratamento",
+      "dinheiro": "Pequeno ganho inesperado, sorte com dinheiro"
+    },
+    "combinacoes_notaveis": {
+      "com Sol (31)": "Grande sorte, sucesso garantido",
+      "com Cruz (36)": "Sorte no sofrimento, alívio temporário",
+      "com Peixes (34)": "Sorte com dinheiro, ganho inesperado"
+    }
+  },
+  "3. Navio": {
+    "numero": 3,
+    "nome_en": "Ship",
+    "simbolo": "⛵",
+    "elemento": "Água",
+    "tempo": "1-3 meses",
+    "palavras_chave": ["viagem", "comércio", "distância", "estrangeiro", "partida"],
+    "significados": {
+      "Rana George": "Viagens longas, especialmente por água. Comércio e negócios internacionais. Algo ou alguém distante. Herança de família, especialmente do lado paterno.",
+      "Caitlín Matthews": "O Navio navega para longe, representando jornadas físicas ou metafóricas. Indica comércio, viagens de negócios e conexões com o estrangeiro.",
+      "Andy Boroveshengra": "Viagem, movimento para longe. Comércio e negócios. Herança. O que está distante geograficamente ou emocionalmente.",
+      "Tradição Alemã": "Das Schiff - Viagem longa, comércio exterior, herança. Distância física ou emocional. Saudade do que está longe.",
+      "Tradição Brasileira": "Viagem grande, mudança significativa. Negócios com exterior. Pessoa estrangeira ou distante. Pode indicar imigração."
+    },
+    "como_sujeito": "A viagem, o negócio, o estrangeiro, a distância",
+    "como_verbo": "Viajar, partir, comerciar, distanciar-se",
+    "como_adjetivo": "Distante, estrangeiro, em trânsito, comercial",
+    "contextos": {
+      "amor": "Relacionamento à distância, amor com estrangeiro, separação temporária",
+      "trabalho": "Viagem de negócios, comércio exterior, trabalho remoto",
+      "saude": "Tratamento no exterior, viagem para saúde",
+      "dinheiro": "Comércio internacional, dinheiro vindo de longe"
+    },
+    "combinacoes_notaveis": {
+      "com Casa (4)": "Mudança de residência, casa no exterior",
+      "com Âncora (35)": "Estabelecer-se no exterior, viagem com propósito fixo",
+      "com Coração (24)": "Amor à distância, viagem romântica"
+    }
+  },
+  "4. Casa": {
+    "numero": 4,
+    "nome_en": "House",
+    "simbolo": "🏠",
+    "elemento": "Terra",
+    "tempo": "Longo prazo",
+    "palavras_chave": ["lar", "família", "segurança", "propriedade", "tradição"],
+    "significados": {
+      "Rana George": "O lar físico e a família. Segurança e estabilidade doméstica. Propriedades e imóveis. As raízes e tradições familiares.",
+      "Caitlín Matthews": "A Casa representa o centro da vida - família, lar, segurança. É onde nos sentimos protegidos e onde estão nossas raízes.",
+      "Andy Boroveshengra": "Casa, família, segurança. O ambiente doméstico e seus assuntos. Propriedade imobiliária. Estabilidade.",
+      "Tradição Alemã": "Das Haus - Família, propriedade, segurança doméstica. O que é familiar e conhecido. Tradições familiares.",
+      "Tradição Brasileira": "Lar, família, propriedade. Segurança e estabilidade. Questões domésticas e familiares. Imóveis."
+    },
+    "como_sujeito": "O lar, a família, a propriedade",
+    "como_verbo": "Morar, estabelecer-se, proteger, abrigar",
+    "como_adjetivo": "Doméstico, familiar, seguro, estável",
+    "contextos": {
+      "amor": "Vida doméstica, morar junto, família do parceiro",
+      "trabalho": "Trabalho em casa, negócio familiar, empresa própria",
+      "saude": "Saúde em casa, cuidados familiares, ambiente doméstico",
+      "dinheiro": "Imóveis, investimento em propriedade, dinheiro da família"
+    },
+    "combinacoes_notaveis": {
+      "com Ratos (23)": "Problemas domésticos, deterioração do lar",
+      "com Coração (24)": "Amor em casa, família amorosa",
+      "com Torre (19)": "Isolamento em casa, propriedade governamental"
+    }
+  },
+  "5. Árvore": {
+    "numero": 5,
+    "nome_en": "Tree",
+    "simbolo": "🌳",
+    "elemento": "Terra/Água",
+    "tempo": "Longo prazo (anos)",
+    "palavras_chave": ["saúde", "crescimento", "raízes", "vida", "espiritualidade"],
+    "significados": {
+      "Rana George": "Saúde física e espiritual. Crescimento lento mas estável. Conexões profundas com raízes - ancestrais, carma, vida passada. Longevidade.",
+      "Caitlín Matthews": "A Árvore representa a saúde em todos os níveis. Seu crescimento é lento mas firme. Conecta o céu e a terra, o espiritual e o material.",
+      "Andy Boroveshengra": "Saúde, vitalidade, crescimento. Questões de longo prazo. Conexões espirituais e ancestrais. Estabilidade que vem de raízes profundas.",
+      "Tradição Alemã": "Der Baum - Saúde, vida longa, crescimento espiritual. Paciência necessária pois resultados demoram.",
+      "Tradição Brasileira": "Saúde física e espiritual. Crescimento lento. Vida longa. Conexão com ancestrais e espiritualidade."
+    },
+    "como_sujeito": "A saúde, o crescimento, a vida, a espiritualidade",
+    "como_verbo": "Crescer, curar, enraizar, desenvolver",
+    "como_adjetivo": "Saudável, espiritual, duradouro, enraizado",
+    "contextos": {
+      "amor": "Relacionamento que cresce devagar, amor duradouro",
+      "trabalho": "Carreira de longo prazo, crescimento profissional lento",
+      "saude": "Estado geral de saúde, recuperação lenta mas completa",
+      "dinheiro": "Investimentos de longo prazo, patrimônio que cresce"
+    },
+    "combinacoes_notaveis": {
+      "com Caixão (8)": "Doença grave, fim de um ciclo de vida",
+      "com Sol (31)": "Saúde excelente, vitalidade",
+      "com Cruz (36)": "Doença crônica, sofrimento de saúde"
+    }
+  },
+  "6. Nuvens": {
+    "numero": 6,
+    "nome_en": "Clouds",
+    "simbolo": "☁️",
+    "elemento": "Ar",
+    "tempo": "Temporário",
+    "palavras_chave": ["confusão", "incerteza", "dúvida", "temporário", "obscuridade"],
+    "significados": {
+      "Rana George": "Confusão e falta de clareza. A situação não está clara. O lado escuro da nuvem indica problemas, o lado claro indica que passará. Dúvidas e incertezas.",
+      "Caitlín Matthews": "As Nuvens obscurecem a visão. Representam confusão, incerteza, mas também a natureza passageira dos problemas. Observe qual lado da nuvem está voltado para as outras cartas.",
+      "Andy Boroveshengra": "Confusão, incerteza, dúvida. Situação nebulosa. Pode indicar uma pessoa confusa ou situação que não está clara.",
+      "Tradição Alemã": "Die Wolken - Incerteza, confusão, problemas temporários. O lado escuro aponta para onde está o problema.",
+      "Tradição Brasileira": "Confusão, dúvida, situação nebulosa. Problemas passageiros. Falta de clareza mental ou situacional."
+    },
+    "como_sujeito": "A confusão, a dúvida, o problema temporário",
+    "como_verbo": "Confundir, obscurecer, nublar, duvidar",
+    "como_adjetivo": "Confuso, incerto, nebuloso, temporário",
+    "contextos": {
+      "amor": "Relacionamento confuso, dúvidas sobre o parceiro",
+      "trabalho": "Situação profissional incerta, falta de direção",
+      "saude": "Diagnóstico incerto, confusão mental",
+      "dinheiro": "Situação financeira nebulosa, incerteza econômica"
+    },
+    "combinacoes_notaveis": {
+      "com Sol (31)": "Confusão se dissipando, clareza chegando",
+      "com Lua (32)": "Confusão emocional, ilusões",
+      "com Chave (33)": "Solução para a confusão"
+    }
+  },
+  "7. Cobra": {
+    "numero": 7,
+    "nome_en": "Snake",
+    "simbolo": "🐍",
+    "elemento": "Fogo/Água",
+    "tempo": "Variável",
+    "palavras_chave": ["traição", "mulher", "complicação", "sabedoria", "sedução"],
+    "significados": {
+      "Rana George": "Traição, engano, complicações. Uma mulher (frequentemente rival ou problemática). Caminhos tortuosos. Também pode representar sabedoria e transformação em contexto espiritual.",
+      "Caitlín Matthews": "A Cobra serpenteia e complica. Pode representar uma mulher rival, traição, ou simplesmente que o caminho não é direto. Em contextos positivos, sabedoria e cura.",
+      "Andy Boroveshengra": "Complicações, desvios, traição. Uma mulher específica (frequentemente problemática). Inteligência astuta. Sedução.",
+      "Tradição Alemã": "Die Schlange - Mulher rival, traição, complicações. Cuidado com falsidade. Inteligência e astúcia.",
+      "Tradição Brasileira": "Traição, falsidade, mulher perigosa. Caminhos tortuosos. Inveja e intriga. Também pode ser sabedoria oculta."
+    },
+    "como_sujeito": "A mulher, a traição, a complicação, a rival",
+    "como_verbo": "Trair, complicar, seduzir, serpentear",
+    "como_adjetivo": "Traiçoeiro, complicado, sedutor, astuto",
+    "contextos": {
+      "amor": "Rival amorosa, traição, relacionamento complicado",
+      "trabalho": "Colega traiçoeira, situação complicada, intrigas",
+      "saude": "Problemas intestinais, questões femininas",
+      "dinheiro": "Complicações financeiras, pessoa desonesta"
+    },
+    "combinacoes_notaveis": {
+      "com Coração (24)": "Traição amorosa, rival apaixonada",
+      "com Anel (25)": "Casamento problemático, compromisso com pessoa errada",
+      "com Raposa (14)": "Traição dupla, extrema astúcia"
+    }
+  },
+  "8. Caixão": {
+    "numero": 8,
+    "nome_en": "Coffin",
+    "simbolo": "⚰️",
+    "elemento": "Terra",
+    "tempo": "Final",
+    "palavras_chave": ["fim", "transformação", "doença", "encerramento", "morte simbólica"],
+    "significados": {
+      "Rana George": "Fim de algo, encerramento definitivo. Transformação através do término. Pode indicar doença grave. Algo sendo 'enterrado' ou deixado para trás.",
+      "Caitlín Matthews": "O Caixão encerra e transforma. Representa fins necessários para novos começos. Pode indicar doença, mas mais frequentemente representa o fim de uma fase.",
+      "Andy Boroveshengra": "Fim, término, morte (raramente literal). Transformação através do encerramento. Doença. Algo que precisa ser deixado para trás.",
+      "Tradição Alemã": "Der Sarg - Fim definitivo, doença grave, transformação. Encerramento necessário para renovação.",
+      "Tradição Brasileira": "Fim, término, doença. Transformação profunda. Algo que morre para dar lugar ao novo. Encerramento de ciclo."
+    },
+    "como_sujeito": "O fim, a doença, a transformação",
+    "como_verbo": "Terminar, encerrar, adoecer, transformar",
+    "como_adjetivo": "Final, terminado, doente, transformador",
+    "contextos": {
+      "amor": "Fim do relacionamento, término definitivo",
+      "trabalho": "Fim do emprego, encerramento de projeto",
+      "saude": "Doença, hospitalização, fim de tratamento",
+      "dinheiro": "Perda financeira, fim de fonte de renda"
+    },
+    "combinacoes_notaveis": {
+      "com Buquê (9)": "Fim de algo bom, última alegria",
+      "com Sol (31)": "Recuperação após crise, renascimento",
+      "com Cruz (36)": "Grande sofrimento, fim doloroso"
+    }
+  },
+  "9. Buquê": {
+    "numero": 9,
+    "nome_en": "Bouquet",
+    "simbolo": "💐",
+    "elemento": "Terra",
+    "tempo": "Presente",
+    "palavras_chave": ["presente", "felicidade", "convite", "beleza", "gratidão"],
+    "significados": {
+      "Rana George": "Presente, oferta, convite. Felicidade e satisfação. Beleza e harmonia. Algo dado com carinho. Gratidão e apreciação.",
+      "Caitlín Matthews": "O Buquê é sempre bem-vindo. Representa presentes, convites, ofertas agradáveis. Traz beleza e alegria para onde aparece.",
+      "Andy Boroveshengra": "Presente, convite, oferta agradável. Felicidade, satisfação. Uma mulher gentil (alternativa à Cobra).",
+      "Tradição Alemã": "Die Blumen - Presente, convite, felicidade. Harmonia e beleza. Ofertas agradáveis.",
+      "Tradição Brasileira": "Presente, convite, alegria. Mulher gentil e agradável. Beleza e harmonia. Gratificação."
+    },
+    "como_sujeito": "O presente, o convite, a felicidade",
+    "como_verbo": "Presentear, convidar, alegrar, embelezar",
+    "como_adjetivo": "Feliz, belo, agradável, generoso",
+    "contextos": {
+      "amor": "Presente romântico, convite para encontro, felicidade no amor",
+      "trabalho": "Oferta de emprego, convite profissional, reconhecimento",
+      "saude": "Recuperação, tratamento agradável, bem-estar",
+      "dinheiro": "Presente em dinheiro, oferta financeira"
+    },
+    "combinacoes_notaveis": {
+      "com Anel (25)": "Proposta de casamento, presente de noivado",
+      "com Coração (24)": "Presente de amor, felicidade romântica",
+      "com Carta (27)": "Convite por escrito, carta agradável"
+    }
+  },
+  "10. Foice": {
+    "numero": 10,
+    "nome_en": "Scythe",
+    "simbolo": "🗡️",
+    "elemento": "Ar",
+    "tempo": "Súbito",
+    "palavras_chave": ["corte", "perigo", "decisão", "colheita", "acidente"],
+    "significados": {
+      "Rana George": "Corte súbito e decisivo. Perigo iminente (especialmente para a carta em direção à lâmina). Decisões que devem ser tomadas. Colheita do que foi plantado. Cirurgias.",
+      "Caitlín Matthews": "A Foice corta rápido e decisivamente. Representa perigos súbitos, mas também a necessidade de cortar o que não serve. A direção da lâmina é crucial.",
+      "Andy Boroveshengra": "Corte, perigo, decisão abrupta. Colheita (positiva ou negativa). Acidentes e cirurgias. A direção da lâmina indica onde está o perigo.",
+      "Tradição Alemã": "Die Sense - Perigo súbito, corte necessário, colheita. Atenção à direção da lâmina.",
+      "Tradição Brasileira": "Corte, perigo, decisão rápida. Acidentes. Cirurgia. Colheita do que plantou."
+    },
+    "como_sujeito": "O corte, o perigo, a decisão, a colheita",
+    "como_verbo": "Cortar, decidir, colher, ameaçar",
+    "como_adjetivo": "Cortante, perigoso, decisivo, súbito",
+    "contextos": {
+      "amor": "Rompimento súbito, cortar relação, decisão sobre relacionamento",
+      "trabalho": "Demissão, corte de pessoal, decisão profissional",
+      "saude": "Cirurgia, acidente, corte físico",
+      "dinheiro": "Corte de gastos, perda súbita, colheita financeira"
+    },
+    "combinacoes_notaveis": {
+      "com Coração (24)": "Coração partido, dor emocional súbita",
+      "com Anel (25)": "Rompimento de compromisso, divórcio",
+      "com Árvore (5)": "Cirurgia, problema de saúde súbito"
+    }
+  },
+  "11. Chicote": {
+    "numero": 11,
+    "nome_en": "Whip",
+    "simbolo": "🪢",
+    "elemento": "Fogo",
+    "tempo": "Repetitivo",
+    "palavras_chave": ["conflito", "discussão", "repetição", "sexo", "esporte"],
+    "significados": {
+      "Rana George": "Conflitos e discussões. Padrões repetitivos. Atividade física intensa, esportes. Sexualidade e paixão física. Debates e argumentos.",
+      "Caitlín Matthews": "O Chicote bate repetidamente. Representa conflitos recorrentes, discussões, mas também atividade física, esportes e sexualidade.",
+      "Andy Boroveshengra": "Conflito, discussão, repetição. Atividade física. Sexo. Padrões que se repetem. Debates acalorados.",
+      "Tradição Alemã": "Die Rute - Conflito, punição, repetição. Sexualidade. Esportes e exercício.",
+      "Tradição Brasileira": "Brigas, discussões, conflitos repetidos. Sexualidade intensa. Esportes. Vício em padrões."
+    },
+    "como_sujeito": "O conflito, a discussão, a repetição",
+    "como_verbo": "Brigar, discutir, repetir, exercitar",
+    "como_adjetivo": "Conflituoso, repetitivo, físico, apaixonado",
+    "contextos": {
+      "amor": "Brigas no relacionamento, paixão física intensa, ciclo de conflito",
+      "trabalho": "Conflito no trabalho, trabalho repetitivo, competição",
+      "saude": "Exercício físico, lesões repetitivas",
+      "dinheiro": "Disputas financeiras, gastos repetitivos"
+    },
+    "combinacoes_notaveis": {
+      "com Coração (24)": "Briga por amor, paixão intensa",
+      "com Livro (26)": "Debates intelectuais, estudo intenso",
+      "com Anel (25)": "Casamento com conflitos, compromisso difícil"
+    }
+  },
+  "12. Pássaros": {
+    "numero": 12,
+    "nome_en": "Birds",
+    "simbolo": "🐦",
+    "elemento": "Ar",
+    "tempo": "Rápido",
+    "palavras_chave": ["comunicação", "casal", "nervosismo", "conversa", "idosos"],
+    "significados": {
+      "Rana George": "Comunicação verbal, conversas. Um casal (especialmente idoso). Nervosismo e ansiedade. Fofoca. Reuniões e encontros sociais.",
+      "Caitlín Matthews": "Os Pássaros cantam e conversam. Representam comunicação, especialmente verbal. Um casal. Também ansiedade e preocupação ('pássaros no estômago').",
+      "Andy Boroveshengra": "Conversa, comunicação. Um casal, especialmente mais velho. Nervosismo, ansiedade. Fofoca e rumores.",
+      "Tradição Alemã": "Die Vögel - Casal, comunicação, nervosismo. Reuniões sociais. Fofoca.",
+      "Tradição Brasileira": "Comunicação, conversa, casal. Nervosismo e ansiedade. Fofocas. Pode indicar pais ou casal de idosos."
+    },
+    "como_sujeito": "A conversa, o casal, a ansiedade",
+    "como_verbo": "Conversar, fofocar, preocupar-se",
+    "como_adjetivo": "Comunicativo, nervoso, dual, social",
+    "contextos": {
+      "amor": "Casal, comunicação no relacionamento, ansiedade amorosa",
+      "trabalho": "Reuniões, comunicação profissional, parcerias",
+      "saude": "Ansiedade, nervosismo, problemas de comunicação",
+      "dinheiro": "Negociações, conversas sobre dinheiro"
+    },
+    "combinacoes_notaveis": {
+      "com Anel (25)": "Casal comprometido, noivado",
+      "com Nuvens (6)": "Comunicação confusa, mal-entendidos",
+      "com Carta (27)": "Correspondência, telefonemas, emails"
+    }
+  },
+  "13. Criança": {
+    "numero": 13,
+    "nome_en": "Child",
+    "simbolo": "👶",
+    "elemento": "Água",
+    "tempo": "Novo começo",
+    "palavras_chave": ["novo", "inocência", "criança", "pequeno", "início"],
+    "significados": {
+      "Rana George": "Algo novo começando. Uma criança literal. Inocência e pureza. Algo pequeno ou em fase inicial. Inexperiência.",
+      "Caitlín Matthews": "A Criança representa novos começos, inocência, algo em sua fase inicial. Pode ser uma criança literal ou o aspecto infantil de qualquer situação.",
+      "Andy Boroveshengra": "Novo começo, algo pequeno, criança. Inocência, inexperiência. Fase inicial de qualquer assunto.",
+      "Tradição Alemã": "Das Kind - Novo, pequeno, inocente. Uma criança. Começo de algo.",
+      "Tradição Brasileira": "Criança, novo começo, inocência. Algo pequeno ou em início. Inexperiência."
+    },
+    "como_sujeito": "A criança, o novo começo, a inocência",
+    "como_verbo": "Começar, nascer, renovar",
+    "como_adjetivo": "Novo, pequeno, inocente, inexperiente",
+    "contextos": {
+      "amor": "Novo relacionamento, gravidez, amor inocente",
+      "trabalho": "Novo emprego, projeto iniciante, inexperiência",
+      "saude": "Recuperação, tratamento novo, vulnerabilidade",
+      "dinheiro": "Pequena quantia, novo investimento, começo financeiro"
+    },
+    "combinacoes_notaveis": {
+      "com Sol (31)": "Criança feliz, sucesso no novo começo",
+      "com Cegonha (17)": "Gravidez, nascimento",
+      "com Livro (26)": "Estudante, novo aprendizado"
+    }
+  },
+  "14. Raposa": {
+    "numero": 14,
+    "nome_en": "Fox",
+    "simbolo": "🦊",
+    "elemento": "Fogo",
+    "tempo": "Variável",
+    "palavras_chave": ["astúcia", "trabalho", "engano", "sobrevivência", "esperteza"],
+    "significados": {
+      "Rana George": "Astúcia e esperteza. Trabalho e emprego. Cuidado com enganos. Sobrevivência por meios inteligentes. Auto-emprego.",
+      "Caitlín Matthews": "A Raposa é astuta e sobrevivente. Representa trabalho, especialmente por conta própria. Também alerta para possíveis enganos.",
+      "Andy Boroveshengra": "Trabalho, emprego. Astúcia, esperteza. Possível engano. Pessoa que age por interesse próprio.",
+      "Tradição Alemã": "Der Fuchs - Trabalho, emprego, astúcia. Cuidado com falsidade. Sobrevivência.",
+      "Tradição Brasileira": "Trabalho, esperteza, possível falsidade. Auto-emprego. Pessoa astuta que pode ou não ser confiável."
+    },
+    "como_sujeito": "O trabalho, o astuto, o engano",
+    "como_verbo": "Trabalhar, enganar, sobreviver, calcular",
+    "como_adjetivo": "Astuto, trabalhador, esperto, calculista",
+    "contextos": {
+      "amor": "Interesse calculado, parceiro esperto, possível engano",
+      "trabalho": "Emprego, auto-emprego, colegas astutos",
+      "saude": "Cuidado com diagnósticos, segundas opiniões",
+      "dinheiro": "Negócio esperto, cuidado com fraudes"
+    },
+    "combinacoes_notaveis": {
+      "com Cobra (7)": "Duplo engano, extrema falsidade",
+      "com Sol (31)": "Sucesso no trabalho",
+      "com Cachorro (18)": "Amigo falso, ou amigo no trabalho"
+    }
+  },
+  "15. Urso": {
+    "numero": 15,
+    "nome_en": "Bear",
+    "simbolo": "🐻",
+    "elemento": "Terra",
+    "tempo": "Estável",
+    "palavras_chave": ["poder", "chefe", "mãe", "força", "finanças"],
+    "significados": {
+      "Rana George": "Poder e autoridade. O chefe ou supervisor. Figura materna protetora. Força física. Finanças e investimentos.",
+      "Caitlín Matthews": "O Urso é poderoso e protetor. Representa figuras de autoridade, especialmente a mãe. Também finanças e força.",
+      "Andy Boroveshengra": "Poder, autoridade, chefe. Figura materna. Força, especialmente física. Dinheiro e finanças.",
+      "Tradição Alemã": "Der Bär - Chefe, autoridade, mãe. Força e poder. Finanças, especialmente grandes.",
+      "Tradição Brasileira": "Poder, autoridade, chefe. Mãe ou figura materna. Força e proteção. Finanças importantes."
+    },
+    "como_sujeito": "O chefe, a mãe, o poder, as finanças",
+    "como_verbo": "Liderar, proteger, dominar, financiar",
+    "como_adjetivo": "Poderoso, protetor, autoritário, forte",
+    "contextos": {
+      "amor": "Parceiro dominante, proteção no amor, sogra",
+      "trabalho": "Chefe, promoção, posição de poder",
+      "saude": "Força física, excesso de peso, vigor",
+      "dinheiro": "Grande quantia, investimentos, patrimônio"
+    },
+    "combinacoes_notaveis": {
+      "com Peixes (34)": "Grande fortuna, sucesso financeiro",
+      "com Raposa (14)": "Chefe no trabalho",
+      "com Casa (4)": "Mãe, família poderosa"
+    }
+  },
+  "16. Estrela": {
+    "numero": 16,
+    "nome_en": "Stars",
+    "simbolo": "⭐",
+    "elemento": "Ar",
+    "tempo": "Noite",
+    "palavras_chave": ["esperança", "espiritualidade", "tecnologia", "internet", "orientação"],
+    "significados": {
+      "Rana George": "Esperança e inspiração. Espiritualidade e guia divino. Tecnologia e internet. Networking. Fama e reconhecimento.",
+      "Caitlín Matthews": "As Estrelas guiam e inspiram. Representam esperança, espiritualidade, e em contextos modernos, tecnologia e redes.",
+      "Andy Boroveshengra": "Esperança, espiritualidade, guia. Tecnologia, internet, networking. Inspiração e clareza.",
+      "Tradição Alemã": "Die Sterne - Esperança, orientação espiritual. Clareza e inspiração. Sucesso garantido.",
+      "Tradição Brasileira": "Esperança, espiritualidade, orientação. Tecnologia e internet. Fama e sucesso."
+    },
+    "como_sujeito": "A esperança, a espiritualidade, a tecnologia",
+    "como_verbo": "Esperar, guiar, iluminar, conectar",
+    "como_adjetivo": "Esperançoso, espiritual, tecnológico, inspirador",
+    "contextos": {
+      "amor": "Esperança no amor, conexão espiritual, amor online",
+      "trabalho": "Trabalho com tecnologia, networking, inspiração",
+      "saude": "Cura espiritual, tratamentos alternativos",
+      "dinheiro": "Sucesso financeiro, negócios online"
+    },
+    "combinacoes_notaveis": {
+      "com Sol (31)": "Grande sucesso, sonhos realizados",
+      "com Nuvens (6)": "Esperança nebulosa, confusão espiritual",
+      "com Lua (32)": "Intuição forte, reconhecimento"
+    }
+  },
+  "17. Cegonha": {
+    "numero": 17,
+    "nome_en": "Stork",
+    "simbolo": "🦩",
+    "elemento": "Ar/Água",
+    "tempo": "Mudança",
+    "palavras_chave": ["mudança", "movimento", "gravidez", "melhoria", "transição"],
+    "significados": {
+      "Rana George": "Mudança e transição positiva. Melhoria na situação. Gravidez e nascimento. Relocação e movimento. Progresso.",
+      "Caitlín Matthews": "A Cegonha traz mudanças, geralmente para melhor. Associada tradicionalmente a nascimentos, mas representa qualquer transição positiva.",
+      "Andy Boroveshengra": "Mudança positiva, melhoria. Gravidez, nascimento. Relocação, mudança de casa. Transição para algo melhor.",
+      "Tradição Alemã": "Der Storch - Mudança, melhoria, gravidez. Movimento positivo. Transição.",
+      "Tradição Brasileira": "Mudança para melhor, gravidez, nascimento. Transição positiva. Relocação."
+    },
+    "como_sujeito": "A mudança, a gravidez, a melhoria",
+    "como_verbo": "Mudar, melhorar, nascer, transicionar",
+    "como_adjetivo": "Mutável, melhorado, em transição",
+    "contextos": {
+      "amor": "Mudança no relacionamento, gravidez, melhoria amorosa",
+      "trabalho": "Mudança de emprego, promoção, relocação",
+      "saude": "Recuperação, melhora, gravidez",
+      "dinheiro": "Melhoria financeira, mudança positiva"
+    },
+    "combinacoes_notaveis": {
+      "com Criança (13)": "Gravidez certa, nascimento",
+      "com Casa (4)": "Mudança de casa",
+      "com Caixão (8)": "Mudança difícil, fim antes do novo começo"
+    }
+  },
+  "18. Cachorro": {
+    "numero": 18,
+    "nome_en": "Dog",
+    "simbolo": "🐕",
+    "elemento": "Terra",
+    "tempo": "Longo prazo",
+    "palavras_chave": ["amizade", "lealdade", "confiança", "amigo", "fidelidade"],
+    "significados": {
+      "Rana George": "Amizade verdadeira e lealdade. Um amigo de confiança. Fidelidade e devoção. Proteção amigável.",
+      "Caitlín Matthews": "O Cachorro é leal e fiel. Representa amigos verdadeiros, relacionamentos de confiança, lealdade incondicional.",
+      "Andy Boroveshengra": "Amigo, lealdade, confiança. Pessoa em quem se pode confiar. Fidelidade. Proteção amigável.",
+      "Tradição Alemã": "Der Hund - Amizade, lealdade, fidelidade. Um amigo verdadeiro. Confiança.",
+      "Tradição Brasileira": "Amigo fiel, lealdade, confiança. Pessoa confiável. Proteção e devoção."
+    },
+    "como_sujeito": "O amigo, a lealdade, a confiança",
+    "como_verbo": "Ser leal, confiar, proteger, acompanhar",
+    "como_adjetivo": "Leal, fiel, confiável, amigável",
+    "contextos": {
+      "amor": "Parceiro fiel, amizade no amor, confiança mútua",
+      "trabalho": "Colega confiável, parceria leal",
+      "saude": "Apoio de amigos, tratamento confiável",
+      "dinheiro": "Negócios com amigos, investimento confiável"
+    },
+    "combinacoes_notaveis": {
+      "com Raposa (14)": "Amigo no trabalho, ou amigo falso",
+      "com Cobra (7)": "Amigo traiçoeiro, traição de amigo",
+      "com Coração (24)": "Amor que vem de amizade"
+    }
+  },
+  "19. Torre": {
+    "numero": 19,
+    "nome_en": "Tower",
+    "simbolo": "🗼",
+    "elemento": "Terra",
+    "tempo": "Longo prazo",
+    "palavras_chave": ["autoridade", "isolamento", "governo", "estrutura", "solidão"],
+    "significados": {
+      "Rana George": "Autoridade e estruturas oficiais. Isolamento e solidão. Governo e corporações. Ego e ambição. Hospitais e prisões.",
+      "Caitlín Matthews": "A Torre se eleva sozinha. Representa autoridade, isolamento, instituições. Pode indicar ambição ou solidão.",
+      "Andy Boroveshengra": "Autoridade, governo, corporações. Isolamento, solidão. Ambição. Estruturas e instituições.",
+      "Tradição Alemã": "Der Turm - Autoridade, governo, solidão. Instituições. Isolamento necessário ou imposto.",
+      "Tradição Brasileira": "Autoridade, governo, solidão. Isolamento. Ambição. Instituições oficiais."
+    },
+    "como_sujeito": "A autoridade, a instituição, o isolamento",
+    "como_verbo": "Isolar, governar, estruturar, ambicionar",
+    "como_adjetivo": "Oficial, isolado, autoritário, ambicioso",
+    "contextos": {
+      "amor": "Relacionamento distante, parceiro isolado ou ambicioso",
+      "trabalho": "Corporação, governo, posição de autoridade",
+      "saude": "Hospital, isolamento médico",
+      "dinheiro": "Instituições financeiras, bancos, burocracia"
+    },
+    "combinacoes_notaveis": {
+      "com Urso (15)": "Grande autoridade, poder corporativo",
+      "com Coração (24)": "Coração frio, amor distante",
+      "com Casa (4)": "Propriedade oficial, prédio de apartamentos"
+    }
+  },
+  "20. Jardim": {
+    "numero": 20,
+    "nome_en": "Garden",
+    "simbolo": "🌷",
+    "elemento": "Terra",
+    "tempo": "Social",
+    "palavras_chave": ["sociedade", "público", "eventos", "rede social", "grupo"],
+    "significados": {
+      "Rana George": "Vida social e pública. Eventos e reuniões. Redes sociais e mídia. Grupos e comunidades. Reputação pública.",
+      "Caitlín Matthews": "O Jardim é onde as pessoas se encontram. Representa a vida social, eventos públicos, comunidade.",
+      "Andy Boroveshengra": "Sociedade, público, eventos sociais. Grupos e comunidades. Redes sociais. Reputação.",
+      "Tradição Alemã": "Der Garten - Sociedade, público, eventos. Vida social. Comunidade.",
+      "Tradição Brasileira": "Vida social, eventos, público. Redes sociais. Grupos e comunidades."
+    },
+    "como_sujeito": "A sociedade, o público, o evento",
+    "como_verbo": "Socializar, reunir, publicar",
+    "como_adjetivo": "Público, social, comunitário",
+    "contextos": {
+      "amor": "Conhecer alguém em evento, relacionamento público",
+      "trabalho": "Networking, eventos profissionais, trabalho público",
+      "saude": "Grupo de apoio, saúde pública",
+      "dinheiro": "Negócios sociais, investimento público"
+    },
+    "combinacoes_notaveis": {
+      "com Buquê (9)": "Festa, celebração, evento feliz",
+      "com Torre (19)": "Evento oficial, instituição pública",
+      "com Pássaros (12)": "Fofoca social, conversa em grupo"
+    }
+  },
+  "21. Montanha": {
+    "numero": 21,
+    "nome_en": "Mountain",
+    "simbolo": "⛰️",
+    "elemento": "Terra",
+    "tempo": "Bloqueio/Atraso",
+    "palavras_chave": ["obstáculo", "bloqueio", "atraso", "desafio", "inimigo"],
+    "significados": {
+      "Rana George": "Obstáculo e bloqueio. Atrasos significativos. Desafio a ser superado. Pode representar um inimigo ou pessoa que bloqueia.",
+      "Caitlín Matthews": "A Montanha bloqueia o caminho. Representa obstáculos, atrasos, mas também a possibilidade de superação com esforço.",
+      "Andy Boroveshengra": "Obstáculo, bloqueio, atraso. Desafio grande. Pode representar pessoa que impede ou inimigo.",
+      "Tradição Alemã": "Der Berg - Bloqueio, obstáculo, atraso. Inimigo. Desafio que requer esforço.",
+      "Tradição Brasileira": "Obstáculo, bloqueio, atraso. Desafio a superar. Pessoa que atrapalha."
+    },
+    "como_sujeito": "O obstáculo, o bloqueio, o inimigo",
+    "como_verbo": "Bloquear, atrasar, impedir, desafiar",
+    "como_adjetivo": "Bloqueado, atrasado, desafiador",
+    "contextos": {
+      "amor": "Obstáculo no relacionamento, pessoa que atrapalha",
+      "trabalho": "Bloqueio profissional, atraso em projeto",
+      "saude": "Recuperação lenta, bloqueio na cura",
+      "dinheiro": "Dificuldade financeira, bloqueio de fundos"
+    },
+    "combinacoes_notaveis": {
+      "com Caminhos (22)": "Decisão bloqueada, caminhos fechados",
+      "com Sol (31)": "Obstáculo superado",
+      "com Chave (33)": "Solução para o obstáculo"
+    }
+  },
+  "22. Caminhos": {
+    "numero": 22,
+    "nome_en": "Crossroads",
+    "simbolo": "🔀",
+    "elemento": "Ar",
+    "tempo": "Decisão",
+    "palavras_chave": ["escolha", "decisão", "alternativas", "dúvida", "opções"],
+    "significados": {
+      "Rana George": "Escolha e decisão a ser feita. Múltiplas opções disponíveis. Estar em uma encruzilhada. Liberdade de escolha.",
+      "Caitlín Matthews": "Os Caminhos divergem e você deve escolher. Representa decisões, opções, a necessidade de fazer uma escolha.",
+      "Andy Boroveshengra": "Escolha, decisão, opções. Múltiplos caminhos possíveis. Momento de decisão. Liberdade.",
+      "Tradição Alemã": "Die Wege - Escolha, decisão, alternativas. Encruzilhada. Opções.",
+      "Tradição Brasileira": "Escolha a fazer, decisão importante. Múltiplas opções. Encruzilhada na vida."
+    },
+    "como_sujeito": "A escolha, a decisão, as opções",
+    "como_verbo": "Escolher, decidir, optar, divergir",
+    "como_adjetivo": "Indeciso, múltiplo, alternativo",
+    "contextos": {
+      "amor": "Escolha entre parceiros, decisão sobre relacionamento",
+      "trabalho": "Escolha profissional, múltiplas oportunidades",
+      "saude": "Opções de tratamento, decisão médica",
+      "dinheiro": "Escolha financeira, investimentos alternativos"
+    },
+    "combinacoes_notaveis": {
+      "com Coração (24)": "Escolha no amor",
+      "com Montanha (21)": "Escolha difícil, caminhos bloqueados",
+      "com Criança (13)": "Novo caminho, opção inexplorada"
+    }
+  },
+  "23. Ratos": {
+    "numero": 23,
+    "nome_en": "Mice",
+    "simbolo": "🐀",
+    "elemento": "Terra",
+    "tempo": "Gradual",
+    "palavras_chave": ["perda", "deterioração", "estresse", "preocupação", "diminuição"],
+    "significados": {
+      "Rana George": "Perda gradual e deterioração. Estresse e preocupação que consome. Algo sendo roído aos poucos. Diminuição lenta mas constante.",
+      "Caitlín Matthews": "Os Ratos roem e consomem. Representam perdas graduais, estresse acumulado, preocupações que desgastam.",
+      "Andy Boroveshengra": "Perda, deterioração, estresse. Algo sendo consumido aos poucos. Preocupação constante.",
+      "Tradição Alemã": "Die Mäuse - Perda, deterioração, estresse. Algo que diminui gradualmente.",
+      "Tradição Brasileira": "Perda gradual, estresse, preocupação. Deterioração lenta. Algo sendo consumido."
+    },
+    "como_sujeito": "A perda, o estresse, a deterioração",
+    "como_verbo": "Perder, deteriorar, estressar, roer",
+    "como_adjetivo": "Perdido, estressado, deteriorado, diminuído",
+    "contextos": {
+      "amor": "Relacionamento se desgastando, perda gradual de amor",
+      "trabalho": "Estresse no trabalho, perda de posição",
+      "saude": "Doença que consome, estresse afetando saúde",
+      "dinheiro": "Perda financeira gradual, gastos que corroem"
+    },
+    "combinacoes_notaveis": {
+      "com Peixes (34)": "Perda de dinheiro",
+      "com Coração (24)": "Amor se deteriorando",
+      "com Caixão (8)": "Perda se encerra, fim do estresse"
+    }
+  },
+  "24. Coração": {
+    "numero": 24,
+    "nome_en": "Heart",
+    "simbolo": "❤️",
+    "elemento": "Água",
+    "tempo": "Emocional",
+    "palavras_chave": ["amor", "emoção", "paixão", "felicidade", "centro"],
+    "significados": {
+      "Rana George": "Amor em todas as formas. Emoções e sentimentos. Paixão e romance. O que está no centro de tudo. Felicidade emocional.",
+      "Caitlín Matthews": "O Coração é o centro de tudo. Representa amor, emoções, paixão, o que realmente importa.",
+      "Andy Boroveshengra": "Amor, romance, paixão. Emoções. O centro da questão. Felicidade do coração.",
+      "Tradição Alemã": "Das Herz - Amor, emoções, paixão. O que é central e importante.",
+      "Tradição Brasileira": "Amor, paixão, emoções. O centro de tudo. Felicidade romântica."
+    },
+    "como_sujeito": "O amor, a emoção, a paixão",
+    "como_verbo": "Amar, sentir, apaixonar-se",
+    "como_adjetivo": "Amoroso, emocional, apaixonado, central",
+    "contextos": {
+      "amor": "Amor verdadeiro, romance, paixão",
+      "trabalho": "Trabalho que ama, paixão profissional",
+      "saude": "Coração físico, saúde emocional",
+      "dinheiro": "Dinheiro com amor, generosidade"
+    },
+    "combinacoes_notaveis": {
+      "com Anel (25)": "Casamento por amor, compromisso amoroso",
+      "com Caixão (8)": "Fim do amor, coração partido",
+      "com Sol (31)": "Grande amor, felicidade no amor"
+    }
+  },
+  "25. Anel": {
+    "numero": 25,
+    "nome_en": "Ring",
+    "simbolo": "💍",
+    "elemento": "Metal",
+    "tempo": "Cíclico",
+    "palavras_chave": ["compromisso", "contrato", "ciclo", "casamento", "acordo"],
+    "significados": {
+      "Rana George": "Compromisso e contrato. Casamento e parcerias formais. Ciclos que se repetem. Acordos e promessas.",
+      "Caitlín Matthews": "O Anel une e compromete. Representa casamento, contratos, ciclos, qualquer forma de compromisso formal.",
+      "Andy Boroveshengra": "Compromisso, contrato, casamento. Ciclos. Acordos formais. Parcerias.",
+      "Tradição Alemã": "Der Ring - Casamento, compromisso, contrato. Ciclo, repetição.",
+      "Tradição Brasileira": "Casamento, compromisso, contrato. Ciclos na vida. Acordos formais."
+    },
+    "como_sujeito": "O compromisso, o contrato, o casamento",
+    "como_verbo": "Comprometer-se, casar, contratar, repetir",
+    "como_adjetivo": "Comprometido, casado, cíclico, formal",
+    "contextos": {
+      "amor": "Casamento, noivado, compromisso sério",
+      "trabalho": "Contrato de trabalho, parceria formal",
+      "saude": "Ciclo de saúde, tratamento contínuo",
+      "dinheiro": "Contrato financeiro, acordo comercial"
+    },
+    "combinacoes_notaveis": {
+      "com Coração (24)": "Casamento por amor",
+      "com Foice (10)": "Rompimento, divórcio",
+      "com Cobra (7)": "Compromisso problemático"
+    }
+  },
+  "26. Livro": {
+    "numero": 26,
+    "nome_en": "Book",
+    "simbolo": "📚",
+    "elemento": "Ar",
+    "tempo": "Estudo",
+    "palavras_chave": ["segredo", "conhecimento", "estudo", "mistério", "educação"],
+    "significados": {
+      "Rana George": "Segredos e mistérios. Conhecimento e educação. Algo oculto ou desconhecido. Pesquisa e estudo. Projetos secretos.",
+      "Caitlín Matthews": "O Livro guarda segredos e conhecimento. Representa o que está oculto, educação, mistérios a serem descobertos.",
+      "Andy Boroveshengra": "Segredo, conhecimento oculto. Educação, estudo. Algo desconhecido ou escondido.",
+      "Tradição Alemã": "Das Buch - Segredo, conhecimento, educação. Mistério, algo oculto.",
+      "Tradição Brasileira": "Segredo, conhecimento, estudo. Algo oculto ou desconhecido. Educação."
+    },
+    "como_sujeito": "O segredo, o conhecimento, o estudo",
+    "como_verbo": "Ocultar, estudar, descobrir, educar",
+    "como_adjetivo": "Secreto, educado, oculto, misterioso",
+    "contextos": {
+      "amor": "Segredo no amor, caso secreto, conhecer melhor o parceiro",
+      "trabalho": "Estudo, pesquisa, projeto secreto",
+      "saude": "Diagnóstico desconhecido, segundo opinião",
+      "dinheiro": "Conta secreta, conhecimento financeiro"
+    },
+    "combinacoes_notaveis": {
+      "com Cobra (7)": "Segredo perigoso, traição oculta",
+      "com Chave (33)": "Segredo revelado, conhecimento importante",
+      "com Lua (32)": "Intuição sobre segredos"
+    }
+  },
+  "27. Carta": {
+    "numero": 27,
+    "nome_en": "Letter",
+    "simbolo": "✉️",
+    "elemento": "Ar",
+    "tempo": "Comunicação",
+    "palavras_chave": ["mensagem", "documento", "comunicação", "notícia", "escrito"],
+    "significados": {
+      "Rana George": "Mensagem escrita, documentos, comunicação formal. Notícias por escrito. Emails, cartas, contratos escritos.",
+      "Caitlín Matthews": "A Carta traz mensagens escritas. Representa documentos, comunicações formais, notícias que chegam por escrito.",
+      "Andy Boroveshengra": "Mensagem, documento, comunicação escrita. Email, carta, contrato. Notícia formal.",
+      "Tradição Alemã": "Der Brief - Mensagem escrita, documento, comunicação. Notícias por escrito.",
+      "Tradição Brasileira": "Mensagem escrita, documento, comunicação. Email, carta, notícia oficial."
+    },
+    "como_sujeito": "A mensagem, o documento, a comunicação",
+    "como_verbo": "Escrever, comunicar, documentar, enviar",
+    "como_adjetivo": "Escrito, documentado, formal, comunicado",
+    "contextos": {
+      "amor": "Carta de amor, mensagem romântica, comunicação no relacionamento",
+      "trabalho": "Documento de trabalho, email profissional, contrato",
+      "saude": "Resultado de exame, documento médico",
+      "dinheiro": "Documento financeiro, cobrança, extrato"
+    },
+    "combinacoes_notaveis": {
+      "com Cavaleiro (1)": "Notícia chegando rápido",
+      "com Pássaros (12)": "Conversa, telefonema, múltiplas mensagens",
+      "com Caixão (8)": "Má notícia, documento de término"
+    }
+  },
+  "28. Homem": {
+    "numero": 28,
+    "nome_en": "Man",
+    "simbolo": "👨",
+    "elemento": "Neutro",
+    "tempo": "Pessoa",
+    "palavras_chave": ["homem", "consulente", "parceiro", "figura masculina"],
+    "significados": {
+      "Rana George": "O consulente masculino ou o homem em questão. O parceiro em relacionamentos. Uma figura masculina importante na situação.",
+      "Caitlín Matthews": "O Homem representa o consulente masculino ou a figura masculina central na questão.",
+      "Andy Boroveshengra": "O homem, consulente masculino, parceiro. Figura masculina significativa.",
+      "Tradição Alemã": "Der Herr - O homem, consulente, parceiro masculino.",
+      "Tradição Brasileira": "O homem da questão, consulente masculino, parceiro."
+    },
+    "como_sujeito": "O homem, o consulente, o parceiro",
+    "como_verbo": "Agir como homem, representar masculinidade",
+    "como_adjetivo": "Masculino",
+    "contextos": {
+      "amor": "O parceiro masculino, o homem amado",
+      "trabalho": "Colega ou chefe masculino",
+      "saude": "Saúde do homem, médico",
+      "dinheiro": "Homem em questões financeiras"
+    },
+    "nota": "Esta carta ganha significado das cartas ao redor. Representa o foco masculino da leitura."
+  },
+  "29. Mulher": {
+    "numero": 29,
+    "nome_en": "Woman",
+    "simbolo": "👩",
+    "elemento": "Neutro",
+    "tempo": "Pessoa",
+    "palavras_chave": ["mulher", "consulente", "parceira", "figura feminina"],
+    "significados": {
+      "Rana George": "A consulente feminina ou a mulher em questão. A parceira em relacionamentos. Uma figura feminina importante na situação.",
+      "Caitlín Matthews": "A Mulher representa a consulente feminina ou a figura feminina central na questão.",
+      "Andy Boroveshengra": "A mulher, consulente feminina, parceira. Figura feminina significativa.",
+      "Tradição Alemã": "Die Dame - A mulher, consulente, parceira feminina.",
+      "Tradição Brasileira": "A mulher da questão, consulente feminina, parceira."
+    },
+    "como_sujeito": "A mulher, a consulente, a parceira",
+    "como_verbo": "Agir como mulher, representar feminilidade",
+    "como_adjetivo": "Feminina",
+    "contextos": {
+      "amor": "A parceira feminina, a mulher amada",
+      "trabalho": "Colega ou chefe feminina",
+      "saude": "Saúde da mulher, médica",
+      "dinheiro": "Mulher em questões financeiras"
+    },
+    "nota": "Esta carta ganha significado das cartas ao redor. Representa o foco feminino da leitura."
+  },
+  "30. Lírios": {
+    "numero": 30,
+    "nome_en": "Lilies",
+    "simbolo": "🌺",
+    "elemento": "Água",
+    "tempo": "Maduro",
+    "palavras_chave": ["paz", "maturidade", "sexualidade", "virtude", "sabedoria"],
+    "significados": {
+      "Rana George": "Paz e harmonia. Maturidade e sabedoria. Sexualidade madura. Virtude e pureza. Família, especialmente pai ou figura paterna.",
+      "Caitlín Matthews": "Os Lírios representam paz, maturidade, sabedoria que vem com a idade. Também sexualidade e a figura paterna.",
+      "Andy Boroveshengra": "Paz, harmonia, maturidade. Sexualidade. Virtude. Pai ou figura paterna. Sabedoria.",
+      "Tradição Alemã": "Die Lilien - Paz, virtude, sexualidade. Família, pai. Maturidade.",
+      "Tradição Brasileira": "Paz, harmonia, maturidade. Sexualidade. Pai ou pessoa mais velha. Virtude."
+    },
+    "como_sujeito": "A paz, a maturidade, a sexualidade",
+    "como_verbo": "Pacificar, amadurecer, satisfazer",
+    "como_adjetivo": "Pacífico, maduro, sexual, virtuoso",
+    "contextos": {
+      "amor": "Amor maduro, sexualidade, paz no relacionamento",
+      "trabalho": "Mentor, pessoa experiente, ambiente pacífico",
+      "saude": "Saúde na maturidade, paz interior",
+      "dinheiro": "Estabilidade financeira, investimento maduro"
+    },
+    "combinacoes_notaveis": {
+      "com Chicote (11)": "Sexualidade intensa",
+      "com Coração (24)": "Amor maduro e pacífico",
+      "com Urso (15)": "Pai, figura de autoridade paterna"
+    }
+  },
+  "31. Sol": {
+    "numero": 31,
+    "nome_en": "Sun",
+    "simbolo": "☀️",
+    "elemento": "Fogo",
+    "tempo": "Dia/Verão",
+    "palavras_chave": ["sucesso", "felicidade", "energia", "vitória", "clareza"],
+    "significados": {
+      "Rana George": "Sucesso garantido, vitória. Felicidade e alegria. Energia vital. Clareza e iluminação. Calor e verão.",
+      "Caitlín Matthews": "O Sol brilha sobre tudo e traz sucesso. Representa vitória, felicidade, energia positiva, sucesso em qualquer empreendimento.",
+      "Andy Boroveshengra": "Sucesso, vitória, felicidade. Energia, vitalidade. Clareza. A carta mais positiva do baralho.",
+      "Tradição Alemã": "Die Sonne - Sucesso, felicidade, energia. Vitória garantida.",
+      "Tradição Brasileira": "Sucesso total, felicidade, energia. Vitória. A melhor carta do baralho."
+    },
+    "como_sujeito": "O sucesso, a felicidade, a vitória",
+    "como_verbo": "Brilhar, vencer, energizar, iluminar",
+    "como_adjetivo": "Bem-sucedido, feliz, energético, claro",
+    "contextos": {
+      "amor": "Amor feliz, sucesso no relacionamento",
+      "trabalho": "Sucesso profissional, vitória",
+      "saude": "Vitalidade, energia, recuperação",
+      "dinheiro": "Sucesso financeiro, prosperidade"
+    },
+    "combinacoes_notaveis": {
+      "com qualquer carta": "Melhora e ilumina qualquer situação",
+      "com Nuvens (6)": "Confusão se dissipando",
+      "com Caixão (8)": "Recuperação, renascimento"
+    }
+  },
+  "32. Lua": {
+    "numero": 32,
+    "nome_en": "Moon",
+    "simbolo": "🌙",
+    "elemento": "Água",
+    "tempo": "Noite/Mês",
+    "palavras_chave": ["intuição", "emoções", "fama", "romance", "ciclos"],
+    "significados": {
+      "Rana George": "Intuição e percepção psíquica. Emoções profundas. Fama e reconhecimento. Romance e sedução. Ciclos mensais.",
+      "Caitlín Matthews": "A Lua ilumina o oculto. Representa intuição, emoções, fama, romance, os mistérios noturnos.",
+      "Andy Boroveshengra": "Intuição, emoções, romance. Fama e reconhecimento. Ciclos. O mundo interior.",
+      "Tradição Alemã": "Der Mond - Intuição, emoções, fama. Romance. Reconhecimento.",
+      "Tradição Brasileira": "Intuição, emoções profundas. Fama e reconhecimento. Romance. Ciclos."
+    },
+    "como_sujeito": "A intuição, as emoções, a fama",
+    "como_verbo": "Intuir, emocionar, reconhecer, seduzir",
+    "como_adjetivo": "Intuitivo, emocional, famoso, romântico",
+    "contextos": {
+      "amor": "Romance intenso, emoções profundas, sedução",
+      "trabalho": "Reconhecimento profissional, fama, trabalho noturno",
+      "saude": "Ciclos de saúde, intuição sobre o corpo",
+      "dinheiro": "Reconhecimento financeiro, dinheiro da fama"
+    },
+    "combinacoes_notaveis": {
+      "com Sol (31)": "Sucesso e reconhecimento completos",
+      "com Estrela (16)": "Grande intuição, guia espiritual",
+      "com Nuvens (6)": "Emoções confusas, ilusão"
+    }
+  },
+  "33. Chave": {
+    "numero": 33,
+    "nome_en": "Key",
+    "simbolo": "🔑",
+    "elemento": "Metal",
+    "tempo": "Importante/Certo",
+    "palavras_chave": ["solução", "certeza", "importância", "destino", "abertura"],
+    "significados": {
+      "Rana George": "Solução e resposta. Certeza absoluta ('sim'). Importância crucial. Destino e carma. Abertura de portas.",
+      "Caitlín Matthews": "A Chave abre e resolve. Representa soluções, certezas, o que é destinado, importância vital.",
+      "Andy Boroveshengra": "Solução, certeza, sim definitivo. Destino, importância. Abertura de novas possibilidades.",
+      "Tradição Alemã": "Der Schlüssel - Solução, certeza, destino. Sim definitivo. Importância.",
+      "Tradição Brasileira": "Solução garantida, certeza. Destino. Importância crucial. 'Sim' definitivo."
+    },
+    "como_sujeito": "A solução, a certeza, o destino",
+    "como_verbo": "Resolver, abrir, destinar, garantir",
+    "como_adjetivo": "Certo, importante, destinado, solucionado",
+    "contextos": {
+      "amor": "Amor destinado, solução para o relacionamento",
+      "trabalho": "Solução profissional, oportunidade certa",
+      "saude": "Diagnóstico certo, tratamento que funciona",
+      "dinheiro": "Solução financeira, dinheiro garantido"
+    },
+    "combinacoes_notaveis": {
+      "com Montanha (21)": "Solução para o obstáculo",
+      "com Livro (26)": "Segredo revelado",
+      "com Caminhos (22)": "Decisão certa"
+    }
+  },
+  "34. Peixes": {
+    "numero": 34,
+    "nome_en": "Fish",
+    "simbolo": "🐟",
+    "elemento": "Água",
+    "tempo": "Fluxo",
+    "palavras_chave": ["dinheiro", "negócios", "abundância", "independência", "fluxo"],
+    "significados": {
+      "Rana George": "Dinheiro e finanças. Negócios e empreendimentos. Abundância e prosperidade. Independência financeira. Fluxo e liquidez.",
+      "Caitlín Matthews": "Os Peixes nadam em abundância. Representam dinheiro, negócios, prosperidade, independência financeira.",
+      "Andy Boroveshengra": "Dinheiro, finanças, negócios. Abundância, prosperidade. Independência. Fluxo financeiro.",
+      "Tradição Alemã": "Die Fische - Dinheiro, negócios, abundância. Prosperidade financeira.",
+      "Tradição Brasileira": "Dinheiro, negócios, abundância. Prosperidade. Independência financeira."
+    },
+    "como_sujeito": "O dinheiro, os negócios, a abundância",
+    "como_verbo": "Lucrar, negociar, prosperar, fluir",
+    "como_adjetivo": "Rico, próspero, abundante, independente",
+    "contextos": {
+      "amor": "Relacionamento próspero, parceiro rico",
+      "trabalho": "Negócio próprio, sucesso financeiro",
+      "saude": "Tratamento caro, saúde fluindo bem",
+      "dinheiro": "Prosperidade, lucro, abundância financeira"
+    },
+    "combinacoes_notaveis": {
+      "com Urso (15)": "Grande fortuna",
+      "com Ratos (23)": "Perda de dinheiro",
+      "com Sol (31)": "Sucesso financeiro garantido"
+    }
+  },
+  "35. Âncora": {
+    "numero": 35,
+    "nome_en": "Anchor",
+    "simbolo": "⚓",
+    "elemento": "Água/Metal",
+    "tempo": "Longo prazo",
+    "palavras_chave": ["estabilidade", "trabalho", "perseverança", "meta", "segurança"],
+    "significados": {
+      "Rana George": "Estabilidade e segurança. Trabalho estável e carreira. Perseverança e determinação. Metas alcançadas. Porto seguro.",
+      "Caitlín Matthews": "A Âncora fixa e estabiliza. Representa trabalho, estabilidade, perseverança, segurança a longo prazo.",
+      "Andy Boroveshengra": "Estabilidade, segurança, trabalho. Perseverança. Metas, objetivos de longo prazo.",
+      "Tradição Alemã": "Der Anker - Trabalho, estabilidade, perseverança. Segurança. Metas.",
+      "Tradição Brasileira": "Estabilidade, trabalho fixo, segurança. Perseverança. Objetivo alcançado."
+    },
+    "como_sujeito": "A estabilidade, o trabalho, a meta",
+    "como_verbo": "Estabilizar, perseverar, fixar, alcançar",
+    "como_adjetivo": "Estável, seguro, perseverante, fixo",
+    "contextos": {
+      "amor": "Relacionamento estável, segurança no amor",
+      "trabalho": "Emprego estável, carreira segura",
+      "saude": "Saúde estável, recuperação sustentada",
+      "dinheiro": "Finanças estáveis, segurança financeira"
+    },
+    "combinacoes_notaveis": {
+      "com Navio (3)": "Viagem com propósito, estabelecer-se em outro lugar",
+      "com Raposa (14)": "Trabalho, emprego",
+      "com Peixes (34)": "Estabilidade financeira"
+    }
+  },
+  "36. Cruz": {
+    "numero": 36,
+    "nome_en": "Cross",
+    "simbolo": "✝️",
+    "elemento": "Éter",
+    "tempo": "Carma/Destino",
+    "palavras_chave": ["fardo", "destino", "sofrimento", "religião", "prova"],
+    "significados": {
+      "Rana George": "Fardo e responsabilidade pesada. Destino e carma. Sofrimento necessário. Religião e espiritualidade. Provas da vida.",
+      "Caitlín Matthews": "A Cruz é o fardo que carregamos. Representa destino, carma, sofrimento, mas também fé e transcendência.",
+      "Andy Boroveshengra": "Fardo, destino, carma. Sofrimento, prova. Religião, fé. O que deve ser suportado.",
+      "Tradição Alemã": "Das Kreuz - Destino, fardo, sofrimento. Carma. Religião.",
+      "Tradição Brasileira": "Fardo, destino, sofrimento. Carma a pagar. Religiosidade. Provação."
+    },
+    "como_sujeito": "O fardo, o destino, o sofrimento",
+    "como_verbo": "Sofrer, carregar, destinar, provar",
+    "como_adjetivo": "Pesado, destinado, religioso, cármico",
+    "contextos": {
+      "amor": "Relacionamento cármico, fardo no amor",
+      "trabalho": "Trabalho pesado, responsabilidade",
+      "saude": "Doença crônica, sofrimento físico",
+      "dinheiro": "Dívida cármica, fardo financeiro"
+    },
+    "combinacoes_notaveis": {
+      "com Sol (31)": "Superação do sofrimento, fé recompensada",
+      "com Trevo (2)": "Alívio do fardo",
+      "com Árvore (5)": "Doença crônica, sofrimento de saúde"
+    }
+  }
+}
