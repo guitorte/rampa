@@ -655,6 +655,3 @@ async function init() {
 
 // Start the application
 document.addEventListener('DOMContentLoaded', init);
-
-// Export for potential module usage
-export { state, ALL_CARDS, DYNAMICS_INFO };
