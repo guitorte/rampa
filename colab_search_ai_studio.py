@@ -11,17 +11,23 @@ drive.mount('/content/drive')
 import os
 import re
 import time
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, as_completed, TimeoutError
 from tqdm import tqdm
 
 # Configuration
 DRIVE_FOLDER = '/content/drive/My Drive/Google AI Studio'
 ENCODING = 'utf-8'
 MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB - skip larger files
-NUM_WORKERS = 4  # Parallel threads for searching
+MAX_READ_SIZE = 10 * 1024 * 1024  # 10MB - max to read per file
+NUM_WORKERS = 2  # Reduced from 4 for stability
+TIMEOUT_PER_FILE = 5  # seconds
 
 print("✅ Google Drive mounted!")
-print(f"⚙️  Using {NUM_WORKERS} parallel workers for fast searching\n")
+print(f"⚙️  Configuration:")
+print(f"   - Workers: {NUM_WORKERS}")
+print(f"   - Max file size: {MAX_FILE_SIZE / (1024*1024):.0f}MB")
+print(f"   - Max read size: {MAX_READ_SIZE / (1024*1024):.0f}MB")
+print(f"   - Timeout per file: {TIMEOUT_PER_FILE}s\n")
 
 def find_files_without_extension(folder_path, max_size=MAX_FILE_SIZE):
     """Find all files without extension in the specified folder and subfolders"""
@@ -51,13 +57,19 @@ def find_files_without_extension(folder_path, max_size=MAX_FILE_SIZE):
     files_without_ext.sort(key=lambda x: x[1])
     return [f[0] for f in files_without_ext]
 
-def search_in_file(file_path, search_term, case_sensitive=False, flags=0):
-    """Search for a term in a single file - optimized for parallel execution"""
+def search_in_file(file_path, search_term, case_sensitive=False, flags=0, max_read=MAX_READ_SIZE):
+    """Search for a term in a single file with size protection"""
     results = []
 
     try:
+        # Check file size first
+        file_size = os.path.getsize(file_path)
+        if file_size > max_read:
+            return []  # Skip very large files
+
         with open(file_path, 'r', encoding=ENCODING, errors='ignore') as f:
-            content = f.read()
+            # Read with size limit to prevent memory issues
+            content = f.read(max_read)
 
             try:
                 matches = list(re.finditer(search_term, content, flags))
@@ -77,10 +89,12 @@ def search_in_file(file_path, search_term, case_sensitive=False, flags=0):
 
     return results
 
-def search_in_files_parallel(files, search_term, case_sensitive=False, num_workers=NUM_WORKERS):
-    """Search for a term in files using parallel processing"""
+def search_in_files_parallel(files, search_term, case_sensitive=False, num_workers=NUM_WORKERS, timeout_per_file=TIMEOUT_PER_FILE):
+    """Search for a term in files using parallel processing with timeout protection"""
     results = []
     flags = 0 if case_sensitive else re.IGNORECASE
+    skipped_count = 0
+    timeout_count = 0
 
     with ThreadPoolExecutor(max_workers=num_workers) as executor:
         # Submit all tasks
@@ -91,10 +105,20 @@ def search_in_files_parallel(files, search_term, case_sensitive=False, num_worke
 
         # Collect results with progress bar
         with tqdm(total=len(files), desc="🔍 Searching", unit="file") as pbar:
-            for future in as_completed(futures):
-                file_results = future.result()
-                results.extend(file_results)
+            for future in as_completed(futures, timeout=timeout_per_file + 2):
+                file_path = futures[future]
+                try:
+                    file_results = future.result(timeout=timeout_per_file)
+                    results.extend(file_results)
+                except TimeoutError:
+                    timeout_count += 1
+                    pbar.write(f"⏱️  Timeout: {file_path.split('/')[-1]}")
+                except Exception:
+                    skipped_count += 1
                 pbar.update(1)
+
+    if timeout_count > 0 or skipped_count > 0:
+        print(f"\n⚠️  Timeouts: {timeout_count} | Skipped: {skipped_count}")
 
     return results
 
@@ -163,11 +187,12 @@ while True:
 
     print(f"\n🔍 Searching for '{search_term}'...\n")
     start_time = time.time()
-    results = search_in_files_parallel(files_without_ext, search_term, case_sensitive)
+    results = search_in_files_parallel(files_without_ext, search_term, case_sensitive, num_workers=2)
     search_time = time.time() - start_time
 
     print(f"\n✅ Found {len(results)} matches in {search_time:.2f}s")
-    print(f"Searched {len(files_without_ext)} files at ~{len(files_without_ext)/search_time:.0f} files/second\n")
+    if search_time > 0:
+        print(f"Searched {len(files_without_ext)} files at ~{len(files_without_ext)/search_time:.0f} files/second\n")
 
     display_results(results, limit=20)
     print("\n" + "-" * 80 + "\n")
