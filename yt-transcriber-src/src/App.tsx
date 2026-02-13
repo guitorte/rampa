@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { AlertTriangle } from 'lucide-react';
 import type { VideoEntry } from './types';
 import {
   fetchTranscript,
@@ -6,6 +7,7 @@ import {
   extractVideoId,
   isPlaylistUrl,
   parseVideoUrls,
+  checkServerHealth,
 } from './services/api';
 import Header from './components/Header';
 import UrlInput from './components/UrlInput';
@@ -17,6 +19,21 @@ export default function App() {
   const [videos, setVideos] = useState<VideoEntry[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [serverOnline, setServerOnline] = useState<boolean | null>(null);
+
+  // Check backend health on mount and periodically
+  useEffect(() => {
+    let mounted = true;
+
+    async function check() {
+      const ok = await checkServerHealth();
+      if (mounted) setServerOnline(ok);
+    }
+
+    check();
+    const interval = setInterval(check, 15_000);
+    return () => { mounted = false; clearInterval(interval); };
+  }, []);
 
   const doneCount = videos.filter((v) => v.status === 'done').length;
   const selectedVideo = videos.find((v) => v.id === selectedId);
@@ -125,6 +142,19 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header videoCount={videos.length} doneCount={doneCount} />
+
+      {serverOnline === false && (
+        <div className="bg-yellow-900/40 border-b border-yellow-700/50">
+          <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+            <AlertTriangle className="w-4 h-4 text-yellow-400 flex-shrink-0" />
+            <p className="text-sm text-yellow-200">
+              <strong>Servidor offline.</strong>{' '}
+              Execute <code className="bg-yellow-900/60 px-1.5 py-0.5 rounded text-xs">npm run server</code>{' '}
+              no terminal para iniciar o backend (porta 3131).
+            </p>
+          </div>
+        </div>
+      )}
 
       <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-6">
         <div className="space-y-6">

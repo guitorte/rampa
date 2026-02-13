@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Download, FileText, Subtitles, Clock, Braces } from 'lucide-react';
-import type { VideoEntry, ExportFormat } from '../types';
-import { exportTranscript } from '../services/api';
+import type { VideoEntry, ExportFormat, TranscriptSegment } from '../types';
 
 interface ExportPanelProps {
   videos: VideoEntry[];
@@ -15,10 +14,63 @@ const FORMAT_OPTIONS: { value: ExportFormat; label: string; icon: typeof FileTex
   { value: 'json', label: 'JSON', icon: Braces, desc: 'Dados estruturados completos' },
 ];
 
+// ---- Client-side formatters (no server needed) ----
+
+function formatSrtTime(ms: number): string {
+  const totalSeconds = Math.floor(ms / 1000);
+  const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+  const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+  const s = String(totalSeconds % 60).padStart(2, '0');
+  const mil = String(Math.floor(ms % 1000)).padStart(3, '0');
+  return `${h}:${m}:${s},${mil}`;
+}
+
+function formatTimestamp(ms: number): string {
+  const totalSeconds = Math.floor(ms / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  if (hours > 0) return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  return `${minutes}:${String(seconds).padStart(2, '0')}`;
+}
+
+function formatSegments(segments: TranscriptSegment[], fmt: ExportFormat): { content: string; ext: string; mime: string } {
+  switch (fmt) {
+    case 'srt':
+      return {
+        content: segments
+          .map((s, i) => `${i + 1}\n${formatSrtTime(s.offset)} --> ${formatSrtTime(s.offset + s.duration)}\n${s.text}\n`)
+          .join('\n'),
+        ext: 'srt',
+        mime: 'text/srt',
+      };
+    case 'timestamped':
+      return {
+        content: segments.map((s) => `[${formatTimestamp(s.offset)}] ${s.text}`).join('\n'),
+        ext: 'txt',
+        mime: 'text/plain',
+      };
+    case 'json':
+      return {
+        content: JSON.stringify(segments, null, 2),
+        ext: 'json',
+        mime: 'application/json',
+      };
+    case 'text':
+    default:
+      return {
+        content: segments.map((s) => s.text).join(' '),
+        ext: 'txt',
+        mime: 'text/plain',
+      };
+  }
+}
+
+// ---- Component ----
+
 export default function ExportPanel({ videos, selectedId }: ExportPanelProps) {
   const [format, setFormat] = useState<ExportFormat>('text');
   const [scope, setScope] = useState<'selected' | 'all'>('selected');
-  const [isExporting, setIsExporting] = useState(false);
 
   const doneVideos = videos.filter((v) => v.status === 'done' && v.transcript);
   const selectedVideo = videos.find((v) => v.id === selectedId);
@@ -26,43 +78,36 @@ export default function ExportPanel({ videos, selectedId }: ExportPanelProps) {
 
   if (doneVideos.length === 0) return null;
 
-  async function handleExport() {
-    setIsExporting(true);
+  function triggerDownload(content: string, filename: string, mime: string) {
+    const blob = new Blob([content], { type: mime });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
 
-    try {
-      const videosToExport = scope === 'all'
-        ? doneVideos
-        : canExportSelected
-          ? [selectedVideo!]
-          : [];
+  function handleExport() {
+    const videosToExport = scope === 'all'
+      ? doneVideos
+      : canExportSelected
+        ? [selectedVideo!]
+        : [];
 
-      for (const video of videosToExport) {
-        if (!video.transcript) continue;
+    for (const video of videosToExport) {
+      if (!video.transcript) continue;
 
-        const result = await exportTranscript(video.transcript, format);
+      const { content, ext, mime } = formatSegments(video.transcript, format);
 
-        // Create download
-        const blob = new Blob([result.content], { type: result.contentType });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
+      const safeTitle = video.title
+        .replace(/[^a-zA-Z0-9\u00C0-\u024F\s_-]/g, '')
+        .replace(/\s+/g, '_')
+        .slice(0, 60);
 
-        const safeTitle = video.title
-          .replace(/[^a-zA-Z0-9\u00C0-\u024F\s_-]/g, '')
-          .replace(/\s+/g, '_')
-          .slice(0, 60);
-        const ext = format === 'json' ? 'json' : format === 'srt' ? 'srt' : 'txt';
-        a.download = `${safeTitle}.${ext}`;
-
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      }
-    } catch (err) {
-      console.error('Export failed:', err);
-    } finally {
-      setIsExporting(false);
+      triggerDownload(content, `${safeTitle}.${ext}`, mime);
     }
   }
 
@@ -124,11 +169,11 @@ export default function ExportPanel({ videos, selectedId }: ExportPanelProps) {
       {/* Export button */}
       <button
         onClick={handleExport}
-        disabled={isExporting || (scope === 'selected' && !canExportSelected)}
+        disabled={scope === 'selected' && !canExportSelected}
         className="w-full flex items-center justify-center gap-2 py-2.5 bg-red-600 hover:bg-red-700 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
       >
         <Download className="w-4 h-4" />
-        {isExporting ? 'Exportando...' : 'Baixar'}
+        Baixar
       </button>
     </div>
   );

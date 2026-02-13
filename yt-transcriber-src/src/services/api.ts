@@ -2,6 +2,9 @@ import type { TranscriptSegment, VideoEntry } from '../types';
 
 const API_BASE = '/api';
 
+const SERVER_DOWN_MSG =
+  'Servidor não está rodando. Execute "npm run server" no terminal.';
+
 interface TranscriptResponse {
   videoId: string;
   title: string;
@@ -37,6 +40,44 @@ interface ExportResponse {
   contentType: string;
 }
 
+/**
+ * Safely parse a fetch Response as JSON.
+ * If the body isn't valid JSON (e.g. an HTML error page),
+ * throw a clear error instead of a cryptic parse failure.
+ */
+async function safeJson<T>(res: Response, fallbackError: string): Promise<T> {
+  const contentType = res.headers.get('content-type') ?? '';
+
+  if (!contentType.includes('application/json')) {
+    throw new Error(SERVER_DOWN_MSG);
+  }
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data?.error ?? fallbackError);
+  }
+
+  return data as T;
+}
+
+/**
+ * Check whether the backend server is reachable.
+ */
+export async function checkServerHealth(): Promise<boolean> {
+  try {
+    const res = await fetch(`${API_BASE}/transcript`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: '' }),
+    });
+    const ct = res.headers.get('content-type') ?? '';
+    return ct.includes('application/json');
+  } catch {
+    return false;
+  }
+}
+
 export async function fetchTranscript(
   url: string,
   lang?: string
@@ -47,12 +88,7 @@ export async function fetchTranscript(
     body: JSON.stringify({ url, lang }),
   });
 
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.error ?? 'Failed to fetch transcript');
-  }
-
-  return res.json();
+  return safeJson<TranscriptResponse>(res, 'Failed to fetch transcript');
 }
 
 export async function resolvePlaylist(url: string): Promise<PlaylistResponse> {
@@ -62,12 +98,7 @@ export async function resolvePlaylist(url: string): Promise<PlaylistResponse> {
     body: JSON.stringify({ url }),
   });
 
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.error ?? 'Failed to resolve playlist');
-  }
-
-  return res.json();
+  return safeJson<PlaylistResponse>(res, 'Failed to resolve playlist');
 }
 
 export async function fetchBulkTranscripts(
@@ -80,12 +111,7 @@ export async function fetchBulkTranscripts(
     body: JSON.stringify({ urls, lang }),
   });
 
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.error ?? 'Bulk fetch failed');
-  }
-
-  return res.json();
+  return safeJson<BulkResponse>(res, 'Bulk fetch failed');
 }
 
 export async function exportTranscript(
@@ -98,12 +124,7 @@ export async function exportTranscript(
     body: JSON.stringify({ segments, format }),
   });
 
-  if (!res.ok) {
-    const err = await res.json();
-    throw new Error(err.error ?? 'Export failed');
-  }
-
-  return res.json();
+  return safeJson<ExportResponse>(res, 'Export failed');
 }
 
 /**
