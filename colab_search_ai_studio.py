@@ -1,5 +1,6 @@
 """
 Google Colab script to search files without extension in "/Google AI Studio" folder
+OPTIMIZED for 1000+ files with parallel processing and progress tracking
 Run this script in Google Colab to search inside files without extensions
 """
 
@@ -9,13 +10,20 @@ drive.mount('/content/drive')
 
 import os
 import re
-from pathlib import Path
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from tqdm import tqdm
 
 # Configuration
 DRIVE_FOLDER = '/content/drive/My Drive/Google AI Studio'
 ENCODING = 'utf-8'
+MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB - skip larger files
+NUM_WORKERS = 4  # Parallel threads for searching
 
-def find_files_without_extension(folder_path):
+print("✅ Google Drive mounted!")
+print(f"⚙️  Using {NUM_WORKERS} parallel workers for fast searching\n")
+
+def find_files_without_extension(folder_path, max_size=MAX_FILE_SIZE):
     """Find all files without extension in the specified folder and subfolders"""
     files_without_ext = []
 
@@ -29,39 +37,64 @@ def find_files_without_extension(folder_path):
                 # Check if file has no extension (no dot in filename, or dot is at the start)
                 if '.' not in file or file.startswith('.'):
                     full_path = os.path.join(root, file)
-                    files_without_ext.append(full_path)
+                    try:
+                        file_size = os.path.getsize(full_path)
+                        # Skip files that are too large (likely binary)
+                        if file_size <= max_size:
+                            files_without_ext.append((full_path, file_size))
+                    except (OSError, PermissionError):
+                        pass
     except PermissionError as e:
         print(f"⚠️  Permission denied: {e}")
 
-    return files_without_ext
+    # Sort by file size (smaller files first for faster initial results)
+    files_without_ext.sort(key=lambda x: x[1])
+    return [f[0] for f in files_without_ext]
 
-def search_in_files(files, search_term, case_sensitive=False):
-    """Search for a term in the content of files"""
+def search_in_file(file_path, search_term, case_sensitive=False, flags=0):
+    """Search for a term in a single file - optimized for parallel execution"""
+    results = []
+
+    try:
+        with open(file_path, 'r', encoding=ENCODING, errors='ignore') as f:
+            content = f.read()
+
+            try:
+                matches = list(re.finditer(search_term, content, flags))
+            except re.error as e:
+                return [(file_path, 0, f'❌ Regex error: {e}', '', 0)]
+
+            if matches:
+                lines = content.split('\n')
+                for match in matches:
+                    pos = match.start()
+                    line_num = content[:pos].count('\n') + 1
+                    line_content = lines[line_num - 1] if line_num <= len(lines) else ""
+
+                    results.append((file_path, line_num, match.group(), line_content, pos))
+    except Exception:
+        pass  # Silently skip files that can't be read
+
+    return results
+
+def search_in_files_parallel(files, search_term, case_sensitive=False, num_workers=NUM_WORKERS):
+    """Search for a term in files using parallel processing"""
     results = []
     flags = 0 if case_sensitive else re.IGNORECASE
 
-    for file_path in files:
-        try:
-            with open(file_path, 'r', encoding=ENCODING, errors='ignore') as f:
-                content = f.read()
-                matches = re.finditer(search_term, content, flags)
-                matches_list = list(matches)
+    with ThreadPoolExecutor(max_workers=num_workers) as executor:
+        # Submit all tasks
+        futures = {
+            executor.submit(search_in_file, file_path, search_term, case_sensitive, flags): file_path
+            for file_path in files
+        }
 
-                if matches_list:
-                    # Get context around matches
-                    lines = content.split('\n')
-                    for match in matches_list:
-                        # Find which line the match is on
-                        pos = match.start()
-                        line_num = content[:pos].count('\n') + 1
-                        results.append({
-                            'file': file_path,
-                            'line': line_num,
-                            'match': match.group(),
-                            'position': pos
-                        })
-        except Exception as e:
-            print(f"⚠️  Error reading {file_path}: {e}")
+        # Collect results with progress bar
+        with tqdm(total=len(files), desc="🔍 Searching", unit="file") as pbar:
+            for future in as_completed(futures):
+                file_results = future.result()
+                results.extend(file_results)
+                pbar.update(1)
 
     return results
 
@@ -74,26 +107,37 @@ def display_results(results, limit=20):
     print(f"✅ Found {len(results)} matches\n")
     print("=" * 80)
 
-    for i, result in enumerate(results[:limit], 1):
-        print(f"\n{i}. File: {result['file']}")
-        print(f"   Line {result['line']}: {result['match']}")
+    for i, (file_path, line_num, match, line_content, pos) in enumerate(results[:limit], 1):
+        print(f"\n{i}. File: {file_path}")
+        print(f"   Line {line_num}: {match}")
+        if line_content:
+            context = line_content[:80]
+            if len(line_content) > 80:
+                context += "..."
+            print(f"   Context: {context}")
 
     if len(results) > limit:
         print(f"\n... and {len(results) - limit} more matches")
 
 # Main script
-print("🔍 Google AI Studio File Search Tool")
+print("🔍 Google AI Studio File Search Tool (Optimized)")
 print("=" * 80)
 print(f"Searching in: {DRIVE_FOLDER}\n")
 
 # Find files without extension
 print("📂 Scanning for files without extension...")
+start_time = time.time()
 files_without_ext = find_files_without_extension(DRIVE_FOLDER)
+scan_time = time.time() - start_time
 
 if files_without_ext:
-    print(f"✅ Found {len(files_without_ext)} files without extension:\n")
+    total_size = sum(os.path.getsize(f) for f in files_without_ext if os.path.exists(f)) / (1024*1024)
+    print(f"✅ Found {len(files_without_ext)} files ({total_size:.1f}MB) in {scan_time:.2f}s\n")
+    print("Sample files:")
     for file in files_without_ext[:10]:
-        print(f"  • {file}")
+        if os.path.exists(file):
+            size = os.path.getsize(file) / 1024
+            print(f"  • {file} ({size:.1f}KB)")
     if len(files_without_ext) > 10:
         print(f"  ... and {len(files_without_ext) - 10} more")
 else:
@@ -118,6 +162,12 @@ while True:
     case_sensitive = input("Case sensitive? (y/n): ").lower() == 'y'
 
     print(f"\n🔍 Searching for '{search_term}'...\n")
-    results = search_in_files(files_without_ext, search_term, case_sensitive)
-    display_results(results)
+    start_time = time.time()
+    results = search_in_files_parallel(files_without_ext, search_term, case_sensitive)
+    search_time = time.time() - start_time
+
+    print(f"\n✅ Found {len(results)} matches in {search_time:.2f}s")
+    print(f"Searched {len(files_without_ext)} files at ~{len(files_without_ext)/search_time:.0f} files/second\n")
+
+    display_results(results, limit=20)
     print("\n" + "-" * 80 + "\n")
