@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CardioPet Pelotas | Eletrocardiograma Veterinário Especializado</title>
+    <meta name="description" content="Eletrocardiograma veterinário em Pelotas. Exames cardíacos para cães e gatos com atendimento especializado e resultado imediato.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --primary: #0f766e;
+            --primary-light: #14b8a6;
+            --secondary: #fef3c7;
+            --accent: #f59e0b;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --bg: #fafaf9;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+        
+        .font-body {
+            font-family: 'DM Sans', sans-serif;
+        }
+        
+        /* ECG Animation */
+        .ecg-container {
+            position: relative;
+            height: 100px;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .ecg-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 200%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                var(--primary-light) 45%, 
+                var(--primary) 50%, 
+                var(--primary-light) 55%, 
+                transparent 100%
+            );
+            transform: translateY(-50%);
+            animation: ecgMove 3s linear infinite;
+        }
+        
+        .ecg-pulse {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary-light);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes ecgMove {
+            0% { transform: translateY(-50%) translateX(0); }
+            100% { transform: translateY(-50%) translateX(-50%); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.5; }
+        }
+        
+        /* Organic Shapes */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: -1;
+        }
+        
+        .blob-1 {
+            background: linear-gradient(135deg, #14b8a6, #0f766e);
+            width: 500px;
+            height: 500px;
+            top: -200px;
+            right: -200px;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .blob-2 {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            width: 400px;
+            height: 400px;
+            bottom: -150px;
+            left: -150px;
+            animation: float 10s ease-in-out infinite reverse;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.1); }
+        }
+        
+        /* Heartbeat Pattern Background */
+        .heart-pattern {
+            background-image: radial-gradient(circle at 2px 2px, rgba(20, 184, 166, 0.15) 2px, transparent 0);
+            background-size: 40px 40px;
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Form Styles */
+        .input-field {
+            transition: all 0.3s ease;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .input-field:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.1);
+            outline: none;
+        }
+        
+        /* Button Hover Effects */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(15, 118, 110, 0.4);
+        }
+        
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-primary:hover::after {
+            left: 100%;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 50;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        /* Card Hover */
+        .service-card {
+            transition: all 0.4s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Text Selection */
+        ::selection {
+            background: var(--primary-light);
+            color: white;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Decorative Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-40 glass top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-teal-600 to-teal-400 rounded-full flex items-center justify-center">
+                        <i data-lucide="heart-pulse" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-bold text-teal-900" style="font-family: 'Playfair Display', serif;">CardioPet</span>
+                        <span class="block text-xs text-teal-600 font-medium tracking-wider uppercase">Pelotas</span>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#sobre" class="text-slate-600 hover:text-teal-700 font-medium transition-colors">Sobre</a>
+                    <a href="#como-funciona" class="text-slate-600 hover:text-teal-700 font-medium transition-colors">Como Funciona</a>
+                    <a href="#agendar" class="btn-primary text-white px-6 py-3 rounded-full font-semibold shadow-lg">
+                        Agendar Exame
+                    </a>
+                </div>
+
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-slate-600">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 h-full w-80 bg-white shadow-2xl md:hidden z-50 p-8">
+            <button id="close-menu" class="absolute top-6 right-6 text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            <div class="mt-12 flex flex-col gap-6">
+                <a href="#sobre" class="text-lg text-slate-700 hover:text-teal-700 font-medium border-b border-slate-100 pb-2">Sobre</a>
+                <a href="#como-funciona" class="text-lg text-slate-700 hover:text-teal-700 font-medium border-b border-slate-100 pb-2">Como Funciona</a>
+                <a href="#agendar" class="btn-primary text-white px-6 py-4 rounded-xl font-semibold text-center mt-4">
+                    Agendar Exame
+                </a>
+                <div class="mt-8 p-4 bg-teal-50 rounded-xl">
+                    <p class="text-sm text-teal-800 font-medium">📍 Pelotas - RS</p>
+                    <p class="text-sm text-teal-600 mt-1">Atendimento com hora marcada</p>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden heart-pattern">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-teal-100 text-teal-800 rounded-full text-sm font-semibold mb-6">
+                        <i data-lucide="map-pin" class="w-4 h-4"></i>
+                        Atendendo em Pelotas e região
+                    </div>
+                    
+                    <h1 class="text-5xl lg:text-6xl xl:text-7xl text-slate-900 leading-tight mb-6">
+                        O coração do seu <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-teal-400">pet</span> em boas mãos
+                    </h1>
+                    
+                    <p class="text-lg lg:text-xl text-slate-600 mb-8 font-body leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                        Eletrocardiograma veterinário com tecnologia de ponta e interpretação especializada. 
+                        Detecte precocemente problemas cardíacos em cães e gatos com quem entende do assunto.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#agendar" class="btn-primary text-white px-8 py-4 rounded-full font-semibold text-lg shadow-xl flex items-center justify-center gap-2">
+                            <i data-lucide="calendar-check" class="w-5 h-5"></i>
+                            Agendar Consulta
+                        </a>
+                        <a href="https://wa.me/5553999999999?text=Olá!%20Gostaria%20de%20mais%20informações%20sobre%20o%20eletrocardiograma%20para%20meu%20pet." 
+                           target="_blank"
+                           class="bg-white text-teal-700 border-2 border-teal-100 px-8 py-4 rounded-full font-semibold text-lg hover:border-teal-300 hover:bg-teal-50 transition-all flex items-center justify-center gap-2 shadow-lg">
+                            <i data-lucide="message-circle" class="w-5 h-5"></i>
+                            Falar no WhatsApp
+                        </a>
+                    </div>
+
+                    <div class="mt-8 flex items-center justify-center lg:justify-start gap-6 text-sm text-slate-500">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-teal-600"></i>
+                            <span>Resultado em 24h</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="home" class="w-5 h-5 text-teal-600"></i>
+                            <span>Atendimento domiciliar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-teal-200 to-amber-200 rounded-3xl transform rotate-3 opacity-30"></div>
+                    <div class="relative glass rounded-3xl p-8 lg:p-12 shadow-2xl">
+                        <!-- ECG Animation Display -->
+                        <div class="ecg-container mb-6 bg-slate-50 rounded-2xl border border-slate-200">
+                            <div class="ecg-line"></div>
+                            <div class="ecg-pulse"></div>
+                            <div class="absolute bottom-4 left-4 text-xs text-slate-400 font-mono">ECG MONITORING</div>
+                            <div class="absolute bottom-4 right-4 text-xs text-teal-600 font-bold">● LIVE</div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm">
+                                <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="activity" class="w-6 h-6 text-teal-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-slate-900">Monitoramento Cardíaco</h4>
+                                    <p class="text-sm text-slate-500">Avaliação completa da frequência e ritmo</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm">
+                                <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="file-text" class="w-6 h-6 text-amber-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-slate-900">Laudo Especializado</h4>
+                                    <p class="text-sm text-slate-500">Interpretação por médico veterinário cardiologista</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm">
+                                <div class="w-12 h-12 bg-rose-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="heart-handshake" class="w-6 h-6 text-rose-600"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-slate-900">Cuidado Preventivo</h4>
+                                    <p class="text-sm text-slate-500">Detecção precoce de arritmias e doenças</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem/Solution Section -->
+    <section id="sobre" class="py-20 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-teal-600 font-semibold tracking-wider uppercase text-sm">Por que fazer?</span>
+                <h2 class="text-4xl lg:text-5xl text-slate-900 mt-4 mb-6">
+                    Doenças cardíacas silenciosas são mais comuns do que você imagina
+                </h2>
+                <p class="text-lg text-slate-600 font-body">
+                    Muitos problemas de coração em pets não apresentam sintomas visíveis até estarem em estágios avançados. 
+                    O eletrocardiograma é o exame mais eficaz para diagnosticar arritmias e avaliar a saúde cardíaca do seu companheiro.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="service-card bg-gradient-to-br from-slate-50 to-white p-8 rounded-2xl border border-slate-100">
+                    <div class="w-14 h-14 bg-teal-100 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="stethoscope" class="w-7 h-7 text-teal-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Prevenção Salva Vidas</h3>
+                    <p class="text-slate-600 font-body leading-relaxed">
+                        Exames regulares permitem detectar alterações cardíacas antes que se tornem graves, 
+                        aumentando significativamente as chances de tratamento eficaz.
+                    </p>
+                </div>
+
+                <div class="service-card bg-gradient-to-br from-slate-50 to-white p-8 rounded-2xl border border-slate-100">
+                    <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="zap" class="w-7 h-7 text-amber-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Exame Rápido e Indolor</h3>
+                    <p class="text-slate-600 font-body leading-relaxed">
+                        Procedimento não-invasivo que dura apenas alguns minutos, sem causar estresse ou desconforto ao seu animal. 
+                        Feito com carinho e paciência.
+                    </p>
+                </div>
+
+                <div class="service-card bg-gradient-to-br from-slate-50 to-white p-8 rounded-2xl border border-slate-100">
+                    <div class="w-14 h-14 bg-rose-100 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="award" class="w-7 h-7 text-rose-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Especialidade em Foco</h3>
+                    <p class="text-slate-600 font-body leading-relaxed">
+                        Não é apenas um exame, é uma avaliação cardiológica completa. 
+                        Trabalhamos exclusivamente com eletrocardiografia veterinária para oferecer o melhor.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section id="como-funciona" class="py-20 bg-slate-50 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <span class="text-teal-600 font-semibold tracking-wider uppercase text-sm">Processo Simples</span>
+                <h2 class="text-4xl lg:text-5xl text-slate-900 mt-4">
+                    Como funciona o atendimento
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8 relative">
+                <!-- Connection Line -->
+                <div class="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-gradient-to-r from-teal-200 via-teal-400 to-teal-200"></div>
+
+                <div class="relative text-center">
+                    <div class="w-24 h-24 mx-auto bg-white rounded-full shadow-lg flex items-center justify-center relative z-10 border-4 border-teal-100 mb-6">
+                        <span class="text-3xl font-bold text-teal-600">1</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Agendamento</h3>
+                    <p class="text-slate-600 text-sm font-body">
+                        Escolha entre atendimento no consultório ou domiciliar em Pelotas. 
+                        Horários flexíveis de segunda a sábado.
+                    </p>
+                </div>
+
+                <div class="relative text-center">
+                    <div class="w-24 h-24 mx-auto bg-white rounded-full shadow-lg flex items-center justify-center relative z-10 border-4 border-teal-100 mb-6">
+                        <span class="text-3xl font-bold text-teal-600">2</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Preparação</h3>
+                    <p class="text-slate-600 text-sm font-body">
+                        Orientações pré-exame enviadas por WhatsApp. 
+                        Normalmente não é necessário jejum para ECG.
+                    </p>
+                </div>
+
+                <div class="relative text-center">
+                    <div class="w-24 h-24 mx-auto bg-white rounded-full shadow-lg flex items-center justify-center relative z-10 border-4 border-teal-100 mb-6">
+                        <span class="text-3xl font-bold text-teal-600">3</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Exame</h3>
+                    <p class="text-slate-600 text-sm font-body">
+                        Coleta das derivações eletrocardiográficas em ambiente tranquilo. 
+                        Duração média de 10 a 15 minutos.
+                    </p>
+                </div>
+
+                <div class="relative text-center">
+                    <div class="w-24 h-24 mx-auto bg-white rounded-full shadow-lg flex items-center justify-center relative z-10 border-4 border-teal-100 mb-6">
+                        <span class="text-3xl font-bold text-teal-600">4</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Resultado</h3>
+                    <p class="text-slate-600 text-sm font-body">
+                        Laudo técnico detalhado em até 24 horas, 
+                        com orientações veterinárias e recomendações específicas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="agendar" class="py-20 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-start">
+                <div>
+                    <span class="text-teal-600 font-semibold tracking-wider uppercase text-sm">Agendamento</span>
+                    <h2 class="text-4xl lg:text-5xl text-slate-900 mt-4 mb-6">
+                        Reserve seu horário hoje mesmo
+                    </h2>
+                    <p class="text-lg text-slate-600 font-body mb-8">
+                        Preencha o formulário ao lado ou, se preferir, fale diretamente conosco pelo WhatsApp 
+                        para tirar dúvidas e agendar com mais agilidade.
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="clock" class="w-6 h-6 text-teal-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">Horário Flexível</h4>
+                                <p class="text-slate-600 text-sm">Atendimentos de segunda a sábado, com possibilidade de horários especiais.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="map-pin" class="w-6 h-6 text-teal-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">Onde Atendemos</h4>
+                                <p class="text-slate-600 text-sm">Consultório no centro de Pelotas ou atendimento domiciliar na região metropolitana.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="banknote" class="w-6 h-6 text-teal-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">Investimento</h4>
+                                <p class="text-slate-600 text-sm">Valores acessíveis com possibilidade de pagamento em pix, dinheiro ou cartão.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 p-6 bg-gradient-to-r from-teal-50 to-amber-50 rounded-2xl border border-teal-100">
+                        <p class="text-teal-800 font-medium flex items-center gap-2">
+                            <i data-lucide="sparkles" class="w-5 h-5 text-amber-500"></i>
+                            <span>Primeira consulta com 10% de desconto neste mês!</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass rounded-3xl p-8 shadow-2xl border border-white">
+                    <form id="booking-form" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Seu Nome</label>
+                            <input type="text" name="nome" required 
+                                   class="input-field w-full px-4 py-3 rounded-xl bg-white"
+                                   placeholder="Como podemos te chamar?">
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">WhatsApp</label>
+                                <input type="tel" name="whatsapp" required 
+                                       class="input-field w-full px-4 py-3 rounded-xl bg-white"
+                                       placeholder="(53) 99999-9999">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Nome do Pet</label>
+                                <input type="text" name="pet" required 
+                                       class="input-field w-full px-4 py-3 rounded-xl bg-white"
+                                       placeholder="Quem vai fazer o exame?">
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Espécie</label>
+                                <select name="especie" required class="input-field w-full px-4 py-3 rounded-xl bg-white">
+                                    <option value="">Selecione...</option>
+                                    <option value="cao">Cão</option>
+                                    <option value="gato">Gato</option>
+                                    <option value="outro">Outro</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Idade Aproximada</label>
+                                <input type="text" name="idade" 
+                                       class="input-field w-full px-4 py-3 rounded-xl bg-white"
+                                       placeholder="Ex: 5 anos">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Tipo de Atendimento</label>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <label class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-teal-400 transition-colors has-[:checked]:border-teal-500 has-[:checked]:bg-teal-50">
+                                    <input type="radio" name="tipo" value="consultorio" checked class="w-4 h-4 text-teal-600">
+                                    <div>
+                                        <span class="font-semibold text-slate-900 block">No Consultório</span>
+                                        <span class="text-xs text-slate-500">Centro de Pelotas</span>
+                                    </div>
+                                </label>
+                                <label class="flex items-center gap-3 p-4 border-2 border-slate-200 rounded-xl cursor-pointer hover:border-teal-400 transition-colors has-[:checked]:border-teal-500 has-[:checked]:bg-teal-50">
+                                    <input type="radio" name="tipo" value="domiciliar" class="w-4 h-4 text-teal-600">
+                                    <div>
+                                        <span class="font-semibold text-slate-900 block">Domiciliar</span>
+                                        <span class="text-xs text-slate-500">Em sua casa (+taxa)</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Preferência de Data</label>
+                            <input type="date" name="data" 
+                                   class="input-field w-full px-4 py-3 rounded-xl bg-white">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Observações (Opcional)</label>
+                            <textarea name="observacoes" rows="3" 
+                                      class="input-field w-full px-4 py-3 rounded-xl bg-white resize-none"
+                                      placeholder="Alguma condição prévia? Medicações em uso?"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-primary w-full text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg flex items-center justify-center gap-2">
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                            Solicitar Agendamento
+                        </button>
+
+                        <p class="text-center text-xs text-slate-500">
+                            Ao enviar, você será redirecionado para o WhatsApp para confirmar seu agendamento.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-slate-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-teal-600 font-semibold tracking-wider uppercase text-sm">Dúvidas Comuns</span>
+                <h2 class="text-4xl text-slate-900 mt-4">Perguntas Frequentes</h2>
+            </div>
+
+            <div class="space-y-4" id="faq-container">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-50 transition-colors">
+                        <span class="font-semibold text-slate-900">O exame dói ou causa estresse ao animal?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-slate-600 font-body">
+                        Não, o eletrocardiograma é totalmente indolor e não-invasivo. Colocamos eletrodos na pele do pet (geralmente nas patas e peito) 
+                        para captar a atividade elétrica do coração. O animal apenas precisa ficar parado por alguns minutos.
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-50 transition-colors">
+                        <span class="font-semibold text-slate-900">Preciso levar alguma preparação ou jejum?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-slate-600 font-body">
+                        Não é necessário jejum para o eletrocardiograma. Recomendamos apenas que o pet esteja calmo. 
+                        Para animais muito agitados ou ansiosos, podemos agendar em horários mais tranquilos ou avaliar sedação leve se necessário.
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-50 transition-colors">
+                        <span class="font-semibold text-slate-900">Qual a diferença entre ECG e ecocardiograma?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-slate-600 font-body">
+                        O ECG (eletrocardiograma) avalia a atividade elétrica do coração, detectando arritmias e problemas de condução. 
+                        Já o ecocardiograma é um exame de imagem (ultrassom) que mostra a anatomia do coração. 
+                        São exames complementares e muitas vezes solicitados juntos.
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-50 transition-colors">
+                        <span class="font-semibold text-slate-900">Atendem raças predispostas a problemas cardíacos?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4 text-slate-600 font-body">
+                        Sim! Cães de raças como Boxer, Doberman, Cocker Spaniel, e gatos de raças como Maine Coon e Ragdoll 
+                        têm predisposição genética a cardiomiopatias. Recomendamos check-ups cardiológicos anuais para esses pets.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-teal-600 rounded-full flex items-center justify-center">
+                            <i data-lucide="heart-pulse" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-white" style="font-family: 'Playfair Display', serif;">CardioPet</span>
+                    </div>
+                    <p class="text-slate-400 font-body mb-6 max-w-md">
+                        Especialistas em eletrocardiografia veterinária em Pelotas. 
+                        Cuidando do coração dos seus pets com tecnologia, carinho e expertise.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-teal-600 transition-colors">
+                            <i data-lucide="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-teal-600 transition-colors">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://wa.me/5553999999999" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-500 transition-colors">
+                            <i data-lucide="message-circle" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4">Links Úteis</h4>
+                    <ul class="space-y-2 font-body">
+                        <li><a href="#sobre" class="hover:text-teal-400 transition-colors">Sobre o Exame</a></li>
+                        <li><a href="#como-funciona" class="hover:text-teal-400 transition-colors">Como Funciona</a></li>
+                        <li><a href="#agendar" class="hover:text-teal-400 transition-colors">Agendamento</a></li>
+                        <li><a href="#" class="hover:text-teal-400 transition-colors">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold mb-4">Contato</h4>
+                    <ul class="space-y-3 font-body text-sm">
+                        <li class="flex items-start gap-2">
+                            <i data-lucide="map-pin" class="w-4 h-4 mt-1 text-teal-500"></i>
+                            <span>Pelotas - RS<br>Centro/Região Metropolitana</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="phone" class="w-4 h-4 text-teal-500"></i>
+                            <span>(53) 99999-9999</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="mail" class="w-4 h-4 text-teal-500"></i>
+                            <span>contato@cardiopet.com.br</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="clock" class="w-4 h-4 text-teal-500"></i>
+                            <span>Seg-Sáb: 9h às 18h</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
+                <p>&copy; 2024 CardioPet Pelotas. Todos os direitos reservados.</p>
+                <p>Feito com <i data-lucide="heart" class="w-4 h-4 inline text-red-500"></i> para pets de Pelotas</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/5553999999999?text=Olá!%20Gostaria%20de%20agendar%20um%20eletrocardiograma%20para%20meu%20pet." 
+       target="_blank"
+       class="whatsapp-float bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl flex items-center gap-2 pr-6 transition-all hover:scale-110 group">
+        <i data-lucide="message-circle" class="w-6 h-6"></i>
+        <span class="font-semibold max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 whitespace-nowrap">
+            Falar no WhatsApp
+        </span>
+    </a>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+        });
+
+        closeMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+        });
+
+        // Close menu when clicking on links
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+            });
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('[data-lucide="chevron-down"]');
+                
+                content.classList.toggle('hidden');
+                if (content.classList.contains('hidden')) {
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        // Form Handling
+        document.getElementById('booking-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Format message for WhatsApp
+            const message = `*Novo Agendamento - CardioPet*%0A%0A` +
+                `*Nome:* ${data.nome}%0A` +
+                `*WhatsApp:* ${data.whatsapp}%0A` +
+                `*Pet:* ${data.pet}%0A` +
+                `*Espécie:* ${data.especie}%0A` +
+                `*Idade:* ${data.idade || 'Não informada'}%0A` +
+                `*Tipo:* ${data.tipo === 'domiciliar' ? 'Domiciliar' : 'Consultório'}%0A` +
+                `*Data Preferida:* ${data.data || 'Não informada'}%0A` +
+                `*Observações:* ${data.observacoes || 'Nenhuma'}%0A%0A` +
+                `Por favor, confirme meu agendamento!`;
+            
+            // Redirect to WhatsApp
+            window.open(`https://wa.me/5553999999999?text=${message}`, '_blank');
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navbar
+        let lastScroll = 0;
+        const nav = document.querySelector('nav');
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+            
+            lastScroll = currentScroll;
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.service-card, .ecg-container').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
