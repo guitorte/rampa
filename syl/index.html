@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analisador Silábico e Prosódico</title>
+    <title>Analisador Silábico e Prosódico (Avançado)</title>
     <style>
         :root {
             --primary: #2C3E50;
@@ -21,116 +21,79 @@
             flex-direction: column;
             align-items: center;
         }
-        h1 {
-            text-align: center;
-            color: var(--primary);
-        }
+        h1 { text-align: center; color: var(--primary); }
         .container {
-            width: 100%;
-            max-width: 800px;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 100%; max-width: 800px; background: white;
+            padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         textarea {
-            width: 100%;
-            height: 120px;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #BDC3C7;
-            border-radius: 4px;
-            resize: vertical;
-            box-sizing: border-box;
-            font-family: inherit;
+            width: 100%; height: 120px; padding: 10px; font-size: 16px;
+            border: 1px solid #BDC3C7; border-radius: 4px; resize: vertical; box-sizing: border-box;
         }
         button {
-            margin-top: 15px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.3s;
-            width: 100%;
+            margin-top: 15px; background-color: var(--primary); color: white;
+            border: none; padding: 12px 20px; font-size: 16px; border-radius: 4px; cursor: pointer; width: 100%;
         }
-        button:hover {
-            background-color: var(--accent);
-        }
+        button:hover { background-color: var(--accent); }
         .resultado-box {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #F8F9F9;
-            border-left: 4px solid var(--accent);
-            min-height: 100px;
-            font-size: 18px;
-            line-height: 1.8;
-            white-space: pre-wrap; /* Preserva quebras de linha */
+            margin-top: 20px; padding: 15px; background-color: #F8F9F9;
+            border-left: 4px solid var(--accent); min-height: 100px; font-size: 18px; line-height: 1.8; white-space: pre-wrap;
         }
-        /* Estilos das sílabas */
-        .palavra {
-            display: inline-block;
-        }
-        .silaba {
-            color: var(--secondary);
-        }
+        .palavra { display: inline-block; margin-right: 5px; }
+        .silaba { color: var(--secondary); }
         .tonica {
-            font-weight: bold;
-            color: var(--accent);
-            background-color: #fadbd8;
-            padding: 1px 3px;
-            border-radius: 3px;
+            font-weight: bold; color: var(--accent); background-color: #fadbd8;
+            padding: 1px 3px; border-radius: 3px;
         }
-        .legenda {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #7F8C8D;
-            text-align: center;
-        }
+        .legenda { margin-top: 10px; font-size: 14px; color: #7F8C8D; text-align: center; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>Analisador Silábico</h1>
-        <p>Digite um texto abaixo. O sistema aplicará as regras de separação silábica e destacará a sílaba tônica de cada palavra.</p>
+        <h1>Analisador Silábico Avançado</h1>
+        <p>Aplica regras estritas para hiatos, grupos consonantais, prefixos (ex: <i>abstrair, nascer</i>) e identifica a sílaba tônica.</p>
         
-        <textarea id="inputText">O sabiá cantou na árvore. O vice-almirante observou o exército. 
-Saúde, abstrair, ascender e nascer. 
-As nupciais, a exceção e a caatinga formam um belo ritmo.</textarea>
+        <textarea id="inputText">Ele decidiu abstrair os problemas. O transporte transatlântico é seguro.
+Ao nascer do sol, viu a caatinga. O juiz caiu na raiz do problema.
+Exército, pneu, rainha, saúde e ritmo!</textarea>
         
         <button onclick="processarTexto()">Processar Texto</button>
 
         <div class="resultado-box" id="output"></div>
-        <div class="legenda">
-            A sílaba destacada em <span class="tonica">vermelho</span> representa a sílaba tônica (acento de intensidade). As sílabas são separadas por hífen.
-        </div>
+        <div class="legenda">Sílaba tônica destacada em <span class="tonica">vermelho</span>.</div>
     </div>
 
     <script>
-        // Vogais do português
         const vRegex = /[aeiouáàâãéêíóôõúü]/i;
 
-        // 1. DIVISOR DE VOGAIS (Hiatos vs Ditongos)
-        function separarVogais(texto) {
-            if (texto.length <= 1) return [texto];
+        // 1. TRATAMENTO DE HIATOS (Regras 6 e 7)
+        function tratarHiatosVogais(blocoVoc, palavraOriginal) {
             let resultado = [];
-            let atual = texto[0];
-            
-            for (let i = 1; i < texto.length; i++) {
-                let char = texto[i];
+            let atual = blocoVoc[0];
+            let pLower = palavraOriginal.toLowerCase();
+
+            for (let i = 1; i < blocoVoc.length; i++) {
+                let char = blocoVoc[i];
                 let par = (atual.slice(-1) + char).toLowerCase();
                 
-                // Padrões que geralmente formam a mesma sílaba (ditongos e tritongos)
-                // Considera os crescentes e decrescentes mais comuns
+                // Ditongos tradicionais
                 let formamDitongo = /^(ai|au|ei|eu|iu|oi|ou|ui|ão|õe|ãe|ia|ie|io|ua|ue|uo)$/.test(par);
                 
-                // Regra: Vogal acentuada com i/ú (ex: sa-ú-de, fa-ís-ca) força separação
+                // Exceção 1: Vogais idênticas SEMPRE separam (ca-a-tin-ga)
+                let vogaisIdenticas = par[0] === par[1];
+                
+                // Exceção 2: Segunda vogal acentuada (sa-ú-de, fa-ís-ca)
                 let temHiatoAcentuado = /[aeiouáéíóúâêôãõü][íú]/.test(par);
+                
+                // Exceção 3: Verbos terminados em -air, -uir, -oer e palavras em -aiz (abs-tra-ir, ra-iz, ca-ir)
+                // Se o bloco vocálico atual for o último da palavra e ela terminar em r, z ou l.
+                let ehHiatoFinal = false;
+                if (/^(ai|ui|au)$/.test(par) && pLower.endsWith(par + "r") || pLower.endsWith(par + "z") || pLower.endsWith(par + "l")) {
+                    ehHiatoFinal = true;
+                }
 
-                if (formamDitongo && !temHiatoAcentuado) {
+                if (formamDitongo && !temHiatoAcentuado && !vogaisIdenticas && !ehHiatoFinal) {
                     atual += char;
                 } else {
                     resultado.push(atual);
@@ -141,49 +104,52 @@ As nupciais, a exceção e a caatinga formam um belo ritmo.</textarea>
             return resultado;
         }
 
-        // 2. DIVISOR DE CONSOANTES
-        function separarConsoantes(texto) {
-            if (!texto) return ["", ""];
-            if (texto.length === 1) return ["", texto];
+        // 2. SEPARADOR INTELIGENTE DE CONSOANTES (Regras 1, 2, 3, 4 e 5)
+        function separarConsoantes(cBlock) {
+            if (cBlock.length <= 1) return ["", cBlock];
 
-            let textLower = texto.toLowerCase();
+            let textLower = cBlock.toLowerCase();
+            const inseparaveis = /^(ch|lh|nh|gu|qu|br|cr|dr|fr|gr|pr|tr|vr|bl|cl|fl|gl|pl|tl)$/;
+            const separaveisDuplas = /^(rr|ss|cc|cç|sc|sç|xc)$/;
 
-            // Regra Fundamental: Separação de idênticas e grupos especiais (cc, cç, rr, ss, sc, sç, xc)
-            if (/^(rr|ss|sc|sç|xc|cc|cç)$/.test(textLower)) {
-                return [texto.slice(0, 1), texto.slice(1)];
+            // Se forem 2 consoantes
+            if (cBlock.length === 2) {
+                if (inseparaveis.test(textLower)) return ["", cBlock]; // ex: br -> vai pra direita (a-bra-ço)
+                return [cBlock.slice(0, 1), cBlock.slice(1)];          // ex: bd -> separa (ab-di-car), sc -> (nas-cer)
             }
 
-            // Grupos Inseparáveis (Ataques complexos / Dígrafos)
-            const inseparaveis = ['ch','lh','nh','gu','qu','br','cr','dr','fr','gr','pr','tr','vr','bl','cl','fl','gl','pl','tl'];
-
-            // Tenta encontrar um ataque complexo no final do bloco de consoantes
-            if (texto.length >= 2) {
-                let ultimosDois = texto.slice(-2).toLowerCase();
-                if (inseparaveis.includes(ultimosDois)) {
-                    return [texto.slice(0, -2), texto.slice(-2)];
+            // Se forem 3 ou mais consoantes (Ex: bstr, nsp, nsc)
+            if (cBlock.length >= 3) {
+                let ultimasDuas = textLower.slice(-2);
+                
+                // Se as duas últimas formam um grupo inseparável (ex: 'tr' em 'bstr')
+                // O prefixo 'bs' fica na sílaba anterior e 'tr' vai para a próxima (abs-tra-ir)
+                if (inseparaveis.test(ultimasDuas)) {
+                    return [cBlock.slice(0, -2), cBlock.slice(-2)];
+                } else {
+                    // Se não formam grupo (ex: 'nst' em 'ins-tan-te'), a última vai pra direita
+                    return [cBlock.slice(0, -1), cBlock.slice(-1)];
                 }
             }
-
-            // Se não for grupo inseparável, a última consoante vai para a próxima sílaba (ex: ab-di-car -> b | d)
-            return [texto.slice(0, -1), texto.slice(-1)];
+            return ["", cBlock];
         }
 
-        // 3. ALGORITMO CENTRAL DE SILABIFICAÇÃO
+        // 3. MOTOR DE SILABIFICAÇÃO
         function silabificar(palavra) {
             let blocos = [];
             let tipoAtual = '';
             let textoAtual = '';
 
-            // Tokenizar em blocos de Consoantes (C) e Vogais (V)
+            // Agrupa Vogais (V) e Consoantes (C)
             for (let i = 0; i < palavra.length; i++) {
                 let char = palavra[i];
                 let charLower = char.toLowerCase();
                 
-                // Tratamento especial para qu / gu seguidos de u + vogal
+                // Tratamento especial para qu / gu (mantém o U junto da consoante)
                 if ((charLower === 'q' || charLower === 'g') && palavra[i+1] && palavra[i+1].toLowerCase() === 'u') {
                     if (palavra[i+2] && vRegex.test(palavra[i+2])) {
                         if (tipoAtual === 'V') { blocos.push({tipo: 'V', texto: textoAtual}); textoAtual = ''; }
-                        blocos.push({tipo: 'C', texto: char + palavra[i+1]}); // Agrupa "qu" / "gu" como consoante
+                        blocos.push({tipo: 'C', texto: char + palavra[i+1]}); 
                         i++; // Pula o 'u'
                         tipoAtual = '';
                         continue;
@@ -196,42 +162,38 @@ As nupciais, a exceção e a caatinga formam um belo ritmo.</textarea>
                     if (textoAtual !== '') blocos.push({tipo: tipoAtual, texto: textoAtual});
                     tipoAtual = tipo;
                     textoAtual = char;
-                } else {
-                    textoAtual += char;
-                }
+                } else { textoAtual += char; }
             }
             if (textoAtual !== '') blocos.push({tipo: tipoAtual, texto: textoAtual});
 
-            // Expandir blocos de Vogais que possuem hiato
+            // Expande Vogais (Hiatos)
             let blocosExpandidos = [];
             for (let b of blocos) {
                 if (b.tipo === 'V') {
-                    let vSeparadas = separarVogais(b.texto);
+                    let vSeparadas = tratarHiatosVogais(b.texto, palavra);
                     vSeparadas.forEach(v => blocosExpandidos.push({tipo: 'V', texto: v}));
                 } else {
                     blocosExpandidos.push(b);
                 }
             }
 
-            // Agrupar sílabas
             let indicesV = [];
             for (let i = 0; i < blocosExpandidos.length; i++) {
                 if (blocosExpandidos[i].tipo === 'V') indicesV.push(i);
             }
 
-            // Se não há vogal, não é sílaba padrão, retorna a palavra inteira
-            if (indicesV.length === 0) return [palavra];
+            if (indicesV.length === 0) return [palavra]; // Palavras sem vogais normais (abreviações)
 
             let silabas = new Array(indicesV.length).fill("");
 
-            // 1. Consoantes iniciais vão para a 1ª vogal
+            // 1ª Sílaba pega consoantes iniciais (Ex: "pn" em "pneu-má-ti-co")
             for (let i = 0; i < indicesV[0]; i++) {
                 silabas[0] += blocosExpandidos[i].texto;
             }
 
-            // 2. Divisão do meio (entre vogais)
+            // Divisão do miolo da palavra
             for (let k = 0; k < indicesV.length - 1; k++) {
-                silabas[k] += blocosExpandidos[indicesV[k]].texto; // Adiciona a vogal atual
+                silabas[k] += blocosExpandidos[indicesV[k]].texto; // Adiciona a vogal à sílaba atual
 
                 let inicioC = indicesV[k] + 1;
                 let fimC = indicesV[k+1];
@@ -239,11 +201,11 @@ As nupciais, a exceção e a caatinga formam um belo ritmo.</textarea>
                 for (let j = inicioC; j < fimC; j++) cTexto += blocosExpandidos[j].texto;
 
                 let [esquerdaC, direitaC] = separarConsoantes(cTexto);
-                silabas[k] += esquerdaC;
-                silabas[k+1] += direitaC; // Prepara o início da próxima sílaba
+                silabas[k] += esquerdaC;       // Finaliza sílaba atual
+                silabas[k+1] += direitaC;      // Inicia a próxima sílaba
             }
 
-            // 3. Última vogal e consoantes finais
+            // Última sílaba pega o resto
             let ultimaV = indicesV[indicesV.length - 1];
             silabas[silabas.length - 1] += blocosExpandidos[ultimaV].texto;
             for (let i = ultimaV + 1; i < blocosExpandidos.length; i++) {
@@ -255,46 +217,40 @@ As nupciais, a exceção e a caatinga formam um belo ritmo.</textarea>
 
         // 4. IDENTIFICADOR DA SÍLABA TÔNICA
         function identificarTonica(silabas, palavraOriginal) {
-            // Regra 1: Acentos gráficos (agudo e circunflexo definem a tônica)
             const acentos = /[áéíóúâêô]/i;
             for (let i = 0; i < silabas.length; i++) {
                 if (acentos.test(silabas[i])) return i;
             }
 
-            // Regra 2: Til (marca a tônica apenas se não houver acento agudo/circunflexo na palavra, ex: maçã, órgão)
             const til = /[ãõ]/i;
             for (let i = 0; i < silabas.length; i++) {
                 if (til.test(silabas[i])) return i; 
             }
 
-            // Regra 3: Avaliar terminação (palavras sem acento gráfico)
             let term = palavraOriginal.toLowerCase();
             
-            // Terminações de Oxítonas
+            // Oxítonas: Terminadas em R, L, Z, X, I, U, IM, UM
             if (term.match(/(r|l|z|x|i|is|u|us|im|ins|um|uns)$/)) {
-                return silabas.length - 1; // Última sílaba
+                return silabas.length - 1; 
             }
 
-            // Terminações de Paroxítonas (maioria na língua portuguesa)
+            // Paroxítonas (Regra geral)
             if (term.match(/(a|as|e|es|o|os|am|em|ens)$/)) {
-                return Math.max(0, silabas.length - 2); // Penúltima sílaba
+                return Math.max(0, silabas.length - 2); 
             }
 
-            // Fallback (Padrão de segurança: paroxítona)
             return Math.max(0, silabas.length - 2);
         }
 
-        // 5. MOTOR DE RENDERIZAÇÃO E PROCESSAMENTO
+        // 5. RENDERIZAÇÃO
         function processarTexto() {
             let texto = document.getElementById("inputText").value;
             let output = document.getElementById("output");
             output.innerHTML = "";
 
-            // O Regex separa o texto mantendo pontuações, espaços e caracteres especiais intactos
             let tokens = texto.split(/([a-zA-ZáàâãéêíóôõúüçÁÀÂÃÉÊÍÓÔÕÚÜÇ]+)/);
 
             for (let token of tokens) {
-                // Se o token for uma palavra válida
                 if (/^[a-zA-ZáàâãéêíóôõúüçÁÀÂÃÉÊÍÓÔÕÚÜÇ]+$/.test(token)) {
                     let silabas = silabificar(token);
                     let indexTonica = identificarTonica(silabas, token);
@@ -304,15 +260,12 @@ As nupciais, a exceção e a caatinga formam um belo ritmo.</textarea>
                         return `<span class="${classe}">${s}</span>`;
                     });
 
-                    // Insere a palavra unida por hifens no HTML
-                    let htmlPalavra = `<span class="palavra">${spans.join("-")}</span>`;
-                    output.innerHTML += htmlPalavra;
+                    output.innerHTML += `<span class="palavra">${spans.join("-")}</span>`;
                 } else {
-                    // Se for pontuação, número ou espaço, adiciona como está (substituindo quebras de linha pro html)
                     output.innerHTML += token.replace(/\n/g, '<br>');
                 }
             }
         }
     </script>
 </body>
-  </html>
+</html>
