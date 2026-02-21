@@ -67,43 +67,57 @@ Exército, pneu, rainha, saúde e ritmo!</textarea>
     <script>
         const vRegex = /[aeiouáàâãéêíóôõúü]/i;
 
-        // 1. TRATAMENTO DE HIATOS (Regras 6 e 7)
-        function tratarHiatosVogais(blocoVoc, palavraOriginal) {
-            let resultado = [];
-            let atual = blocoVoc[0];
-            let pLower = palavraOriginal.toLowerCase();
+// 1. TRATAMENTO DE HIATOS (Regras 6 e 7) Atualizado para "rainha" e "caiu"
+function tratarHiatosVogais(blocoVoc, palavraOriginal) {
+    if (blocoVoc.length <= 1) return [blocoVoc];
+    let resultado = [];
+    let atual = blocoVoc[0];
+    let pLower = palavraOriginal.toLowerCase();
 
-            for (let i = 1; i < blocoVoc.length; i++) {
-                let char = blocoVoc[i];
-                let par = (atual.slice(-1) + char).toLowerCase();
-                
-                // Ditongos tradicionais
-                let formamDitongo = /^(ai|au|ei|eu|iu|oi|ou|ui|ão|õe|ãe|ia|ie|io|ua|ue|uo)$/.test(par);
-                
-                // Exceção 1: Vogais idênticas SEMPRE separam (ca-a-tin-ga)
-                let vogaisIdenticas = par[0] === par[1];
-                
-                // Exceção 2: Segunda vogal acentuada (sa-ú-de, fa-ís-ca)
-                let temHiatoAcentuado = /[aeiouáéíóúâêôãõü][íú]/.test(par);
-                
-                // Exceção 3: Verbos terminados em -air, -uir, -oer e palavras em -aiz (abs-tra-ir, ra-iz, ca-ir)
-                // Se o bloco vocálico atual for o último da palavra e ela terminar em r, z ou l.
-                let ehHiatoFinal = false;
-                if (/^(ai|ui|au)$/.test(par) && pLower.endsWith(par + "r") || pLower.endsWith(par + "z") || pLower.endsWith(par + "l")) {
-                    ehHiatoFinal = true;
-                }
-
-                if (formamDitongo && !temHiatoAcentuado && !vogaisIdenticas && !ehHiatoFinal) {
-                    atual += char;
-                } else {
-                    resultado.push(atual);
-                    atual = char;
-                }
-            }
-            resultado.push(atual);
-            return resultado;
+    for (let i = 1; i < blocoVoc.length; i++) {
+        let char = blocoVoc[i];
+        let par = (atual.slice(-1) + char).toLowerCase();
+        
+        // Padrões gerais de ditongos
+        let formamDitongo = /^(ai|au|ei|eu|iu|oi|ou|ui|ão|õe|ãe|ia|ie|io|ua|ue|uo)$/.test(par);
+        
+        // Exceção 1: Vogais idênticas SEMPRE separam (ca-a-tin-ga)
+        let vogaisIdenticas = par[0] === par[1];
+        
+        // Exceção 2: Segunda vogal acentuada (sa-ú-de)
+        let temHiatoAcentuado = /[aeiouáéíóúâêôãõü][íú]/.test(par);
+        
+        // Exceção 3: Verbos e palavras terminadas em -air, -uir, -aiz, -oer
+        let ehHiatoFinal = false;
+        if (/^(ai|ui|au|oe)$/.test(par) && (pLower.endsWith(par + "r") || pLower.endsWith(par + "z") || pLower.endsWith(par + "l"))) {
+            ehHiatoFinal = true;
         }
 
+        // Exceção 4 (O caso "rainha"): Vogais seguidas de 'nh' forçam hiato (ra-i-nha, mo-i-nho)
+        // Se a palavra contém o par vocálico seguido de 'nh', eles se separam.
+        let seguidoDeNh = pLower.includes(par + "nh");
+
+        // Exceção 5 (O caso "caiu"): Hiato seguido de ditongo.
+        // Se temos um "a", "e" ou "o" e o PRÓXIMO caractere forma um ditongo com 'u' ou 'i' (ex: a-iu, a-io)
+        let formaHiatoComDitongo = false;
+        if (blocoVoc.length >= 3 && /^[aeo]$/.test(atual.slice(-1))) {
+            let proximoChar = blocoVoc[i+1] ? blocoVoc[i+1].toLowerCase() : "";
+            // Se o char atual e o próximo formam 'iu', 'ia', 'io' (ex: a + iu)
+            if (/^(iu|ia|io|ie|ui)$/.test(char + proximoChar)) {
+                formaHiatoComDitongo = true;
+            }
+        }
+
+        if (formamDitongo && !temHiatoAcentuado && !vogaisIdenticas && !ehHiatoFinal && !seguidoDeNh && !formaHiatoComDitongo) {
+            atual += char; // Mantém na mesma sílaba (Ditongo)
+        } else {
+            resultado.push(atual); // Quebra a sílaba (Hiato)
+            atual = char;
+        }
+    }
+    resultado.push(atual);
+    return resultado;
+}
         // 2. SEPARADOR INTELIGENTE DE CONSOANTES (Regras 1, 2, 3, 4 e 5)
         function separarConsoantes(cBlock) {
             if (cBlock.length <= 1) return ["", cBlock];
