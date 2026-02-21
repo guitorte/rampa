@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dicionário de Rimas Inteligente</title>
+    <style>
+        :root { --primary: #2C3E50; --accent: #E74C3C; --bg: #ECF0F1; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: var(--primary); padding: 20px; display: flex; flex-direction: column; align-items: center; margin: 0; }
+        .container { width: 100%; max-width: 900px; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); box-sizing: border-box; }
+        h1 { text-align: center; margin-top: 0; color: var(--primary); }
+        .search-box { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        input[type="text"] { flex: 1; min-width: 200px; padding: 12px; font-size: 16px; border: 1px solid #BDC3C7; border-radius: 4px; outline: none; transition: border 0.3s; }
+        input[type="text"]:focus { border-color: var(--accent); }
+        select { padding: 12px; font-size: 16px; border: 1px solid #BDC3C7; border-radius: 4px; outline: none; background: white; }
+        button { background: var(--primary); color: white; border: none; padding: 12px 24px; font-size: 16px; border-radius: 4px; cursor: pointer; transition: background 0.3s; font-weight: bold; }
+        button:hover { background: var(--accent); }
+        button:disabled { background: #95A5A6; cursor: not-allowed; }
+        .status { text-align: center; font-size: 15px; color: #7f8c8d; margin-bottom: 25px; padding: 10px; background: #F4F6F6; border-radius: 4px; }
+        #resultadosMsg { margin-bottom: 15px; font-size: 16px; }
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+        .word-card { background: #f8f9fa; border: 1px solid #e9ecef; padding: 12px 8px; border-radius: 6px; text-align: center; font-size: 17px; transition: transform 0.2s, border-color 0.2s; }
+        .word-card:hover { transform: translateY(-3px); border-color: var(--accent); background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .tonica { font-weight: bold; color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Dicionário de Rimas</h1>
+        <div class="status" id="statusText">Aguardando inicialização...</div>
+        
+        <div class="search-box">
+            <input type="text" id="inputPalavra" placeholder="Digite uma palavra (ex: amor, cidade, céu)...">
+            <select id="tipoRima">
+                <option value="perfeita">Rima Perfeita (Tônica até o fim)</option>
+                <option value="consoante">Rima Final (Últimas 2 letras)</option>
+            </select>
+            <select id="filtroSilabas">
+                <option value="todas">Qualquer tamanho</option>
+                <option value="mesma">Mesmo Nº de Sílabas</option>
+            </select>
+            <button id="btnBuscar" onclick="buscarRimas()" disabled>Buscar Rimas</button>
+        </div>
+
+        <div id="resultadosMsg"></div>
+        <div class="results-grid" id="resultadosGrid"></div>
+    </div>
+
+    <script>
+        // --- 1. MOTOR PROSÓDICO (Regras Gramaticais) ---
+        const vRegex = /[aeiouáàâãéêíóôõúü]/i;
+
+        function tratarHiatosVogais(blocoVoc, pLower) {
+            if (blocoVoc.length <= 1) return [blocoVoc];
+            let resultado = [], atual = blocoVoc[0];
+            for (let i = 1; i < blocoVoc.length; i++) {
+                let char = blocoVoc[i], par = (atual.slice(-1) + char).toLowerCase();
+                let formamDitongo = /^(ai|au|ei|eu|iu|oi|ou|ui|ão|õe|ãe|ia|ie|io|ua|ue|uo)$/.test(par);
+                let vogaisIdenticas = par[0] === par[1];
+                let temHiatoAcentuado = /[aeiouáéíóúâêôãõü][íú]/.test(par);
+                let ehHiatoFinal = /^(ai|ui|au|oe)$/.test(par) && (pLower.endsWith(par + "r") || pLower.endsWith(par + "z") || pLower.endsWith(par + "l"));
+                let seguidoDeNh = pLower.includes(par + "nh");
+                let formaHiatoComDitongo = false;
+                if (blocoVoc.length >= 3 && /^[aeo]$/.test(atual.slice(-1))) {
+                    let proximo = blocoVoc[i+1] ? blocoVoc[i+1].toLowerCase() : "";
+                    if (/^(iu|ia|io|ie|ui)$/.test(char + proximo)) formaHiatoComDitongo = true;
+                }
+
+                if (formamDitongo && !temHiatoAcentuado && !vogaisIdenticas && !ehHiatoFinal && !seguidoDeNh && !formaHiatoComDitongo) {
+                    atual += char;
+                } else {
+                    resultado.push(atual); atual = char;
+                }
+            }
+            resultado.push(atual); return resultado;
+        }
+
+        function separarConsoantes(cBlock) {
+            if (cBlock.length <= 1) return ["", cBlock];
+            let textLower = cBlock.toLowerCase();
+            if (cBlock.length === 2) {
+                if (/^(ch|lh|nh|gu|qu|br|cr|dr|fr|gr|pr|tr|vr|bl|cl|fl|gl|pl|tl)$/.test(textLower)) return ["", cBlock];
+                return [cBlock.slice(0, 1), cBlock.slice(1)];
+            }
+            if (cBlock.length >= 3) {
+                if (/^(ch|lh|nh|gu|qu|br|cr|dr|fr|gr|pr|tr|vr|bl|cl|fl|gl|pl|tl)$/.test(textLower.slice(-2))) return [cBlock.slice(0, -2), cBlock.slice(-2)];
+                return [cBlock.slice(0, -1), cBlock.slice(-1)];
+            }
+            return ["", cBlock];
+        }
+
+        function silabificar(palavra) {
+            let blocos = [], tipoAtual = '', textoAtual = '';
+            for (let i = 0; i < palavra.length; i++) {
+                let char = palavra[i], charLower = char.toLowerCase();
+                if ((charLower === 'q' || charLower === 'g') && palavra[i+1] && palavra[i+1].toLowerCase() === 'u' && palavra[i+2] && vRegex.test(palavra[i+2])) {
+                    if (tipoAtual === 'V') { blocos.push({tipo: 'V', texto: textoAtual}); textoAtual = ''; }
+                    blocos.push({tipo: 'C', texto: char + palavra[i+1]}); i++; tipoAtual = ''; continue;
+                }
+                let tipo = vRegex.test(char) ? 'V' : 'C';
+                if (tipo !== tipoAtual) {
+                    if (textoAtual !== '') blocos.push({tipo: tipoAtual, texto: textoAtual});
+                    tipoAtual = tipo; textoAtual = char;
+                } else { textoAtual += char; }
+            }
+            if (textoAtual !== '') blocos.push({tipo: tipoAtual, texto: textoAtual});
+
+            let blocosExpandidos = [];
+            for (let b of blocos) {
+                if (b.tipo === 'V') tratarHiatosVogais(b.texto, palavra.toLowerCase()).forEach(v => blocosExpandidos.push({tipo: 'V', texto: v}));
+                else blocosExpandidos.push(b);
+            }
+
+            let indicesV = [];
+            for (let i = 0; i < blocosExpandidos.length; i++) if (blocosExpandidos[i].tipo === 'V') indicesV.push(i);
+            if (indicesV.length === 0) return [palavra];
+
+            let silabas = new Array(indicesV.length).fill("");
+            for (let i = 0; i < indicesV[0]; i++) silabas[0] += blocosExpandidos[i].texto;
+
+            for (let k = 0; k < indicesV.length - 1; k++) {
+                silabas[k] += blocosExpandidos[indicesV[k]].texto;
+                let cTexto = "";
+                for (let j = indicesV[k] + 1; j < indicesV[k+1]; j++) cTexto += blocosExpandidos[j].texto;
+                let [esq, dir] = separarConsoantes(cTexto);
+                silabas[k] += esq; silabas[k+1] += dir;
+            }
+
+            let ultimaV = indicesV[indicesV.length - 1];
+            silabas[silabas.length - 1] += blocosExpandidos[ultimaV].texto;
+            for (let i = ultimaV + 1; i < blocosExpandidos.length; i++) silabas[silabas.length - 1] += blocosExpandidos[i].texto;
+
+            return silabas;
+        }
+
+        function identificarTonica(silabas, palavraOriginal) {
+            let term = palavraOriginal.toLowerCase();
+            for (let i = 0; i < silabas.length; i++) if (/[áéíóúâêô]/i.test(silabas[i])) return i;
+            for (let i = 0; i < silabas.length; i++) if (/[ãõ]/i.test(silabas[i])) return i;
+            if (term.match(/(r|l|z|x|i|is|u|us|im|ins|um|uns)$/)) return silabas.length - 1;
+            if (term.match(/(a|as|e|es|o|os|am|em|ens)$/)) return Math.max(0, silabas.length - 2);
+            return Math.max(0, silabas.length - 2);
+        }
+
+        function extrairBaseRima(silabas, indexTonica) {
+            let parteFinal = silabas.slice(indexTonica).join('');
+            let matchVogal = parteFinal.match(vRegex);
+            if (matchVogal) return parteFinal.slice(matchVogal.index).toLowerCase();
+            return parteFinal.toLowerCase();
+        }
+
+
+        // --- 2. SISTEMA DE INDEXAÇÃO (Carrega o TXT do GitHub Pages) ---
+        let dicionarioIndexado = [];
+
+        async function indexarDicionario() {
+            let statusEl = document.getElementById("statusText");
+            let btnBuscar = document.getElementById("btnBuscar");
+            
+            statusEl.innerText = "Baixando lista de palavras (palavras.txt)...";
+            
+            try {
+                // Fetch com caminho relativo (funciona perfeito no GitHub Pages)
+                const response = await fetch('./palavras.txt');
+                
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP: ${response.status}`);
+                }
+                
+                const textoBruto = await response.text();
+                
+                // Quebra as linhas e limpa espaços vazios
+                const dicionarioBruto = textoBruto.split(/\r?\n/)
+                    .map(p => p.trim())
+                    .filter(p => p.length > 0);
+                
+                statusEl.innerText = `Processando a prosódia de ${dicionarioBruto.length} palavras...`;
+                
+                // Dá um pequeno timeout para o navegador renderizar a mensagem acima antes de travar processando
+                setTimeout(() => {
+                    let startTime = performance.now();
+                    
+                    dicionarioIndexado = dicionarioBruto.map(palavra => {
+                        let pLimpa = palavra.toLowerCase();
+                        let silabas = silabificar(pLimpa);
+                        let tonicaIndex = identificarTonica(silabas, pLimpa);
+                        let rimaPerfeita = extrairBaseRima(silabas, tonicaIndex);
+                        
+                        return {
+                            palavra: pLimpa,
+                            silabas: silabas,
+                            tonicaIndex: tonicaIndex,
+                            numSilabas: silabas.length,
+                            rimaPerfeita: rimaPerfeita,
+                            terminacao: pLimpa.slice(-2)
+                        };
+                    });
+
+                    let timeTaken = (performance.now() - startTime).toFixed(2);
+                    statusEl.innerHTML = `✅ Dicionário Pronto! <b>${dicionarioIndexado.length}</b> palavras indexadas em ${timeTaken}ms.`;
+                    
+                    // Libera o botão de busca
+                    btnBuscar.disabled = false;
+                    document.getElementById("inputPalavra").focus();
+                }, 50);
+                
+            } catch (erro) {
+                statusEl.innerHTML = `<span style="color: red;"><b>Erro ao carregar 'palavras.txt'.</b> Verifique se o arquivo está na mesma pasta do index.html no seu repositório.</span>`;
+                console.error(erro);
+            }
+        }
+
+        // --- 3. SISTEMA DE BUSCA ---
+        function buscarRimas() {
+            let inputEl = document.getElementById("inputPalavra");
+            let alvo = inputEl.value.trim().toLowerCase();
+            
+            if (!alvo) {
+                inputEl.focus();
+                return;
+            }
+
+            // O sistema é inteligente: processa a palavra alvo mesmo que ela não exista no TXT!
+            let silabasAlvo = silabificar(alvo);
+            let tonicaIndexAlvo = identificarTonica(silabasAlvo, alvo);
+            let baseRimaAlvo = extrairBaseRima(silabasAlvo, tonicaIndexAlvo);
+            let numSilabasAlvo = silabasAlvo.length;
+            let terminacaoAlvo = alvo.slice(-2);
+
+            let tipoRima = document.getElementById("tipoRima").value;
+            let filtroSilabas = document.getElementById("filtroSilabas").value;
+
+            // Filtro super-rápido na memória
+            let resultados = dicionarioIndexado.filter(item => {
+                if (item.palavra === alvo) return false; 
+                if (filtroSilabas === "mesma" && item.numSilabas !== numSilabasAlvo) return false;
+
+                if (tipoRima === "perfeita") {
+                    return item.rimaPerfeita === baseRimaAlvo;
+                } else if (tipoRima === "consoante") {
+                    return item.terminacao === terminacaoAlvo;
+                }
+            });
+
+            renderizarResultados(resultados, alvo, baseRimaAlvo);
+        }
+
+        function renderizarResultados(resultados, alvo, rimaBase) {
+            let msg = document.getElementById("resultadosMsg");
+            let grid = document.getElementById("resultadosGrid");
+            grid.innerHTML = "";
+
+            if (resultados.length === 0) {
+                msg.innerHTML = `<p>Nenhuma rima encontrada para <b>${alvo}</b> (Base fonética: "<b>-${rimaBase}</b>").</p>`;
+                return;
+            }
+
+            msg.innerHTML = `<p>Encontradas <b>${resultados.length}</b> palavras rimando com <b>${alvo}</b> (Sílaba tônica + terminação: "<b>-${rimaBase}</b>"):</p>`;
+
+            resultados.forEach(item => {
+                let div = document.createElement("div");
+                div.className = "word-card";
+                
+                let palavraHTML = item.silabas.map((s, i) => {
+                    return i === item.tonicaIndex ? `<span class="tonica">${s}</span>` : s;
+                }).join("");
+
+                div.innerHTML = palavraHTML;
+                grid.appendChild(div);
+            });
+        }
+
+        // Permite buscar apertando "Enter"
+        document.getElementById("inputPalavra").addEventListener("keypress", function(event) {
+            if (event.key === "Enter" && !document.getElementById("btnBuscar").disabled) {
+                event.preventDefault();
+                buscarRimas();
+            }
+        });
+
+        // Inicia o processo de leitura do TXT assim que a página carrega
+        window.onload = indexarDicionario;
+
+    </script>
+</body>
+</html>
