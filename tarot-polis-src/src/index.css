@@ -32,7 +32,8 @@ body {
   background-color: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-sans);
-  min-height: 100vh;
+  min-height: 100dvh;
+  padding-top: env(safe-area-inset-top, 0px);
 }
 
 @keyframes fade-in {
@@ -46,46 +47,58 @@ body {
   }
 }
 
-@keyframes glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(167, 139, 250, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(167, 139, 250, 0.5);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
 .animate-fade-in {
   animation: fade-in 0.5s ease-out forwards;
 }
 
-.animate-glow {
-  animation: glow 2s ease-in-out infinite;
+/* Bottom sheet animations */
+@keyframes sheet-slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
 }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
+@keyframes sheet-slide-down {
+  from { transform: translateY(0); }
+  to { transform: translateY(100%); }
 }
 
-.card-hover {
-  transition: all 0.3s ease;
+@keyframes backdrop-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 40px rgba(167, 139, 250, 0.2);
+@keyframes backdrop-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
-/* Scrollbar styling */
+/* App shell */
+.app-shell {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Touch feedback */
+.touch-target {
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.touch-target:active {
+  opacity: 0.7;
+}
+
+/* Scrollbar hide for horizontal tabs */
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Scrollbar styling (desktop) */
 ::-webkit-scrollbar {
   width: 8px;
 }

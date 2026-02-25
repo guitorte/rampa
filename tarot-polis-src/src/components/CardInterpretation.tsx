@@ -1,56 +1,47 @@
-import { useState, useMemo } from "react";
-import { Book, User, X, ChevronDown, ChevronUp } from "lucide-react";
-import { getCardInterpretation, AUTHORS, CARD_NUMBERS } from "@/data";
+import { useMemo } from "react";
+import { Book, User, ChevronDown, ChevronUp } from "lucide-react";
+import { getCardInterpretation, AUTHORS, CARD_NUMBERS, getCardSuit, SUIT_INFO, isMajorArcana } from "@/data";
 import type { CardInterpretations } from "@/data";
 
 interface CardInterpretationProps {
   cardName: string;
-  onRemove: () => void;
-  index: number;
+  expandedAuthors: Set<string>;
+  onToggleAuthor: (authorId: string) => void;
+  onExpandAll: () => void;
+  onCollapseAll: () => void;
 }
 
 export function CardInterpretation({
   cardName,
-  onRemove,
-  index,
+  expandedAuthors,
+  onToggleAuthor,
+  onExpandAll,
+  onCollapseAll,
 }: CardInterpretationProps) {
-  const [expandedAuthors, setExpandedAuthors] = useState<Set<string>>(
-    new Set(AUTHORS.slice(0, 3).map((a) => a.id))
-  );
-
   const interpretations = useMemo(
     () => getCardInterpretation(cardName),
     [cardName]
   );
 
   const number = CARD_NUMBERS[cardName];
+  const suit = getCardSuit(cardName);
+  const isMajor = isMajorArcana(cardName);
 
-  const toggleAuthor = (authorId: string) => {
-    setExpandedAuthors((prev) => {
-      const next = new Set(prev);
-      if (next.has(authorId)) {
-        next.delete(authorId);
-      } else {
-        next.add(authorId);
-      }
-      return next;
-    });
-  };
+  const suitLabel = isMajor
+    ? "Arcano Maior"
+    : suit
+      ? SUIT_INFO[suit].name
+      : "";
 
-  const expandAll = () => {
-    setExpandedAuthors(new Set(AUTHORS.map((a) => a.id)));
-  };
-
-  const collapseAll = () => {
-    setExpandedAuthors(new Set());
-  };
+  const suitColor = isMajor
+    ? "#a78bfa"
+    : suit
+      ? SUIT_INFO[suit].color
+      : "#a1a1aa";
 
   if (!interpretations) {
     return (
-      <div
-        className="p-6 rounded-xl border"
-        style={{ backgroundColor: "#161622", borderColor: "#27273a" }}
-      >
+      <div className="flex-1 flex items-center justify-center p-6">
         <p style={{ color: "#a1a1aa" }}>
           Interpretações não encontradas para esta carta.
         </p>
@@ -63,64 +54,38 @@ export function CardInterpretation({
   );
 
   return (
-    <div
-      className="rounded-2xl border overflow-hidden"
-      style={{
-        backgroundColor: "#161622",
-        borderColor: "#27273a",
-        animationDelay: `${index * 100}ms`,
-      }}
-    >
-      {/* Card Header */}
-      <div
-        className="relative p-6"
-        style={{
-          background: "linear-gradient(to right, rgba(167, 139, 250, 0.2), rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2))",
-        }}
-      >
-        <button
-          onClick={onRemove}
-          className="absolute top-4 right-4 p-2 rounded-full transition-colors"
-          style={{ backgroundColor: "rgba(10, 10, 15, 0.5)" }}
-          aria-label="Remover carta"
+    <div className="flex-1 overflow-y-auto">
+      {/* Compact card header */}
+      <div className="px-4 py-3 flex items-center gap-3" style={{ borderBottom: "1px solid #27273a" }}>
+        <span
+          className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold"
+          style={{
+            backgroundColor: `${suitColor}20`,
+            color: suitColor,
+          }}
         >
-          <X className="h-4 w-4" />
-        </button>
-
-        <div className="flex items-start gap-4">
-          <div
-            className="flex-shrink-0 w-16 h-24 rounded-lg flex items-center justify-center text-2xl font-bold text-white shadow-lg"
-            style={{ background: "linear-gradient(to bottom, #a78bfa, #8b5cf6)" }}
-          >
-            {number || "?"}
-          </div>
-          <div>
-            <span className="text-sm font-medium" style={{ color: "#a78bfa" }}>
-              Carta {index + 1}
-            </span>
-            <h2 className="text-2xl font-bold mt-1">{cardName}</h2>
-            <p className="text-sm mt-2" style={{ color: "#a1a1aa" }}>
-              {availableAuthors.length} interpretações disponíveis
-            </p>
-          </div>
+          {number || "?"}
+        </span>
+        <div className="min-w-0">
+          <h2 className="text-lg font-bold truncate">{cardName}</h2>
+          <p className="text-xs" style={{ color: suitColor }}>
+            {suitLabel} · {availableAuthors.length} interpretações
+          </p>
         </div>
       </div>
 
       {/* Controls */}
-      <div
-        className="px-6 py-3 border-b flex gap-4"
-        style={{ borderColor: "#27273a" }}
-      >
+      <div className="px-4 py-2 flex gap-4" style={{ borderBottom: "1px solid #27273a" }}>
         <button
-          onClick={expandAll}
-          className="text-sm hover:underline"
+          onClick={onExpandAll}
+          className="touch-target text-sm py-2"
           style={{ color: "#a78bfa" }}
         >
           Expandir todas
         </button>
         <button
-          onClick={collapseAll}
-          className="text-sm hover:opacity-80"
+          onClick={onCollapseAll}
+          className="touch-target text-sm py-2"
           style={{ color: "#a1a1aa" }}
         >
           Recolher todas
@@ -142,38 +107,38 @@ export function CardInterpretation({
               }}
             >
               <button
-                onClick={() => toggleAuthor(author.id)}
-                className="w-full px-6 py-4 flex items-center gap-4 transition-colors text-left hover:opacity-90"
+                onClick={() => onToggleAuthor(author.id)}
+                className="touch-target w-full px-4 py-3 flex items-center gap-3 text-left"
               >
                 <div
-                  className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center"
+                  className="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center"
                   style={{
                     background: "linear-gradient(to bottom right, rgba(167, 139, 250, 0.3), rgba(99, 102, 241, 0.3))",
                   }}
                 >
-                  <User className="h-5 w-5" style={{ color: "#a78bfa" }} />
+                  <User className="h-4 w-4" style={{ color: "#a78bfa" }} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold">{author.name}</h3>
-                  <p className="text-sm" style={{ color: "#a1a1aa" }}>
+                  <h3 className="font-semibold text-sm">{author.name}</h3>
+                  <p className="text-xs" style={{ color: "#a1a1aa" }}>
                     {author.description}
                   </p>
                 </div>
                 {isExpanded ? (
-                  <ChevronUp className="h-5 w-5" style={{ color: "#a1a1aa" }} />
+                  <ChevronUp className="h-4 w-4 flex-shrink-0" style={{ color: "#a1a1aa" }} />
                 ) : (
-                  <ChevronDown className="h-5 w-5" style={{ color: "#a1a1aa" }} />
+                  <ChevronDown className="h-4 w-4 flex-shrink-0" style={{ color: "#a1a1aa" }} />
                 )}
               </button>
 
               {isExpanded && interpretation && (
-                <div className="px-6 pb-6 pl-20">
-                  <div className="flex gap-3">
+                <div className="px-4 pb-4 pl-16">
+                  <div className="flex gap-2">
                     <Book
-                      className="h-5 w-5 flex-shrink-0 mt-0.5"
+                      className="h-4 w-4 flex-shrink-0 mt-0.5"
                       style={{ color: "#a78bfa" }}
                     />
-                    <p className="leading-relaxed" style={{ color: "rgba(250, 250, 250, 0.9)" }}>
+                    <p className="text-sm leading-relaxed" style={{ color: "rgba(250, 250, 250, 0.9)" }}>
                       {interpretation}
                     </p>
                   </div>
