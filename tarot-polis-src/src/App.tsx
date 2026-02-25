@@ -7,6 +7,7 @@ import { CardBrowser } from "@/components/CardBrowser";
 import { CardTabs } from "@/components/CardTabs";
 import { CardInterpretation } from "@/components/CardInterpretation";
 import { EmptyState } from "@/components/EmptyState";
+import { useSwipeNavigation } from "@/hooks/useSwipeNavigation";
 
 const MAX_CARDS = 3;
 const DEFAULT_EXPANDED = new Set(AUTHORS.slice(0, 3).map((a) => a.id));
@@ -97,6 +98,19 @@ function App() {
   const hasCards = selectedCards.length > 0;
   const canAddMore = selectedCards.length < MAX_CARDS;
 
+  const swipe = useSwipeNavigation({
+    onSwipeLeft: () => {
+      if (activeCardIndex < selectedCards.length - 1) {
+        setActiveCardIndex(activeCardIndex + 1);
+      }
+    },
+    onSwipeRight: () => {
+      if (activeCardIndex > 0) {
+        setActiveCardIndex(activeCardIndex - 1);
+      }
+    },
+  });
+
   return (
     <div className="app-shell" style={{ backgroundColor: "#0a0a0f", color: "#fafafa" }}>
       {/* Header */}
@@ -145,14 +159,16 @@ function App() {
 
       {/* Content area */}
       {hasCards && activeCard ? (
-        <CardInterpretation
-          key={activeCard}
-          cardName={activeCard}
-          expandedAuthors={getExpandedAuthors(activeCard)}
-          onToggleAuthor={(authorId) => handleToggleAuthor(activeCard, authorId)}
-          onExpandAll={() => handleExpandAll(activeCard)}
-          onCollapseAll={() => handleCollapseAll(activeCard)}
-        />
+        <div className="flex-1 min-h-0 flex flex-col" {...swipe.handlers}>
+          <CardInterpretation
+            key={activeCard}
+            cardName={activeCard}
+            expandedAuthors={getExpandedAuthors(activeCard)}
+            onToggleAuthor={(authorId) => handleToggleAuthor(activeCard, authorId)}
+            onExpandAll={() => handleExpandAll(activeCard)}
+            onCollapseAll={() => handleCollapseAll(activeCard)}
+          />
+        </div>
       ) : (
         <EmptyState onOpenSheet={() => setIsSheetOpen(true)} />
       )}
