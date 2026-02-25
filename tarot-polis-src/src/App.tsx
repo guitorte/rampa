@@ -1,174 +1,187 @@
-import { useState, useCallback, useEffect } from "react";
-import { ArrowUp, Layers, BookOpen } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { useState, useCallback } from "react";
+import { Plus } from "lucide-react";
+import { AUTHORS } from "@/data";
 
-// Import components and data with error boundaries
-import { Header } from "@/components/Header";
-import { CardSelector } from "@/components/CardSelector";
+import { BottomSheet } from "@/components/BottomSheet";
+import { CardBrowser } from "@/components/CardBrowser";
+import { CardTabs } from "@/components/CardTabs";
 import { CardInterpretation } from "@/components/CardInterpretation";
-import { ReadingProgress } from "@/components/ReadingProgress";
+import { EmptyState } from "@/components/EmptyState";
+
+const MAX_CARDS = 3;
+const DEFAULT_EXPANDED = new Set(AUTHORS.slice(0, 3).map((a) => a.id));
 
 function App() {
   const [selectedCards, setSelectedCards] = useState<string[]>([]);
-  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [accordionState, setAccordionState] = useState<Map<string, Set<string>>>(new Map());
 
-  const handleSelectCard = useCallback((card: string) => {
-    setSelectedCards((prev) => {
-      if (prev.includes(card)) {
-        return prev.filter((c) => c !== card);
-      }
-      if (prev.length < 3) {
-        return [...prev, card];
-      }
-      return prev;
+  const getExpandedAuthors = useCallback(
+    (cardName: string): Set<string> => {
+      return accordionState.get(cardName) ?? DEFAULT_EXPANDED;
+    },
+    [accordionState]
+  );
+
+  const handleToggleAuthor = useCallback(
+    (cardName: string, authorId: string) => {
+      setAccordionState((prev) => {
+        const next = new Map(prev);
+        const current = new Set(next.get(cardName) ?? DEFAULT_EXPANDED);
+        if (current.has(authorId)) {
+          current.delete(authorId);
+        } else {
+          current.add(authorId);
+        }
+        next.set(cardName, current);
+        return next;
+      });
+    },
+    []
+  );
+
+  const handleExpandAll = useCallback((cardName: string) => {
+    setAccordionState((prev) => {
+      const next = new Map(prev);
+      next.set(cardName, new Set(AUTHORS.map((a) => a.id)));
+      return next;
     });
   }, []);
 
-  const handleRemoveCard = useCallback((card: string) => {
-    setSelectedCards((prev) => prev.filter((c) => c !== card));
+  const handleCollapseAll = useCallback((cardName: string) => {
+    setAccordionState((prev) => {
+      const next = new Map(prev);
+      next.set(cardName, new Set());
+      return next;
+    });
   }, []);
 
-  const handleClearAll = useCallback(() => {
-    setSelectedCards([]);
+  const handleSelectCard = useCallback((card: string) => {
+    setSelectedCards((prev) => {
+      if (prev.includes(card)) return prev;
+      if (prev.length >= MAX_CARDS) return prev;
+      const next = [...prev, card];
+      // Activate the newly added card
+      setActiveCardIndex(next.length - 1);
+      return next;
+    });
+    setIsSheetOpen(false);
   }, []);
 
-  // Handle scroll for back to top button
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 500);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const handleRemoveCard = useCallback(
+    (card: string) => {
+      setSelectedCards((prev) => {
+        const next = prev.filter((c) => c !== card);
+        // Adjust active index
+        const removedIndex = prev.indexOf(card);
+        setActiveCardIndex((currentActive) => {
+          if (next.length === 0) return 0;
+          if (currentActive >= next.length) return next.length - 1;
+          if (removedIndex < currentActive) return currentActive - 1;
+          return currentActive;
+        });
+        return next;
+      });
+      // Clean up accordion state for removed card
+      setAccordionState((prev) => {
+        const next = new Map(prev);
+        next.delete(card);
+        return next;
+      });
+    },
+    []
+  );
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  const scrollToReadings = () => {
-    document.getElementById("readings")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const activeCard = selectedCards[activeCardIndex];
+  const hasCards = selectedCards.length > 0;
+  const canAddMore = selectedCards.length < MAX_CARDS;
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#0a0a0f", color: "#fafafa" }}>
-      <ReadingProgress />
-
-      <Header />
-
-      <main className="max-w-7xl mx-auto px-4 pb-24">
-        {/* Card Selection Section */}
-        <section className="py-12">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="p-2 rounded-lg" style={{ backgroundColor: "rgba(167, 139, 250, 0.2)" }}>
-              <Layers className="h-5 w-5" style={{ color: "#a78bfa" }} />
-            </div>
-            <h2 className="text-2xl font-bold">Selecione suas Cartas</h2>
-          </div>
-
-          <CardSelector
-            selectedCards={selectedCards}
-            onSelectCard={handleSelectCard}
-            maxCards={3}
-          />
-
-          {selectedCards.length > 0 && (
-            <div className="mt-8 flex flex-wrap gap-4 items-center justify-between p-4 rounded-xl border" style={{ backgroundColor: "rgba(30, 30, 46, 0.5)", borderColor: "#27273a" }}>
-              <div className="flex flex-wrap gap-2">
-                {selectedCards.map((card, index) => (
-                  <span
-                    key={card}
-                    className="px-3 py-1 rounded-full text-sm font-medium"
-                    style={{ backgroundColor: "rgba(167, 139, 250, 0.2)", color: "#a78bfa" }}
-                  >
-                    {index + 1}. {card}
-                  </span>
-                ))}
-              </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={handleClearAll}
-                  className="px-4 py-2 text-sm rounded-lg border transition-colors hover:opacity-80"
-                  style={{ borderColor: "#27273a" }}
-                >
-                  Limpar
-                </button>
-                <button
-                  onClick={scrollToReadings}
-                  className="px-4 py-2 text-sm rounded-lg transition-colors hover:opacity-90"
-                  style={{ backgroundColor: "#a78bfa", color: "#0a0a0f" }}
-                >
-                  Ver Leitura
-                </button>
-              </div>
-            </div>
-          )}
-        </section>
-
-        {/* Readings Section */}
-        {selectedCards.length > 0 && (
-          <section id="readings" className="py-12">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="p-2 rounded-lg" style={{ backgroundColor: "rgba(99, 102, 241, 0.2)" }}>
-                <BookOpen className="h-5 w-5" style={{ color: "#6366f1" }} />
-              </div>
-              <h2 className="text-2xl font-bold">Sua Leitura</h2>
-            </div>
-
-            <div className="space-y-8">
-              {selectedCards.map((card, index) => (
-                <CardInterpretation
-                  key={card}
-                  cardName={card}
-                  index={index}
-                  onRemove={() => handleRemoveCard(card)}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Empty State */}
-        {selectedCards.length === 0 && (
-          <section className="py-24 text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-6" style={{ backgroundColor: "#1e1e2e" }}>
-              <BookOpen className="h-10 w-10" style={{ color: "#a1a1aa" }} />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">
-              Nenhuma carta selecionada
-            </h3>
-            <p className="max-w-md mx-auto" style={{ color: "#a1a1aa" }}>
-              Selecione até 3 cartas acima para ver as interpretações de 15
-              mestres do tarô.
-            </p>
-          </section>
-        )}
-      </main>
-
-      {/* Footer */}
-      <footer className="py-8" style={{ borderTop: "1px solid #27273a" }}>
-        <div className="max-w-7xl mx-auto px-4 text-center text-sm" style={{ color: "#a1a1aa" }}>
-          <p>
-            Interpretações compiladas de Arrien, Cowie, Crowley, Eakins,
-            Fairfield, Greer, Noble, Pollack, Sharman-Burke, Stewart, Waite,
-            Walker, Wanless, Wirth e Riley.
-          </p>
-        </div>
-      </footer>
-
-      {/* Back to Top Button */}
-      <button
-        onClick={scrollToTop}
-        className={cn(
-          "fixed bottom-6 right-6 p-3 rounded-full shadow-lg transition-all duration-300",
-          showBackToTop
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-4 pointer-events-none"
-        )}
-        style={{ backgroundColor: "#a78bfa", color: "#0a0a0f" }}
-        aria-label="Voltar ao topo"
+    <div className="app-shell" style={{ backgroundColor: "#0a0a0f", color: "#fafafa" }}>
+      {/* Header */}
+      <header
+        className="flex-shrink-0 flex items-center justify-between px-4 safe-top"
+        style={{
+          height: "48px",
+          borderBottom: "1px solid #27273a",
+        }}
       >
-        <ArrowUp className="h-5 w-5" />
-      </button>
+        <h1
+          className="text-lg font-bold bg-clip-text text-transparent"
+          style={{ backgroundImage: "linear-gradient(to right, #a78bfa, #6366f1)" }}
+        >
+          Tarot-Polis
+        </h1>
+
+        <div className="flex items-center gap-3">
+          {hasCards && (
+            <span className="text-xs font-medium" style={{ color: "#a1a1aa" }}>
+              {selectedCards.length}/{MAX_CARDS}
+            </span>
+          )}
+          {canAddMore && (
+            <button
+              onClick={() => setIsSheetOpen(true)}
+              className="touch-target flex items-center justify-center w-8 h-8 rounded-lg transition-colors"
+              style={{ backgroundColor: "#a78bfa", color: "#0a0a0f" }}
+              aria-label="Adicionar carta"
+            >
+              <Plus className="h-4 w-4" />
+            </button>
+          )}
+        </div>
+      </header>
+
+      {/* Card tabs */}
+      <div className="flex-shrink-0">
+        <CardTabs
+          selectedCards={selectedCards}
+          activeCardIndex={activeCardIndex}
+          onTabChange={setActiveCardIndex}
+          onRemoveCard={handleRemoveCard}
+        />
+      </div>
+
+      {/* Content area */}
+      {hasCards && activeCard ? (
+        <CardInterpretation
+          key={activeCard}
+          cardName={activeCard}
+          expandedAuthors={getExpandedAuthors(activeCard)}
+          onToggleAuthor={(authorId) => handleToggleAuthor(activeCard, authorId)}
+          onExpandAll={() => handleExpandAll(activeCard)}
+          onCollapseAll={() => handleCollapseAll(activeCard)}
+        />
+      ) : (
+        <EmptyState onOpenSheet={() => setIsSheetOpen(true)} />
+      )}
+
+      {/* FAB for adding cards when tabs exist but not full */}
+      {hasCards && canAddMore && (
+        <button
+          onClick={() => setIsSheetOpen(true)}
+          className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-lg flex items-center justify-center z-30"
+          style={{
+            backgroundColor: "#a78bfa",
+            color: "#0a0a0f",
+            boxShadow: "0 4px 20px rgba(167, 139, 250, 0.3)",
+            marginBottom: "env(safe-area-inset-bottom, 0px)",
+          }}
+          aria-label="Adicionar carta"
+        >
+          <Plus className="h-6 w-6" />
+        </button>
+      )}
+
+      {/* Bottom sheet */}
+      <BottomSheet isOpen={isSheetOpen} onClose={() => setIsSheetOpen(false)}>
+        <CardBrowser
+          selectedCards={selectedCards}
+          onSelectCard={handleSelectCard}
+          maxCards={MAX_CARDS}
+        />
+      </BottomSheet>
     </div>
   );
 }
