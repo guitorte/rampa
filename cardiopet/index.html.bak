@@ -3,50 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bianca Gomes | Cardiologia Veterinária – Pelotas</title>
-    <meta name="description" content="Cardiologia veterinária especializada em Pelotas. Ecocardiograma, eletrocardiograma, aferição de pressão arterial, avaliação pré-anestésica e consulta cardiológica para cães e gatos.">
+    <title>CardioPet Pelotas | Cardiologia Veterinária Especializada</title>
+    <meta name="description" content="Cardiologia veterinária em Pelotas. Ecocardiograma, eletrocardiograma, aferição de pressão arterial, avaliação pré-anestésica e consulta cardiológica para cães e gatos.">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        teal: {
-                            50:  '#edf5fa',
-                            100: '#d4e8f2',
-                            200: '#a8d0e5',
-                            300: '#7ab8d9',
-                            400: '#5898b4',
-                            500: '#3d7e9a',
-                            600: '#2C6480',
-                            700: '#1e5069',
-                            800: '#143d52',
-                            900: '#0d2b3b',
-                        },
-                        amber: {
-                            50:  '#fdf2f2',
-                            100: '#fbe5e5',
-                            200: '#f6cccc',
-                            300: '#eea8a8',
-                            400: '#e38080',
-                            500: '#D47A7A',
-                            600: '#bf5f5f',
-                            700: '#a04545',
-                            800: '#823030',
-                            900: '#641e1e',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
-            --primary: #2C6480;
-            --primary-light: #6A97AD;
-            --accent: #D47A7A;
+            --primary: #0f766e;
+            --primary-light: #14b8a6;
+            --accent: #f59e0b;
             --text: #1e293b;
             --bg: #fafaf9;
         }
@@ -66,17 +32,17 @@
         }
         @keyframes ecgMove { 0% { transform: translateY(-50%) translateX(0); } 100% { transform: translateY(-50%) translateX(-50%); } }
         @keyframes pulse { 0%, 100% { transform: translate(-50%,-50%) scale(1); opacity:1; } 50% { transform: translate(-50%,-50%) scale(1.5); opacity:0.5; } }
-        .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3; z-index: -1; }
-        .blob-1 { background: linear-gradient(135deg,#6A97AD,#2C6480); width:500px; height:500px; top:-200px; right:-200px; animation: float 8s ease-in-out infinite; }
-        .blob-2 { background: linear-gradient(135deg,#D47A7A,#bf5f5f); width:400px; height:400px; bottom:-150px; left:-150px; animation: float 10s ease-in-out infinite reverse; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35; z-index: -1; }
+        .blob-1 { background: linear-gradient(135deg,#14b8a6,#0f766e); width:500px; height:500px; top:-200px; right:-200px; animation: float 8s ease-in-out infinite; }
+        .blob-2 { background: linear-gradient(135deg,#f59e0b,#d97706); width:400px; height:400px; bottom:-150px; left:-150px; animation: float 10s ease-in-out infinite reverse; }
         @keyframes float { 0%,100% { transform:translate(0,0) scale(1); } 50% { transform:translate(30px,-30px) scale(1.1); } }
-        .heart-pattern { background-image: radial-gradient(circle at 2px 2px, rgba(106,151,173,0.1) 2px, transparent 0); background-size:40px 40px; }
-        .glass { background:rgba(255,255,255,0.75); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.4); }
+        .heart-pattern { background-image: radial-gradient(circle at 2px 2px, rgba(20,184,166,0.12) 2px, transparent 0); background-size:40px 40px; }
+        .glass { background:rgba(255,255,255,0.7); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.3); }
         html { scroll-behavior: smooth; }
         .input-field { transition: all 0.3s ease; border: 2px solid #e2e8f0; }
-        .input-field:focus { border-color: var(--primary-light); box-shadow: 0 0 0 4px rgba(106,151,173,0.15); outline: none; }
+        .input-field:focus { border-color: var(--primary-light); box-shadow: 0 0 0 4px rgba(20,184,166,0.1); outline: none; }
         .btn-primary { background: linear-gradient(135deg,var(--primary),var(--primary-light)); transition: all 0.3s ease; position: relative; overflow: hidden; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(44,100,128,0.4); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(15,118,110,0.4); }
         .btn-primary::after { content:""; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent); transition:0.5s; }
         .btn-primary:hover::after { left:100%; }
         .mobile-menu { transform: translateX(100%); transition: transform 0.3s ease-in-out; }
@@ -86,7 +52,7 @@
         .service-card { transition: all 0.4s ease; }
         .service-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -15px rgba(0,0,0,0.12); }
         .segment-card { transition: all 0.3s ease; }
-        .segment-card:hover { border-color: #6A97AD !important; background: linear-gradient(135deg,#edf5fa,#fff); }
+        .segment-card:hover { border-color: #14b8a6 !important; background: linear-gradient(135deg,#f0fdfa,#fff); }
         ::selection { background: var(--primary-light); color: white; }
     </style>
 </head>
@@ -99,9 +65,15 @@
 <nav class="fixed w-full z-40 glass top-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-20">
-            <a href="#" class="flex items-center">
-                <img src="images/marca_horizontal.png" alt="Bianca Gomes Cardiologia Veterinária" class="h-11 w-auto">
-            </a>
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-teal-600 to-teal-400 rounded-full flex items-center justify-center">
+                    <i data-lucide="heart-pulse" class="w-6 h-6 text-white"></i>
+                </div>
+                <div>
+                    <span class="text-2xl font-bold text-teal-900" style="font-family:'Playfair Display',serif;">CardioPet</span>
+                    <span class="block text-xs text-teal-600 font-medium tracking-wider uppercase">Pelotas</span>
+                </div>
+            </div>
             <div class="hidden md:flex items-center gap-8">
                 <a href="#sobre" class="text-slate-600 hover:text-teal-700 font-medium transition-colors">Por Que Fazer</a>
                 <a href="#servicos" class="text-slate-600 hover:text-teal-700 font-medium transition-colors">Serviços</a>
@@ -120,8 +92,8 @@
             <a href="#como-funciona" class="text-lg text-slate-700 hover:text-teal-700 font-medium border-b border-slate-100 pb-2">Como Funciona</a>
             <a href="#agendar" class="btn-primary text-white px-6 py-4 rounded-xl font-semibold text-center mt-4">Agendar Consulta</a>
             <div class="mt-8 p-4 bg-teal-50 rounded-xl">
-                <p class="text-sm font-medium" style="color:#2C6480;">Pelotas - RS</p>
-                <p class="text-sm mt-1" style="color:#6A97AD;">Atendimento com hora marcada</p>
+                <p class="text-sm text-teal-800 font-medium">Pelotas - RS</p>
+                <p class="text-sm text-teal-600 mt-1">Atendimento com hora marcada</p>
             </div>
         </div>
     </div>
@@ -161,13 +133,13 @@
                 </div>
             </div>
             <div class="relative">
-                <div class="absolute inset-0 rounded-3xl transform rotate-3 opacity-20" style="background: linear-gradient(135deg,#a8d0e5,#eea8a8);"></div>
+                <div class="absolute inset-0 bg-gradient-to-tr from-teal-200 to-amber-200 rounded-3xl transform rotate-3 opacity-25"></div>
                 <div class="relative glass rounded-3xl p-8 lg:p-10 shadow-2xl">
                     <div class="ecg-container mb-6 bg-slate-50 rounded-2xl border border-slate-200">
                         <div class="ecg-line"></div>
                         <div class="ecg-pulse"></div>
                         <div class="absolute bottom-3 left-4 text-xs text-slate-400 font-mono tracking-widest">CARDIO MONITOR</div>
-                        <div class="absolute bottom-3 right-4 text-xs font-bold tracking-wider" style="color:#D47A7A;">● LIVE</div>
+                        <div class="absolute bottom-3 right-4 text-xs text-teal-600 font-bold tracking-wider">● LIVE</div>
                     </div>
                     <div class="space-y-3">
                         <div class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm">
@@ -337,7 +309,7 @@
                 </div>
             </div>
 
-            <div class="service-card p-8 rounded-2xl shadow-sm relative overflow-hidden" style="background: linear-gradient(135deg,#2C6480,#1e5069);">
+            <div class="service-card bg-gradient-to-br from-teal-600 to-teal-700 p-8 rounded-2xl shadow-sm relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -translate-y-16 translate-x-16"></div>
                 <div class="relative">
                     <div class="w-14 h-14 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mb-5"><i data-lucide="heart-handshake" class="w-7 h-7 text-white"></i></div>
@@ -486,9 +458,9 @@
                         <div><h4 class="font-bold text-slate-900">Formas de Pagamento</h4><p class="text-slate-600 text-sm">Pix, dinheiro ou cartão. Pergunte sobre valores na hora do agendamento.</p></div>
                     </div>
                 </div>
-                <div class="mt-8 p-6 rounded-2xl border" style="background: linear-gradient(to right,#edf5fa,#fdf2f2); border-color:#d4e8f2;">
-                    <p class="font-medium flex items-start gap-2" style="color:#2C6480;">
-                        <i data-lucide="sparkles" class="w-5 h-5 flex-shrink-0 mt-0.5" style="color:#D47A7A;"></i>
+                <div class="mt-8 p-6 bg-gradient-to-r from-teal-50 to-amber-50 rounded-2xl border border-teal-100">
+                    <p class="text-teal-800 font-medium flex items-start gap-2">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5"></i>
                         <span>Na dúvida entre serviços, marque uma consulta cardiológica. Ela define o caminho certo para o caso do seu pet.</span>
                     </p>
                 </div>
@@ -663,10 +635,11 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-4 gap-12 mb-12">
             <div class="md:col-span-2">
-                <div class="mb-6">
-                    <div class="inline-block bg-white rounded-xl px-4 py-2 shadow-sm">
-                        <img src="images/marca_horizontal.png" alt="Bianca Gomes Cardiologia Veterinária" class="h-9 w-auto">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-teal-600 rounded-full flex items-center justify-center">
+                        <i data-lucide="heart-pulse" class="w-6 h-6 text-white"></i>
                     </div>
+                    <span class="text-2xl font-bold text-white" style="font-family:'Playfair Display',serif;">CardioPet</span>
                 </div>
                 <p class="text-slate-400 font-body mb-6 max-w-md">
                     Cardiologia veterinária especializada em Pelotas. Ecocardiograma, eletrocardiograma,
@@ -674,9 +647,9 @@
                     cuidado que o coração do seu pet merece.
                 </p>
                 <div class="flex gap-4">
-                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center transition-colors" style="color:#cbd5e1;" onmouseover="this.style.background='#2C6480'" onmouseout="this.style.background='#1e293b'"><i data-lucide="instagram" class="w-5 h-5"></i></a>
-                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center transition-colors" style="color:#cbd5e1;" onmouseover="this.style.background='#2C6480'" onmouseout="this.style.background='#1e293b'"><i data-lucide="facebook" class="w-5 h-5"></i></a>
-                    <a href="https://wa.me/5553999999999" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-500 transition-colors" style="color:#cbd5e1;"><i data-lucide="message-circle" class="w-5 h-5"></i></a>
+                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-teal-600 transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-teal-600 transition-colors"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                    <a href="https://wa.me/5553999999999" class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-green-500 transition-colors"><i data-lucide="message-circle" class="w-5 h-5"></i></a>
                 </div>
             </div>
             <div>
@@ -700,7 +673,7 @@
             </div>
         </div>
         <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
-            <p>&copy; 2026 Bianca Gomes Cardiologia Veterinária – Pelotas. Todos os direitos reservados.</p>
+            <p>&copy; 2026 CardioPet Pelotas. Todos os direitos reservados.</p>
             <p>Feito com <i data-lucide="heart" class="w-4 h-4 inline text-red-500"></i> para os pets de Pelotas</p>
         </div>
     </div>
@@ -741,7 +714,7 @@
             "pre-anestesica":"Avaliação Pré-Anestésica","nao-sei":"Não sei / quero orientação"
         };
         const msg =
-            "*Agendamento – Bianca Gomes Cardiologia Veterinária*%0A%0A" +
+            "*Agendamento CardioPet*%0A%0A" +
             "*Nome:* " + data.nome + "%0A" +
             "*WhatsApp:* " + data.whatsapp + "%0A" +
             "*Pet:* " + data.pet + "%0A" +
