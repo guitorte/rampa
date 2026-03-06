@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorte do Dia - Estilo Cards Against Humanity</title>
+
+<style>
+body{
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #111;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+.container{
+    max-width: 700px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #ffcc00;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+p.subtitle {
+    color: #888;
+    margin-bottom: 40px;
+}
+
+#fortune{
+    font-size: 24px;
+    margin: 40px 0;
+    line-height: 1.6;
+    background: #222;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid #333;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button{
+    padding: 15px 35px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    background: #ffcc00;
+    color: black;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: transform 0.1s ease, background 0.2s;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background: #e6b800;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* Responsividade para celular */
+@media (max-width: 600px) {
+    h1 { font-size: 1.8rem; }
+    #fortune { font-size: 18px; padding: 20px; }
+    button { width: 100%; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Sua Sorte do Dia</h1>
+    <p class="subtitle">Sabedoria duvidosa para problemas reais.</p>
+
+    <div id="fortune">
+        Clique no botão para descobrir seu destino.
+    </div>
+
+    <button onclick="generateFortune()">Gerar sorte</button>
+</div>
+
+<script>
+
+// --- LISTAS DE DADOS (30 ITENS CADA) ---
+
+const verbs = [
+  "ignorar todas as notificações",
+  "deletar o aplicativo do banco",
+  "olhar fixamente para o teto",
+  "cancelar uma assinatura que nem usa",
+  "fingir que está ocupado no Teams",
+  "comprar algo que não precisa no iFood",
+  "stalkear um ex nas redes sociais",
+  "prometer começar a dieta amanhã",
+  "dormir até tarde no domingo",
+  "reclamar do preço do café",
+  "procrastinar uma tarefa urgente",
+  "enviar um e-mail sem attachment",
+  "responder 'kkkk' para algo sério",
+  "fazer uma compra por impulso",
+  "ignorar o despertador",
+  "culpar o trânsito pelo atraso",
+  "pedir comida sendo que tem comida em casa",
+  "assistir reprise de série",
+  "fazer uma piada interna que ninguém entendeu",
+  "deixar o grupo da família no silencioso",
+  "tentar consertar algo e piorar a situação",
+  "gastar o dinheiro da reserva",
+  "marcar reunião sem pauta",
+  "esquecer o aniversário de alguém importante",
+  "fingir que sabe o que é blockchain",
+  "dar like em foto antiga sem querer",
+  "comprar planta e deixar morrer",
+  "prometer que vai ler mais",
+  "fazer hora extra de graça",
+  "chorar no banho"
+];
+
+const absurdEvents = [
+  "uma atualização obrigatória do Windows",
+  "o algoritmo do TikTok te julgar",
+  "um meme de 2012 que voltou do morto",
+  "o Wi-Fi cair exatamente na hora da reunião",
+  "uma notificação de 'cobrança vencida'",
+  "um influencer fazendo dancinha no metrô",
+  "o elevador quebrar no 3º andar",
+  "uma review de 1 estrela no Google Maps",
+  "um boleto com juros abusivos",
+  "a bateria do celular morrer com 20%",
+  "um áudio de 5 minutos sem transcrição",
+  "o ar-condicionado pingar na sua cabeça",
+  "uma promoção relâmpago que acabou em 1 segundo",
+  "o GPS te mandar pra um matagal",
+  "um pop-up de vírus no seu Mac",
+  "a impressora pedir tinta cyan quando só imprime preto",
+  "um delivery chegar frio",
+  "o caixa eletrônico engolir seu cartão",
+  "uma live travando no momento crucial",
+  "um filtro do Instagram que te deixa estranho",
+  "o servidor cair na Black Friday",
+  "um e-mail de 'Responda a Todos' constrangedor",
+  "a Netflix perguntar 'Você ainda está assistindo?'",
+  "um QR Code que não lê",
+  "o reconhecimento facial falhar",
+  "uma senha que exige caractere especial, número e sangue de unicórnio",
+  "o modo avião não desligar",
+  "um anúncio do YouTube que não pode ser pulado",
+  "o Bluetooth conectar no carro do vizinho",
+  "uma notificação de 'Seu dispositivo está lento'"
+];
+
+const weirdCharacters = [
+  "um estagiário de RH sem café",
+  "um influencer de criptomoedas falido",
+  "sua tia que manda corrente no WhatsApp",
+  "um robô de atendimento que não entende 'falar com humano'",
+  "um vizinho que reclama do barulho do silêncio",
+  "um guru de marketing digital de curso",
+  "um motorista de aplicativo perdido",
+  "um fiscal de loja de shopping",
+  "um nutricionista que só come ar",
+  "um personal trainer que grita muito",
+  "um astrólogo que culpa Plutão por tudo",
+  "um colecionador de NFTs de macacos",
+  "um político fazendo promessa de campanha",
+  "um vendedor de curso de 'como ficar rico'",
+  "um hipster com barba e óculos de grau falso",
+  "um criança gritando no avião",
+  "um segurança de balada com cara de poucos amigos",
+  "um atendente de telemarketing insistente",
+  "um motoboy apressado",
+  "um fiscal de obra parado na calçada",
+  "um turista tirando foto de tudo",
+  "um cachorro latindo para o nada",
+  "um gato julgando sua vida financeira",
+  "um síndico obcecado por regras",
+  "um colega de trabalho que come peixe no microondas",
+  "um amigo que sempre chega atrasado",
+  "um parente que pergunta 'e o namorado?' no Natal",
+  "um fiscal de trânsito com radar",
+  "um mendigo filósofo",
+  "um fantasma do passado"
+];
+
+const problems = [
+  "o aluguel que come seu salário",
+  "a dieta de segunda-feira que falhou",
+  "a reunião que podia ser um e-mail",
+  "a crise existencial dos 30 anos",
+  "a conta de luz que veio alta",
+  "a falta de propósito na vida",
+  "o medo de ficar velho e pobre",
+  "a pilha de louça na pia",
+  "a roupa que encolheu na lavagem",
+  "o trânsito da marginal",
+  "a ansiedade de domingo à noite",
+  "o medo de falar em público",
+  "a dificuldade de acordar cedo",
+  "a falta de dinheiro para viajar",
+  "o vizinho de cima que pula corda",
+  "a impressão 3D que deu errado",
+  "o projeto que está atrasado",
+  "o chefe microgerenciador",
+  "a falta de tempo para ler",
+  "o vício em redes sociais",
+  "a comparação com a vida dos outros",
+  "o medo de compromissos",
+  "a dificuldade de fazer amigos adultos",
+  "o preço do ingresso do show",
+  "a fila do banco",
+  "o documento extraviado",
+  "o carro que fez um barulho estranho",
+  "a geladeira vazia",
+  "o chuveiro que só tem água fria",
+  "a internet lenta"
+];
+
+const absurdSolutions = [
+  "beber água com limão em jejum",
+  "comprar um curso de 997 reais",
+  "meditar em pé numa perna só",
+  "fazer um detox de dopamina",
+  "usar chás de ervas duvidosas",
+  "contratar um coach de vida",
+  "ler autoajuda barata",
+  "fazer jejum intermitente radical",
+  "comprar um planner caro e não usar",
+  "ouvir podcast de true crime",
+  "fazer yoga risada",
+  "comprar cristais energizados",
+  "fazer terapia de choque",
+  "se isolar numa cabana no mato",
+  "adotar 5 gatos de uma vez",
+  "mudar de cidade sem planejamento",
+  "tatuagem de frase motivacional",
+  "comprar equipamento de academia e usar como cabide",
+  "fazer retiro espiritual silencioso",
+  "ler horóscopo chinês",
+  "fazer banho de ervas",
+  "comprar suplemento importado",
+  "fazer dieta da sopa",
+  "assistir TED Talk às 3 da manhã",
+  "comprar livro de colorir para adultos",
+  "fazer acupuntura no ouvido",
+  "usar óculos de bloqueio de luz azul",
+  "comprar colchão de molas caras",
+  "fazer massagem com pedras quentes",
+  "contratar um consultor financeiro falido"
+];
+
+const truths = [
+  "você vai morrer solteiro se continuar assim",
+  "o dinheiro não traz felicidade, mas paga boleto",
+  "seu chefe não se importa com seus sonhos",
+  "a faculdade não garantiu emprego nenhum",
+  "você é substituível no trabalho",
+  "ninguém está pensando em você, estão pensando neles mesmos",
+  "a juventude acabou e você nem percebeu",
+  "seus pais também não sabiam o que estavam fazendo",
+  "o sucesso dos outros é sorte, não mérito",
+  "você vai se arrepender de não ter viajado mais",
+  "a política nunca vai mudar de verdade",
+  "seu corpo vai começar a doer sem motivo",
+  "você gasta demais com coisas inúteis",
+  "seus amigos de infância já foram embora",
+  "o amor romântico é uma construção social",
+  "você procrastina porque tem medo de falhar",
+  "ninguém vai te salvar, a responsabilidade é sua",
+  "a casa própria é uma armadilha financeira",
+  "você está viciado em validação externa",
+  "o futuro é incerto e assustador",
+  "você não é especial, é apenas mais um",
+  "a felicidade é momentânea, o tédio é constante",
+  "seus problemas são pequenos perto dos do mundo",
+  "você vai esquecer a maioria das coisas que aprendeu",
+  "o tempo está passando rápido demais",
+  "você tem medo de ser comum",
+  "a liberdade total é uma ilusão",
+  "você julga os outros tanto quanto é julgado",
+  "a perfeição é inimiga do feito",
+  "no final, tudo vira pó"
+];
+
+// --- TEMPLATES (MOLDES DE FRASES) ---
+
+const templates = [
+  // Originais
+  () => `Hoje você vai ${random(verbs)} por causa de ${random(absurdEvents)}.`,
+  () => `Cuidado com ${random(weirdCharacters)} hoje.`,
+  () => `Hoje você descobrirá que ${random(absurdEvents)} resolve melhor que ${random(absurdSolutions)}.`,
+  () => `Hoje você perceberá que ${random(truths)}.`,
+  () => `Sua sorte envolve ${random(weirdCharacters)} e ${random(problems)}.`,
+  () => `Evite discutir sobre ${random(problems)} com ${random(weirdCharacters)}.`,
+  () => `Hoje ${random(absurdEvents)} terá impacto direto em ${random(problems)}.`,
+  
+  // Novos Templates
+  () => `A solução para ${random(problems)} é simplesmente ${random(verbs)}.`,
+  () => `Seu espírito animal hoje é ${random(weirdCharacters)}.`,
+  () => `Não confie em ${random(weirdCharacters)} que promete ${random(absurdSolutions)}.`,
+  () => `O universo quer que você ${random(verbs)} antes do almoço.`,
+  () => `Seu nível de estresse é comparável a ${random(absurdEvents)}.`,
+  () => `Para curar ${random(problems)}, tente ${random(absurdSolutions)}.`,
+  () => `Um sinal do cosmos: ${random(truths)}.`,
+  () => `Hoje é dia de ${random(verbs)} enquanto ignora ${random(problems)}.`,
+  () => `A astrologia diz que ${random(weirdCharacters)} trará caos para ${random(problems)}.`,
+  () => `Substitua ${random(absurdSolutions)} por ${random(verbs)} e veja o que acontece.`,
+  () => `Seu poder secreto hoje é ${random(verbs)} na frente de ${random(weirdCharacters)}.`,
+  () => `A verdade dolorosa: ${random(truths)} por causa de ${random(absurdEvents)}.`,
+  () => `Pare de tentar ${random(absurdSolutions)} e aceite que ${random(truths)}.`,
+  () => `Seu guia espiritual é um ${random(weirdCharacters)} que adora ${random(verbs)}.`,
+  () => `O segredo do sucesso é ${random(verbs)} quando ninguém está olhando.`,
+  () => `Hoje, ${random(problems)} será resolvido com ${random(absurdSolutions)}.`,
+  () => `Alerta vermelho: ${random(weirdCharacters)} está planejando ${random(verbs)}.`,
+  () => `Sua vibração hoje combina com ${random(absurdEvents)}.`,
+  () => `Lembre-se: ${random(truths)} é a única certeza.`,
+  () => `Evite ${random(weirdCharacters)} a todo custo, eles trazem ${random(problems)}.`,
+  () => `A cura para a alma é ${random(verbs)} perto de ${random(absurdEvents)}.`,
+  () => `Seu horóscopo prevê ${random(absurdEvents)} afetando ${random(problems)}.`,
+  () => `Nunca subestime o poder de ${random(absurdSolutions)} contra ${random(weirdCharacters)}.`,
+  () => `Hoje você vai entender que ${random(truths)}.`,
+  () => `O destino exige que você ${random(verbs)} imediatamente.`,
+  () => `Sua sorte grande é encontrar ${random(weirdCharacters)} no caminho de ${random(problems)}.`,
+  () => `Pare de fazer ${random(verbs)} e comece a fazer ${random(absurdSolutions)}.`,
+  () => `A ironia do dia: ${random(truths)} enquanto ${random(absurdEvents)}.`,
+  () => `Seu mantra: ${random(verbs)} não é ${random(absurdSolutions)}.`,
+  () => `Finalmente, ${random(problems)} faz sentido graças a ${random(weirdCharacters)}.`
+];
+
+// --- LÓGICA DO GERADOR ---
+
+function random(array){
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+function generateFortune(){
+    const template = random(templates);
+    const fortune = template();
+    
+    // Efeito simples de fade-in ao trocar o texto
+    const fortuneDiv = document.getElementById("fortune");
+    fortuneDiv.style.opacity = 0;
+    
+    setTimeout(() => {
+        fortuneDiv.innerText = fortune;
+        fortuneDiv.style.opacity = 1;
+        fortuneDiv.style.transition = "opacity 0.3s ease";
+    }, 150);
+}
+
+</script>
+
+</body>
+</html>
