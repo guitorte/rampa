@@ -47,9 +47,9 @@ export function BottomSheet({ isOpen, onClose, children }: BottomSheetProps) {
 
       <div
         ref={sheetRef}
-        className="absolute bottom-0 left-0 right-0 rounded-t-2xl flex flex-col"
+        className="absolute bottom-0 left-0 right-0 rounded-t-xl flex flex-col"
         style={{
-          backgroundColor: "#1a1228",
+          backgroundColor: "#141218",
           maxHeight: "85dvh",
           animation: isClosing
             ? "sheet-slide-down 300ms ease-in forwards"
@@ -61,8 +61,8 @@ export function BottomSheet({ isOpen, onClose, children }: BottomSheetProps) {
       >
         <div className="flex justify-center pt-3 pb-2 cursor-grab">
           <div
-            className="w-12 h-1.5 rounded-full"
-            style={{ backgroundColor: "rgba(168, 160, 181, 0.3)" }}
+            className="w-10 h-px"
+            style={{ backgroundColor: "rgba(196, 168, 130, 0.2)" }}
           />
         </div>
 

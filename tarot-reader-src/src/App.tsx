@@ -147,24 +147,27 @@ function App() {
   }, []);
 
   return (
-    <div className="app-shell" style={{ backgroundColor: "#0f0a1a", color: "#f5f3f7" }}>
+    <div className="app-shell">
       {/* Header */}
       <header
-        className="flex-shrink-0 flex items-center justify-between px-4 safe-top"
-        style={{ height: "48px", borderBottom: "1px solid #2a1f3d" }}
+        className="flex-shrink-0 flex items-center justify-between px-5"
+        style={{ height: "44px", borderBottom: "1px solid #1e1b26" }}
       >
-        <h1 className="text-lg font-bold" style={{ fontFamily: "var(--font-display)" }}>
-          <span className="gradient-text">Oraculo</span>
+        <h1
+          className="heading-display font-semibold"
+          style={{ fontSize: "1.1rem", color: "#c4a882", letterSpacing: "0.02em" }}
+        >
+          Oráculo
         </h1>
 
         {view !== "empty" && (
           <button
             onClick={handleReset}
-            className="touch-target flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium"
-            style={{ backgroundColor: "#1e1530", color: "#a8a0b5", border: "1px solid #2a1f3d" }}
+            className="touch-target flex items-center gap-1.5 text-xs font-medium"
+            style={{ color: "#8a8490" }}
           >
-            <RotateCcw className="h-3.5 w-3.5" />
-            Nova Leitura
+            <RotateCcw className="h-3 w-3" />
+            Nova leitura
           </button>
         )}
       </header>
@@ -208,8 +211,7 @@ function App() {
             </>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-              <div className="ambient-bg" />
-              <p className="text-sm mb-4" style={{ color: "#a8a0b5" }}>
+              <p className="text-sm mb-5" style={{ color: "#8a8490" }}>
                 Selecione mais uma carta para iniciar a leitura.
               </p>
               <button
@@ -217,10 +219,11 @@ function App() {
                   const nextEmpty = cards.findIndex((c) => c === null);
                   if (nextEmpty !== -1) handleSlotClick(nextEmpty);
                 }}
-                className="touch-target px-6 py-3 rounded-xl text-sm font-semibold"
-                style={{ backgroundColor: "#a855f7", color: "#0f0a1a" }}
+                className="touch-target flex items-center gap-2 text-sm font-medium"
+                style={{ color: "#c4a882" }}
               >
-                Escolher Carta
+                Escolher carta
+                <span>→</span>
               </button>
             </div>
           )}
