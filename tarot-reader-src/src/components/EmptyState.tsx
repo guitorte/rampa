@@ -30,7 +30,7 @@ export function EmptyState({ onStart }: EmptyStateProps) {
       </h1>
 
       <p className="text-sm mb-8 max-w-xs" style={{ color: "#a8a0b5" }}>
-        Selecione duas cartas e explore as cinco dinâmicas que emergem do seu encontro.
+        Selecione até três cartas e explore as cinco dinâmicas que emergem de cada encontro entre elas.
       </p>
 
       {/* Stats */}
