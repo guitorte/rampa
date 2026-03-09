@@ -18,10 +18,12 @@ export interface Combination {
   card2: string;
 }
 
+// Directional: A→B and B→A are distinct readings
 function generateCombinations(cards: string[]): Combination[] {
   const combos: Combination[] = [];
   for (let i = 0; i < cards.length; i++) {
-    for (let j = i + 1; j < cards.length; j++) {
+    for (let j = 0; j < cards.length; j++) {
+      if (i === j) continue;
       combos.push({
         id: `${i}-${j}`,
         card1: cards[i],
@@ -49,10 +51,8 @@ function App() {
     return "selecting";
   }, [filledCount]);
 
-  // Generate combinations from filled cards
   const combinations = useMemo(() => generateCombinations(filledCards), [filledCards]);
 
-  // Keep activeCombination in bounds
   useEffect(() => {
     if (activeCombination >= combinations.length && combinations.length > 0) {
       setActiveCombination(0);
@@ -66,7 +66,6 @@ function App() {
     return getInteraction(activePair.card1, activePair.card2);
   }, [activePair]);
 
-  // Navigate combinations horizontally
   const navigateCombination = useCallback(
     (direction: -1 | 1) => {
       setActiveCombination((prev) => {
@@ -78,13 +77,11 @@ function App() {
     [combinations.length],
   );
 
-  // Swipe for combinations
   const swipe = useSwipeNavigation({
     onSwipeLeft: () => navigateCombination(1),
     onSwipeRight: () => navigateCombination(-1),
   });
 
-  // Keyboard: arrows for combinations
   useEffect(() => {
     if (view !== "reading") return;
     function handleKeyDown(e: KeyboardEvent) {
@@ -112,11 +109,10 @@ function App() {
         return next;
       });
 
-      // Find next empty slot to auto-advance
       const nextEmpty = cards.findIndex((c, i) => i !== activeSlot && c === null);
       if (nextEmpty !== -1) {
         setActiveSlot(nextEmpty);
-        return; // Keep sheet open
+        return;
       }
 
       setIsSheetOpen(false);
@@ -151,20 +147,20 @@ function App() {
       {/* Header */}
       <header
         className="flex-shrink-0 flex items-center justify-between px-5"
-        style={{ height: "44px", borderBottom: "1px solid #1e1b26" }}
+        style={{ height: "44px", borderBottom: "1px solid var(--color-border)" }}
       >
         <h1
           className="heading-display font-semibold"
-          style={{ fontSize: "1.1rem", color: "#c4a882", letterSpacing: "0.02em" }}
+          style={{ fontSize: "1.1rem", letterSpacing: "0.02em" }}
         >
-          Oráculo
+          Tarô Quebrado
         </h1>
 
         {view !== "empty" && (
           <button
             onClick={handleReset}
             className="touch-target flex items-center gap-1.5 text-xs font-medium"
-            style={{ color: "#8a8490" }}
+            style={{ color: "var(--color-muted-foreground)" }}
           >
             <RotateCcw className="h-3 w-3" />
             Nova leitura
@@ -176,7 +172,6 @@ function App() {
         <EmptyState onStart={handleStart} />
       ) : (
         <>
-          {/* Card Slots - 3 slots */}
           <div className="flex-shrink-0">
             <CardSlots
               cards={cards}
@@ -187,7 +182,6 @@ function App() {
 
           {view === "reading" && combinations.length > 0 ? (
             <>
-              {/* Combination tabs (horizontal) - only if more than 1 */}
               {combinations.length > 1 && (
                 <div className="flex-shrink-0">
                   <CombinationTabs
@@ -198,7 +192,6 @@ function App() {
                 </div>
               )}
 
-              {/* All 5 dynamics vertically, swipe for combinations */}
               <div className="flex-1 min-h-0 flex flex-col" {...swipe.handlers}>
                 <ReadingContent
                   combination={activePair!}
@@ -211,7 +204,7 @@ function App() {
             </>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-              <p className="text-sm mb-5" style={{ color: "#8a8490" }}>
+              <p className="text-sm mb-5" style={{ color: "var(--color-muted-foreground)" }}>
                 Selecione mais uma carta para iniciar a leitura.
               </p>
               <button
@@ -220,7 +213,7 @@ function App() {
                   if (nextEmpty !== -1) handleSlotClick(nextEmpty);
                 }}
                 className="touch-target flex items-center gap-2 text-sm font-medium"
-                style={{ color: "#c4a882" }}
+                style={{ color: "var(--color-primary)" }}
               >
                 Escolher carta
                 <span>→</span>

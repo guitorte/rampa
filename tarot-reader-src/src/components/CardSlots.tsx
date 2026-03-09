@@ -24,13 +24,13 @@ function SlotContent({
         onClick={() => onSlotClick(slot)}
         className="touch-target flex-1 flex items-center justify-center gap-1.5 transition-opacity"
         style={{
-          borderBottom: "1px dashed rgba(196, 168, 130, 0.2)",
+          borderBottom: "1px dashed var(--color-border)",
           minHeight: "44px",
-          color: "rgba(196, 168, 130, 0.4)",
+          color: "var(--color-muted-foreground)",
         }}
       >
         <Plus className="h-3 w-3" />
-        <span className="label" style={{ color: "inherit", letterSpacing: "0.12em" }}>
+        <span className="label" style={{ color: "inherit" }}>
           Carta {slot + 1}
         </span>
       </button>
@@ -49,34 +49,25 @@ function SlotContent({
         onClick={() => onSlotClick(slot)}
         className="touch-target w-full flex items-center gap-2 px-0 py-2"
       >
-        {/* Number glyph */}
         <span
           className="heading-display text-sm font-semibold flex-shrink-0 w-7 text-center"
           style={{ color }}
         >
           {number}
         </span>
-
-        {/* Name */}
         <div className="flex-1 min-w-0 text-left">
-          <p
-            className="heading-display text-sm font-semibold truncate leading-tight"
-            style={{ color: "#ede9e4" }}
-          >
+          <p className="heading-display text-sm font-semibold truncate leading-tight">
             {card}
           </p>
-          <p className="label" style={{ color, letterSpacing: "0.1em" }}>
-            {sublabel}
-          </p>
+          <p className="label" style={{ color }}>{sublabel}</p>
         </div>
       </button>
 
-      {/* Remove */}
       <button
         onClick={(e) => { e.stopPropagation(); onRemoveCard(slot); }}
         className="absolute top-1/2 right-0 -translate-y-1/2 w-6 h-6 flex items-center justify-center"
         aria-label="Remover carta"
-        style={{ color: "#8a8490" }}
+        style={{ color: "var(--color-muted-foreground)" }}
       >
         <X className="h-3 w-3" />
       </button>
@@ -87,8 +78,8 @@ function SlotContent({
 export function CardSlots({ cards, onSlotClick, onRemoveCard }: CardSlotsProps) {
   return (
     <div
-      className="flex items-stretch gap-0 px-4 py-0"
-      style={{ borderBottom: "1px solid #1e1b26" }}
+      className="flex items-stretch gap-0 px-5 py-0"
+      style={{ borderBottom: "1px solid var(--color-border)" }}
     >
       {cards.map((card, i) => (
         <div key={i} className="flex-1 flex items-stretch">
@@ -98,11 +89,10 @@ export function CardSlots({ cards, onSlotClick, onRemoveCard }: CardSlotsProps) 
             onSlotClick={onSlotClick}
             onRemoveCard={onRemoveCard}
           />
-          {/* Divider between slots (not after last) */}
           {i < cards.length - 1 && (
             <div
               className="flex-shrink-0 w-px self-stretch my-3 mx-2"
-              style={{ backgroundColor: "#1e1b26" }}
+              style={{ backgroundColor: "var(--color-border)" }}
             />
           )}
         </div>

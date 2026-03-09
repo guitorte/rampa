@@ -50,16 +50,13 @@ export function CardBrowser({ selectedCards, onSelectCard, maxCards, activeSlot 
   return (
     <div className="flex flex-col min-h-0 flex-1">
       {/* Header */}
-      <div className="px-5 pt-4 pb-3" style={{ borderBottom: "1px solid #1e1b26" }}>
-        <p className="label mb-3">
-          Selecionando carta {activeSlot + 1}
-        </p>
+      <div className="px-5 pt-3 pb-3" style={{ borderBottom: "1px solid var(--color-border)" }}>
+        <p className="label mb-3">Selecionando carta {activeSlot + 1}</p>
 
-        {/* Search */}
         <div className="relative">
           <Search
             className="absolute left-0 top-1/2 -translate-y-1/2 h-3.5 w-3.5"
-            style={{ color: "#8a8490" }}
+            style={{ color: "var(--color-muted-foreground)" }}
           />
           <input
             type="text"
@@ -68,8 +65,8 @@ export function CardBrowser({ selectedCards, onSelectCard, maxCards, activeSlot 
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-5 pr-0 py-2 bg-transparent text-sm focus:outline-none"
             style={{
-              borderBottom: "1px solid #2a2730",
-              color: "#ede9e4",
+              borderBottom: "1px solid var(--color-border)",
+              color: "var(--color-foreground)",
             }}
           />
         </div>
@@ -79,7 +76,7 @@ export function CardBrowser({ selectedCards, onSelectCard, maxCards, activeSlot 
       {!searchQuery.trim() && (
         <div
           className="flex overflow-x-auto scrollbar-hide"
-          style={{ borderBottom: "1px solid #1e1b26" }}
+          style={{ borderBottom: "1px solid var(--color-border)" }}
         >
           {CATEGORIES.map((cat) => {
             const isActive = cat.id === activeCategory;
@@ -88,13 +85,13 @@ export function CardBrowser({ selectedCards, onSelectCard, maxCards, activeSlot 
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
                 className="touch-target flex-shrink-0 px-4 py-2.5 text-xs font-medium relative transition-colors"
-                style={{ color: isActive ? "#ede9e4" : "#8a8490" }}
+                style={{ color: isActive ? "var(--color-foreground)" : "var(--color-muted-foreground)" }}
               >
                 {cat.label}
                 {isActive && (
                   <span
                     className="absolute bottom-0 left-4 right-4 h-px"
-                    style={{ backgroundColor: "#c4a882" }}
+                    style={{ backgroundColor: "var(--color-foreground)" }}
                   />
                 )}
               </button>
@@ -122,10 +119,9 @@ export function CardBrowser({ selectedCards, onSelectCard, maxCards, activeSlot 
               className="touch-target w-full flex items-center gap-3 px-5 py-3 text-left transition-opacity"
               style={{
                 opacity: disabled ? 0.25 : 1,
-                borderBottom: "1px solid #1a1720",
+                borderBottom: "1px solid var(--color-secondary)",
               }}
             >
-              {/* Number glyph */}
               <span
                 className="heading-display text-sm font-semibold flex-shrink-0 w-6 text-center"
                 style={{ color }}
@@ -133,22 +129,18 @@ export function CardBrowser({ selectedCards, onSelectCard, maxCards, activeSlot 
                 {number}
               </span>
 
-              {/* Name */}
               <div className="flex-1 min-w-0">
                 <span
                   className="heading-display text-sm font-semibold truncate block"
-                  style={{ color: isSelected ? "#8a8490" : "#ede9e4" }}
+                  style={{ color: isSelected ? "var(--color-muted-foreground)" : "var(--color-foreground)" }}
                 >
                   {card}
                 </span>
-                <span className="label" style={{ color, letterSpacing: "0.1em" }}>
-                  {sublabel}
-                </span>
+                <span className="label" style={{ color }}>{sublabel}</span>
               </div>
 
-              {/* Selected check */}
               {isSelected && (
-                <Check className="h-3.5 w-3.5 flex-shrink-0" style={{ color: "#c4a882" }} />
+                <Check className="h-3.5 w-3.5 flex-shrink-0" style={{ color: "var(--color-foreground)" }} />
               )}
             </button>
           );

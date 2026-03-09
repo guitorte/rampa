@@ -4,25 +4,25 @@
   --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
 
-  /* Warmer dark — less blue-purple fantasy, more ink on paper */
-  --color-background: #0d0b10;
-  --color-foreground: #ede9e4;
-  --color-card: #141218;
-  --color-card-foreground: #ede9e4;
-  --color-primary: #c4a882;       /* Warm gold — like candlelight */
-  --color-primary-foreground: #0d0b10;
-  --color-secondary: #1a1720;
-  --color-secondary-foreground: #ede9e4;
-  --color-muted: #252230;
-  --color-muted-foreground: #8a8490;
-  --color-border: #1e1b26;
+  /* Light editorial palette */
+  --color-background: #ffffff;
+  --color-foreground: #1a1a1a;
+  --color-card: #f8f7f5;
+  --color-card-foreground: #1a1a1a;
+  --color-primary: #1a1a1a;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f2f0ed;
+  --color-secondary-foreground: #1a1a1a;
+  --color-muted: #e8e5e0;
+  --color-muted-foreground: #8a857e;
+  --color-border: #e0ddd8;
 
-  /* Desaturated, muted dynamic colors — not neon */
-  --color-engendrar: #6aaa8c;     /* Sage */
-  --color-conflito:  #c27171;     /* Dusty rose */
-  --color-estagnar:  #7b7fb5;     /* Slate blue */
-  --color-regressar: #c4943e;     /* Warm amber */
-  --color-necessitar: #5ea0a8;    /* Muted teal */
+  /* Muted dynamic colors — understated, editorial */
+  --color-engendrar: #4a7a64;
+  --color-conflito:  #984848;
+  --color-estagnar:  #5c5e8a;
+  --color-regressar: #8a6e2e;
+  --color-necessitar: #3e7880;
 }
 
 * {
@@ -36,6 +36,7 @@ body {
   font-family: var(--font-sans);
   min-height: 100dvh;
   padding-top: env(safe-area-inset-top, 0px);
+  -webkit-font-smoothing: antialiased;
 }
 
 /* App shell */
@@ -45,25 +46,15 @@ body {
   flex-direction: column;
   overflow: hidden;
   position: relative;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
 }
 
-/* Very subtle grain — editorial paper texture */
-.app-shell::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-}
-
-/* Typography: editorial label — small-caps tracked */
+/* Editorial label — small-caps tracked */
 .label {
   font-family: var(--font-sans);
-  font-size: 0.625rem;         /* 10px */
-  font-weight: 600;
+  font-size: 0.625rem;
+  font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-muted-foreground);
@@ -75,6 +66,7 @@ body {
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.15;
+  color: var(--color-foreground);
 }
 
 /* Divider */
@@ -89,7 +81,6 @@ body {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 .animate-fade-in {
   animation: fade-in 0.5s ease-out forwards;
 }
@@ -99,7 +90,6 @@ body {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-
 .animate-content {
   animation: content-fade 0.35s ease-out forwards;
 }
@@ -109,12 +99,10 @@ body {
   from { transform: translateY(100%); }
   to   { transform: translateY(0); }
 }
-
 @keyframes sheet-slide-down {
   from { transform: translateY(0); }
   to   { transform: translateY(100%); }
 }
-
 @keyframes backdrop-fade-in  { from { opacity: 0; } to { opacity: 1; } }
 @keyframes backdrop-fade-out { from { opacity: 1; } to { opacity: 0; } }
 
@@ -123,9 +111,8 @@ body {
   min-height: 44px;
   -webkit-tap-highlight-color: transparent;
 }
-
 .touch-target:active {
-  opacity: 0.65;
+  opacity: 0.6;
 }
 
 /* Scrollbar hide */
@@ -140,6 +127,5 @@ body {
 
 /* Selection */
 ::selection {
-  background-color: rgba(196, 168, 130, 0.25);
-  color: var(--color-foreground);
+  background-color: rgba(26, 26, 26, 0.1);
 }

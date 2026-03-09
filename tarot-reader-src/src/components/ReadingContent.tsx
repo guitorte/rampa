@@ -24,7 +24,6 @@ export function ReadingContent({
   return (
     <div className="flex-1 overflow-y-auto min-h-0 flex flex-col">
 
-      {/* Scrollable reading area */}
       <div key={combination.id} className="flex-1 animate-content">
         {interaction ? (
           <div className="px-5">
@@ -34,11 +33,9 @@ export function ReadingContent({
 
               return (
                 <article key={key}>
-                  {/* Rule between sections (not before first) */}
                   {idx > 0 && <div className="rule" />}
 
-                  {/* Label row */}
-                  <div className="flex items-baseline gap-2 pt-4 pb-3">
+                  <div className="flex items-baseline gap-2 pt-5 pb-3">
                     <span
                       className="label"
                       style={{ color: info.color, letterSpacing: "0.16em" }}
@@ -48,7 +45,8 @@ export function ReadingContent({
                     <span
                       style={{
                         fontSize: "0.7rem",
-                        color: `${info.color}70`,
+                        color: info.color,
+                        opacity: 0.5,
                         fontFamily: "var(--font-display)",
                         fontStyle: "italic",
                       }}
@@ -57,13 +55,12 @@ export function ReadingContent({
                     </span>
                   </div>
 
-                  {/* Body text */}
                   <p
-                    className="pb-4 leading-[1.8]"
+                    className="pb-5 leading-[1.8]"
                     style={{
-                      color: "rgba(237, 233, 228, 0.8)",
                       fontFamily: "var(--font-display)",
-                      fontSize: "0.925rem",
+                      fontSize: "0.95rem",
+                      color: "rgba(26, 26, 26, 0.75)",
                     }}
                   >
                     {text}
@@ -75,19 +72,18 @@ export function ReadingContent({
           </div>
         ) : (
           <div className="flex items-center justify-center h-32">
-            <p style={{ color: "#8a8490", fontSize: "0.875rem" }}>
+            <p style={{ color: "var(--color-muted-foreground)", fontSize: "0.875rem" }}>
               Leitura não encontrada.
             </p>
           </div>
         )}
       </div>
 
-      {/* Combination navigation */}
       {totalCombinations > 1 && (
         <div
           className="flex-shrink-0 flex items-center justify-between px-5 py-3"
           style={{
-            borderTop: "1px solid #1e1b26",
+            borderTop: "1px solid var(--color-border)",
             paddingBottom: "max(env(safe-area-inset-bottom, 0px), 12px)",
           }}
         >
@@ -95,7 +91,9 @@ export function ReadingContent({
             onClick={() => onNavigate(-1)}
             disabled={!hasPrev}
             className="touch-target flex items-center gap-1.5 text-xs font-medium"
-            style={{ color: hasPrev ? "#c4a882" : "#3a3640" }}
+            style={{
+              color: hasPrev ? "var(--color-foreground)" : "var(--color-muted)",
+            }}
           >
             <ArrowLeft className="h-3.5 w-3.5" />
             Anterior
@@ -107,7 +105,9 @@ export function ReadingContent({
             onClick={() => onNavigate(1)}
             disabled={!hasNext}
             className="touch-target flex items-center gap-1.5 text-xs font-medium"
-            style={{ color: hasNext ? "#c4a882" : "#3a3640" }}
+            style={{
+              color: hasNext ? "var(--color-foreground)" : "var(--color-muted)",
+            }}
           >
             Próxima
             <ArrowRight className="h-3.5 w-3.5" />
