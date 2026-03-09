@@ -1,6 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
 import { Search, Check } from "lucide-react";
-import { cn } from "@/lib/utils";
 import {
   MAJOR_ARCANA,
   COPAS,
@@ -17,12 +16,12 @@ import {
 
 type Category = "major" | "copas" | "paus" | "espadas" | "ouros";
 
-const CATEGORIES: { id: Category; label: string; color: string; cards: string[] }[] = [
-  { id: "major", label: "Maiores", color: "#a855f7", cards: MAJOR_ARCANA },
-  { id: "copas", label: "Copas", color: SUIT_INFO.copas.color, cards: COPAS },
-  { id: "paus", label: "Paus", color: SUIT_INFO.paus.color, cards: PAUS },
-  { id: "espadas", label: "Espadas", color: SUIT_INFO.espadas.color, cards: ESPADAS },
-  { id: "ouros", label: "Ouros", color: SUIT_INFO.ouros.color, cards: OUROS },
+const CATEGORIES: { id: Category; label: string; cards: string[] }[] = [
+  { id: "major",   label: "Arcanos Maiores", cards: MAJOR_ARCANA },
+  { id: "copas",   label: "Copas",           cards: COPAS },
+  { id: "paus",    label: "Paus",            cards: PAUS },
+  { id: "espadas", label: "Espadas",         cards: ESPADAS },
+  { id: "ouros",   label: "Ouros",           cards: OUROS },
 ];
 
 interface CardBrowserProps {
@@ -42,41 +41,35 @@ export function CardBrowser({ selectedCards, onSelectCard, maxCards, activeSlot 
   }, [activeCategory]);
 
   const displayCards = useMemo(() => {
-    if (searchQuery.trim()) {
-      return searchCards(searchQuery);
-    }
-    const cat = CATEGORIES.find((c) => c.id === activeCategory);
-    return cat ? cat.cards : [];
+    if (searchQuery.trim()) return searchCards(searchQuery);
+    return CATEGORIES.find((c) => c.id === activeCategory)?.cards ?? [];
   }, [activeCategory, searchQuery]);
 
   const isFull = selectedCards.length >= maxCards;
 
   return (
     <div className="flex flex-col min-h-0 flex-1">
-      {/* Slot indicator */}
-      <div className="px-4 pb-2">
-        <p className="text-xs font-medium" style={{ color: "#a8a0b5" }}>
-          Selecionando carta {activeSlot + 1} de {maxCards}
+      {/* Header */}
+      <div className="px-5 pt-4 pb-3" style={{ borderBottom: "1px solid #1e1b26" }}>
+        <p className="label mb-3">
+          Selecionando carta {activeSlot + 1}
         </p>
-      </div>
 
-      {/* Search */}
-      <div className="px-4 pb-3">
+        {/* Search */}
         <div className="relative">
           <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4"
-            style={{ color: "#a8a0b5" }}
+            className="absolute left-0 top-1/2 -translate-y-1/2 h-3.5 w-3.5"
+            style={{ color: "#8a8490" }}
           />
           <input
             type="text"
             placeholder="Buscar carta..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm focus:outline-none focus:ring-1"
+            className="w-full pl-5 pr-0 py-2 bg-transparent text-sm focus:outline-none"
             style={{
-              backgroundColor: "#1e1530",
-              borderColor: "#2a1f3d",
-              color: "#f5f3f7",
+              borderBottom: "1px solid #2a2730",
+              color: "#ede9e4",
             }}
           />
         </div>
@@ -84,23 +77,26 @@ export function CardBrowser({ selectedCards, onSelectCard, maxCards, activeSlot 
 
       {/* Category tabs */}
       {!searchQuery.trim() && (
-        <div className="flex gap-1 px-4 pb-3 overflow-x-auto scrollbar-hide">
+        <div
+          className="flex overflow-x-auto scrollbar-hide"
+          style={{ borderBottom: "1px solid #1e1b26" }}
+        >
           {CATEGORIES.map((cat) => {
             const isActive = cat.id === activeCategory;
             return (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={cn(
-                  "touch-target flex-shrink-0 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                )}
-                style={
-                  isActive
-                    ? { backgroundColor: cat.color, color: "#0f0a1a" }
-                    : { backgroundColor: "#1e1530", color: "#a8a0b5" }
-                }
+                className="touch-target flex-shrink-0 px-4 py-2.5 text-xs font-medium relative transition-colors"
+                style={{ color: isActive ? "#ede9e4" : "#8a8490" }}
               >
                 {cat.label}
+                {isActive && (
+                  <span
+                    className="absolute bottom-0 left-4 right-4 h-px"
+                    style={{ backgroundColor: "#c4a882" }}
+                  />
+                )}
               </button>
             );
           })}
@@ -116,59 +112,51 @@ export function CardBrowser({ selectedCards, onSelectCard, maxCards, activeSlot 
           const color = getCardColor(card);
           const suit = getCardSuit(card);
           const isMajor = isMajorArcana(card);
-          const subtitle = isMajor ? "Arcano Maior" : suit ? SUIT_INFO[suit].name : "";
+          const sublabel = isMajor ? "Arcano Maior" : suit ? SUIT_INFO[suit].name : "";
 
           return (
             <button
               key={card}
-              onClick={() => {
-                if (!disabled) {
-                  onSelectCard(card);
-                }
-              }}
+              onClick={() => { if (!disabled) onSelectCard(card); }}
               disabled={disabled}
-              className={cn(
-                "touch-target w-full flex items-center gap-3 px-4 py-3 text-left transition-colors",
-                disabled && "opacity-30",
-                isSelected && "opacity-50",
-              )}
+              className="touch-target w-full flex items-center gap-3 px-5 py-3 text-left transition-opacity"
               style={{
-                borderBottom: "1px solid rgba(42, 31, 61, 0.5)",
+                opacity: disabled ? 0.25 : 1,
+                borderBottom: "1px solid #1a1720",
               }}
             >
-              {/* Number badge */}
+              {/* Number glyph */}
               <span
-                className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-sm font-bold"
-                style={{
-                  backgroundColor: `${color}15`,
-                  color: color,
-                }}
+                className="heading-display text-sm font-semibold flex-shrink-0 w-6 text-center"
+                style={{ color }}
               >
-                {number || "?"}
+                {number}
               </span>
 
-              {/* Name & subtitle */}
+              {/* Name */}
               <div className="flex-1 min-w-0">
-                <span className="text-sm font-medium truncate block">{card}</span>
-                <span className="text-xs block" style={{ color: "#6b6279" }}>{subtitle}</span>
+                <span
+                  className="heading-display text-sm font-semibold truncate block"
+                  style={{ color: isSelected ? "#8a8490" : "#ede9e4" }}
+                >
+                  {card}
+                </span>
+                <span className="label" style={{ color, letterSpacing: "0.1em" }}>
+                  {sublabel}
+                </span>
               </div>
 
-              {/* Selected indicator */}
+              {/* Selected check */}
               {isSelected && (
-                <span
-                  className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center"
-                  style={{ backgroundColor: color }}
-                >
-                  <Check className="h-3.5 w-3.5" style={{ color: "#0f0a1a" }} />
-                </span>
+                <Check className="h-3.5 w-3.5 flex-shrink-0" style={{ color: "#c4a882" }} />
               )}
             </button>
           );
         })}
 
         {displayCards.length === 0 && searchQuery.trim() && (
-          <div className="text-center py-8 text-sm" style={{ color: "#a8a0b5" }}>
-            Nenhuma carta encontrada
+          <div className="py-10 text-center">
+            <p className="label">Nenhuma carta encontrada</p>
           </div>
         )}
       </div>

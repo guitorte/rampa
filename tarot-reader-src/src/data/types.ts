@@ -37,7 +37,7 @@ export const DYNAMICS_INFO: Record<DynamicKey, DynamicInfo> = {
     name: "Engendrar",
     subtitle: "Geração",
     icon: "✦",
-    color: "#10b981",
+    color: "#6aaa8c",
     description: "A força criativa que emerge do encontro entre estas cartas",
   },
   conflito: {
@@ -45,7 +45,7 @@ export const DYNAMICS_INFO: Record<DynamicKey, DynamicInfo> = {
     name: "Conflito",
     subtitle: "Tensão",
     icon: "⚔",
-    color: "#ef4444",
+    color: "#c27171",
     description: "As tensões e contradições que surgem neste par",
   },
   estagnar: {
@@ -53,7 +53,7 @@ export const DYNAMICS_INFO: Record<DynamicKey, DynamicInfo> = {
     name: "Estagnar",
     subtitle: "Paralisia",
     icon: "◯",
-    color: "#6366f1",
+    color: "#7b7fb5",
     description: "Os padrões de estagnação e bloqueio desta combinação",
   },
   regressar: {
@@ -61,7 +61,7 @@ export const DYNAMICS_INFO: Record<DynamicKey, DynamicInfo> = {
     name: "Regressar",
     subtitle: "Retorno",
     icon: "↺",
-    color: "#f59e0b",
+    color: "#c4943e",
     description: "O movimento de retorno e revisão que se manifesta",
   },
   necessitar: {
@@ -69,16 +69,16 @@ export const DYNAMICS_INFO: Record<DynamicKey, DynamicInfo> = {
     name: "Necessitar",
     subtitle: "Carência",
     icon: "∞",
-    color: "#06b6d4",
+    color: "#5ea0a8",
     description: "O que uma carta precisa da outra para evoluir",
   },
 };
 
 export const SUIT_INFO: Record<Suit, { name: string; color: string; element: string }> = {
-  copas: { name: "Copas", color: "#3b82f6", element: "Água" },
-  ouros: { name: "Ouros", color: "#eab308", element: "Terra" },
-  paus: { name: "Paus", color: "#ef4444", element: "Fogo" },
-  espadas: { name: "Espadas", color: "#a1a1aa", element: "Ar" },
+  copas:   { name: "Copas",   color: "#7090b8", element: "Água" },
+  ouros:   { name: "Ouros",   color: "#b8993a", element: "Terra" },
+  paus:    { name: "Paus",    color: "#b06060", element: "Fogo" },
+  espadas: { name: "Espadas", color: "#8a8a9a", element: "Ar" },
 };
 
 export const MAJOR_ARCANA_NAMES = [
