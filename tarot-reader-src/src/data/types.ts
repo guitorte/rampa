@@ -37,7 +37,7 @@ export const DYNAMICS_INFO: Record<DynamicKey, DynamicInfo> = {
     name: "Engendrar",
     subtitle: "Geração",
     icon: "✦",
-    color: "#6aaa8c",
+    color: "#4a7a64",
     description: "A força criativa que emerge do encontro entre estas cartas",
   },
   conflito: {
@@ -45,7 +45,7 @@ export const DYNAMICS_INFO: Record<DynamicKey, DynamicInfo> = {
     name: "Conflito",
     subtitle: "Tensão",
     icon: "⚔",
-    color: "#c27171",
+    color: "#984848",
     description: "As tensões e contradições que surgem neste par",
   },
   estagnar: {
@@ -53,7 +53,7 @@ export const DYNAMICS_INFO: Record<DynamicKey, DynamicInfo> = {
     name: "Estagnar",
     subtitle: "Paralisia",
     icon: "◯",
-    color: "#7b7fb5",
+    color: "#5c5e8a",
     description: "Os padrões de estagnação e bloqueio desta combinação",
   },
   regressar: {
@@ -61,7 +61,7 @@ export const DYNAMICS_INFO: Record<DynamicKey, DynamicInfo> = {
     name: "Regressar",
     subtitle: "Retorno",
     icon: "↺",
-    color: "#c4943e",
+    color: "#8a6e2e",
     description: "O movimento de retorno e revisão que se manifesta",
   },
   necessitar: {
@@ -69,16 +69,16 @@ export const DYNAMICS_INFO: Record<DynamicKey, DynamicInfo> = {
     name: "Necessitar",
     subtitle: "Carência",
     icon: "∞",
-    color: "#5ea0a8",
+    color: "#3e7880",
     description: "O que uma carta precisa da outra para evoluir",
   },
 };
 
 export const SUIT_INFO: Record<Suit, { name: string; color: string; element: string }> = {
-  copas:   { name: "Copas",   color: "#7090b8", element: "Água" },
-  ouros:   { name: "Ouros",   color: "#b8993a", element: "Terra" },
-  paus:    { name: "Paus",    color: "#b06060", element: "Fogo" },
-  espadas: { name: "Espadas", color: "#8a8a9a", element: "Ar" },
+  copas:   { name: "Copas",   color: "#4a6a8a", element: "Água" },
+  ouros:   { name: "Ouros",   color: "#8a7030", element: "Terra" },
+  paus:    { name: "Paus",    color: "#8a4040", element: "Fogo" },
+  espadas: { name: "Espadas", color: "#6a6a72", element: "Ar" },
 };
 
 export const MAJOR_ARCANA_NAMES = [
@@ -132,8 +132,8 @@ export function isMajorArcana(cardName: string): boolean {
 }
 
 export function getCardColor(cardName: string): string {
-  if (isMajorArcana(cardName)) return "#a855f7";
+  if (isMajorArcana(cardName)) return "#1a1a1a";
   const suit = getCardSuit(cardName);
   if (suit) return SUIT_INFO[suit].color;
-  return "#a1a1aa";
+  return "#6a6a72";
 }
