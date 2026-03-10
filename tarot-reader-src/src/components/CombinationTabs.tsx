@@ -17,6 +17,7 @@ function shortName(card: string): string {
 
 export function CombinationTabs({ combinations, activeIndex, onSelect }: CombinationTabsProps) {
   const activeRef = useRef<HTMLButtonElement>(null);
+  const tablistRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     activeRef.current?.scrollIntoView({
@@ -26,28 +27,51 @@ export function CombinationTabs({ combinations, activeIndex, onSelect }: Combina
     });
   }, [activeIndex]);
 
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+      e.preventDefault();
+      e.stopPropagation();
+      const next = activeIndex + (e.key === "ArrowLeft" ? -1 : 1);
+      if (next >= 0 && next < combinations.length) {
+        onSelect(next);
+      }
+    }
+  }
+
   return (
     <div
+      ref={tablistRef}
+      role="tablist"
+      aria-label="Combinações de cartas"
       className="flex overflow-x-auto scrollbar-hide"
       style={{ borderBottom: "1px solid var(--color-border)" }}
+      onKeyDown={handleKeyDown}
     >
       {combinations.map((combo, i) => {
         const isActive = i === activeIndex;
+        // Add spacing between paired groups (every 2 tabs)
+        const isGroupStart = i > 0 && i % 2 === 0;
 
         return (
           <button
             key={combo.id}
             ref={isActive ? activeRef : undefined}
+            role="tab"
+            aria-selected={isActive}
+            tabIndex={isActive ? 0 : -1}
             onClick={() => onSelect(i)}
             className="touch-target flex-shrink-0 flex flex-col items-start px-4 py-2.5 relative transition-colors"
-            style={{ color: isActive ? "var(--color-foreground)" : "var(--color-muted-foreground)" }}
+            style={{
+              color: isActive ? "var(--color-foreground)" : "var(--color-muted-foreground)",
+              marginLeft: isGroupStart ? "8px" : undefined,
+            }}
           >
             <span
               className="heading-display text-xs font-semibold whitespace-nowrap"
               style={{ fontSize: "0.8rem" }}
             >
               {shortName(combo.card1)}
-              <span style={{ opacity: 0.35, margin: "0 0.25em" }}>→</span>
+              <span style={{ opacity: 0.6, margin: "0 0.25em" }}>→</span>
               {shortName(combo.card2)}
             </span>
 
