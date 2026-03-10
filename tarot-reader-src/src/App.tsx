@@ -8,7 +8,9 @@ import { CardSlots } from "@/components/CardSlots";
 import { CombinationTabs } from "@/components/CombinationTabs";
 import { ReadingContent } from "@/components/ReadingContent";
 import { EmptyState } from "@/components/EmptyState";
+import { DesktopSidebar } from "@/components/DesktopSidebar";
 import { useSwipeNavigation } from "@/hooks/useSwipeNavigation";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 const MAX_CARDS = 3;
 
@@ -19,15 +21,20 @@ export interface Combination {
 }
 
 // Directional: A→B and B→A are distinct readings
+// Paired order: [A→B, B→A, A→C, C→A, B→C, C→B]
 function generateCombinations(cards: string[]): Combination[] {
   const combos: Combination[] = [];
   for (let i = 0; i < cards.length; i++) {
-    for (let j = 0; j < cards.length; j++) {
-      if (i === j) continue;
+    for (let j = i + 1; j < cards.length; j++) {
       combos.push({
         id: `${i}-${j}`,
         card1: cards[i],
         card2: cards[j],
+      });
+      combos.push({
+        id: `${j}-${i}`,
+        card1: cards[j],
+        card2: cards[i],
       });
     }
   }
@@ -41,6 +48,8 @@ function App() {
   const [activeSlot, setActiveSlot] = useState(0);
   const [activeCombination, setActiveCombination] = useState(0);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const filledCards = cards.filter(Boolean) as string[];
   const filledCount = filledCards.length;
@@ -142,8 +151,105 @@ function App() {
     setIsSheetOpen(true);
   }, []);
 
+  // Desktop layout
+  if (isDesktop) {
+    return (
+      <div className="app-shell md:flex-row">
+        {/* Header - full width on desktop */}
+        <header
+          className="flex-shrink-0 flex items-center justify-between px-5 w-full md:absolute md:top-0 md:left-0 md:right-0 md:z-20"
+          style={{ height: "48px", borderBottom: "1px solid var(--color-border)", backgroundColor: "var(--color-background)" }}
+        >
+          <h1
+            className="heading-display font-semibold"
+            style={{ fontSize: "1.1rem", letterSpacing: "0.02em" }}
+          >
+            Tarô Quebrado
+          </h1>
+
+          {view !== "empty" && (
+            <button
+              onClick={handleReset}
+              className="touch-target flex items-center gap-1.5 text-xs font-medium"
+              style={{ color: "var(--color-muted-foreground)" }}
+            >
+              <RotateCcw className="h-3 w-3" />
+              Nova leitura
+            </button>
+          )}
+        </header>
+
+        <div className="flex flex-1 min-h-0" style={{ paddingTop: "48px" }}>
+          {/* Sidebar */}
+          {view !== "empty" && (
+            <DesktopSidebar
+              cards={cards}
+              combinations={combinations}
+              activeIndex={activeCombination}
+              onSelectCombination={setActiveCombination}
+              onSlotClick={handleSlotClick}
+              onRemoveCard={handleRemoveCard}
+            />
+          )}
+
+          {/* Main content */}
+          <main className="flex-1 min-h-0 flex flex-col" style={{ borderLeft: view !== "empty" ? "1px solid var(--color-border)" : undefined }}>
+            {view === "empty" ? (
+              <EmptyState onStart={handleStart} />
+            ) : view === "reading" && combinations.length > 0 ? (
+              <div className="flex-1 min-h-0 flex flex-col desktop-reading">
+                <ReadingContent
+                  combination={activePair!}
+                  interaction={interaction}
+                  combinationIndex={activeCombination}
+                  totalCombinations={combinations.length}
+                  onNavigate={navigateCombination}
+                />
+              </div>
+            ) : (
+              <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
+                <p className="text-sm mb-5" style={{ color: "var(--color-muted-foreground)" }}>
+                  Selecione mais uma carta para iniciar a leitura.
+                </p>
+                <button
+                  onClick={() => {
+                    const nextEmpty = cards.findIndex((c) => c === null);
+                    if (nextEmpty !== -1) handleSlotClick(nextEmpty);
+                  }}
+                  className="touch-target flex items-center gap-2 text-sm font-medium"
+                  style={{ color: "var(--color-primary)" }}
+                >
+                  Escolher carta
+                  <span>→</span>
+                </button>
+              </div>
+            )}
+          </main>
+        </div>
+
+        <BottomSheet isOpen={isSheetOpen} onClose={() => setIsSheetOpen(false)}>
+          <CardBrowser
+            selectedCards={filledCards}
+            onSelectCard={handleSelectCard}
+            maxCards={MAX_CARDS}
+            activeSlot={activeSlot}
+          />
+        </BottomSheet>
+      </div>
+    );
+  }
+
+  // Mobile layout
   return (
     <div className="app-shell">
+      {/* Skip link for keyboard users */}
+      <a
+        href="#reading-content"
+        className="skip-link"
+      >
+        Pular para leitura
+      </a>
+
       {/* Header */}
       <header
         className="flex-shrink-0 flex items-center justify-between px-5"
@@ -192,7 +298,7 @@ function App() {
                 </div>
               )}
 
-              <div className="flex-1 min-h-0 flex flex-col" {...swipe.handlers}>
+              <div id="reading-content" className="flex-1 min-h-0 flex flex-col" {...swipe.handlers}>
                 <ReadingContent
                   combination={activePair!}
                   interaction={interaction}
