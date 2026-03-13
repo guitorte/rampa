@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SalesOps MVP</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c23;
+    --border: #1f2530;
+    --accent: #00e5a0;
+    --accent2: #0090ff;
+    --warn: #ff6b35;
+    --purple: #a855f7;
+    --yellow: #eab308;
+    --text: #e8edf5;
+    --muted: #5a6375;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* HEADER */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+  .logo { font-size: 17px; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; gap: 9px; }
+  .logo-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+
+  .mic-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--accent);
+    color: #000;
+  }
+  .mic-btn:hover { background: #00ffb3; box-shadow: 0 0 18px rgba(0,229,160,0.35); }
+  .mic-btn.active { background: var(--warn); color: #fff; box-shadow: 0 0 18px rgba(255,107,53,0.35); }
+
+  /* MAIN LAYOUT */
+  main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    overflow: hidden;
+  }
+
+  /* TRANSCRIPT PANEL */
+  .transcript-panel {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border);
+  }
+  .panel-label {
+    padding: 10px 18px;
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .panel-label .status {
+    display: flex; align-items: center; gap: 6px;
+    color: var(--muted);
+  }
+  .panel-label .status.live { color: var(--accent); }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .status.live .dot { animation: blink 1.3s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  #transcript-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 18px;
+    background: #0d1117;
+    font-family: 'Space Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.85;
+    color: #8899aa;
+  }
+  #transcript-scroll::-webkit-scrollbar { width: 3px; }
+  #transcript-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .t-line { animation: fadein 0.3s ease; margin-bottom: 2px; }
+  .t-line.final { color: #aabbc8; }
+  .t-ts { color: var(--muted); font-size: 10px; margin-right: 6px; }
+  @keyframes fadein { from{opacity:0;transform:translateY(3px)} to{opacity:1;transform:none} }
+
+  #interim-bar {
+    padding: 9px 18px;
+    background: var(--surface2);
+    border-top: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 11.5px;
+    color: var(--muted);
+    font-style: italic;
+    min-height: 36px;
+    flex-shrink: 0;
+  }
+
+  /* OBJECTIONS PANEL */
+  .objections-panel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .obj-search {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+  .obj-search input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 12px;
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .obj-search input::placeholder { color: var(--muted); }
+  .obj-search input:focus { border-color: var(--accent2); }
+
+  #objections-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  #objections-scroll::-webkit-scrollbar { width: 3px; }
+  #objections-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* Objection card */
+  .obj-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .obj-card:hover { border-color: #2a3545; }
+  .obj-card.open { border-color: var(--border); }
+
+  .obj-trigger {
+    padding: 12px 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    user-select: none;
+  }
+  .obj-tag {
+    font-size: 9px;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-weight: 700;
+  }
+  .tag-price  { background: rgba(255,107,53,0.15); color: var(--warn); }
+  .tag-timing { background: rgba(0,144,255,0.12); color: var(--accent2); }
+  .tag-competitor { background: rgba(168,85,247,0.12); color: var(--purple); }
+  .tag-trust  { background: rgba(234,179,8,0.12); color: var(--yellow); }
+  .tag-need   { background: rgba(0,229,160,0.12); color: var(--accent); }
+  .tag-authority { background: rgba(255,107,53,0.1); color: #f97316; }
+
+  .obj-question {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+    flex: 1;
+  }
+  .obj-chevron {
+    color: var(--muted);
+    font-size: 11px;
+    transition: transform 0.25s;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .obj-card.open .obj-chevron { transform: rotate(180deg); }
+
+  .obj-body {
+    display: none;
+    padding: 0 14px 14px 14px;
+    border-top: 1px solid var(--border);
+  }
+  .obj-card.open .obj-body { display: block; }
+
+  .talk-track {
+    margin-top: 12px;
+  }
+  .talk-track-label {
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .talk-track p {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #b8c8d8;
+  }
+  .talk-track p strong { color: var(--text); font-weight: 700; }
+
+  .reframe {
+    margin-top: 10px;
+    background: var(--surface2);
+    border-radius: 6px;
+    padding: 10px 12px;
+  }
+  .reframe-label {
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent2);
+    margin-bottom: 5px;
+  }
+  .reframe p { font-size: 12.5px; color: #8899aa; line-height: 1.6; font-style: italic; }
+
+  .followup-q {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 11.5px;
+    font-family: 'Space Mono', monospace;
+    color: var(--muted);
+  }
+  .followup-q span { color: var(--accent); }
+
+  .copy-row {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+  }
+  .copy-talk-btn {
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .copy-talk-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    padding: 7px 20px;
+    display: flex;
+    gap: 20px;
+    flex-shrink: 0;
+  }
+  .stat { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); }
+  .stat-val { color: var(--text); font-weight: 700; }
+
+  /* Toast */
+  #toast {
+    position: fixed; bottom: 52px; right: 16px;
+    background: var(--accent); color: #000;
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+    padding: 7px 14px; border-radius: 5px;
+    opacity: 0; transform: translateY(8px);
+    transition: all 0.25s; pointer-events: none;
+  }
+  #toast.show { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><div class="logo-dot"></div>SalesOps</div>
+  <button class="mic-btn" id="mic-btn" onclick="toggleMic()">▶ Start Listening</button>
+</header>
+
+<main>
+  <!-- LEFT: Transcript -->
+  <div class="transcript-panel">
+    <div class="panel-label">
+      Live Transcript
+      <div class="status" id="status-indicator">
+        <div class="dot"></div>
+        <span id="status-text">STANDBY</span>
+      </div>
+    </div>
+    <div id="transcript-scroll">
+      <span style="font-size:11px;color:var(--muted);font-style:italic;">Transcript will appear here once you start listening…</span>
+    </div>
+    <div id="interim-bar">—</div>
+  </div>
+
+  <!-- RIGHT: Objection Playbook -->
+  <div class="objections-panel">
+    <div class="panel-label" style="background:var(--surface);">
+      Objection Playbook
+      <span style="color:var(--muted);font-size:10px;">Click an objection to expand</span>
+    </div>
+    <div class="obj-search">
+      <input type="text" id="search-input" placeholder="🔍  Search objections…" oninput="filterCards()">
+    </div>
+    <div id="objections-scroll"></div>
+  </div>
+</main>
+
+<footer>
+  <div class="stat">Words: <span class="stat-val" id="stat-words">0</span></div>
+  <div class="stat">Duration: <span class="stat-val" id="stat-time">00:00</span></div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+// ─── OBJECTION DATA ──────────────────────────────────────────────────────────
+const OBJECTIONS = [
+  {
+    tag: "price", tagLabel: "Price", tagClass: "tag-price",
+    question: "\"It's too expensive\" / \"We don't have the budget\"",
+    talkTrack: `<strong>Acknowledge, then shift to ROI.</strong> "I completely understand — budget conversations are always real. Can I ask: what would it cost you to <em>not</em> solve this problem over the next 12 months? Most of our customers find that the cost of inaction is 3–5x the investment."`,
+    reframe: "Reframe from price to cost of inaction. Price is a one-time number; the problem is ongoing.",
+    followup: "→ \"What ROI would you need to see to make this a clear yes?\""
+  },
+  {
+    tag: "timing", tagLabel: "Timing", tagClass: "tag-timing",
+    question: "\"Not right now\" / \"Maybe next quarter\"",
+    talkTrack: `<strong>Uncover the real reason — timing is often a proxy.</strong> "That makes sense. Help me understand — is the timing about budget cycles, internal priorities, or something else? I want to make sure we revisit this at the right moment for you."`,
+    reframe: "Ask what would need to be true to make 'now' the right time. Get specific.",
+    followup: "→ \"If we could start with a small pilot, would that change the timeline?\""
+  },
+  {
+    tag: "competitor", tagLabel: "Competitor", tagClass: "tag-competitor",
+    question: "\"We're already using [Competitor X]\"",
+    talkTrack: `<strong>Don't attack — understand.</strong> "Great, I'm glad you brought that up. What do you love most about [X]? And if you could wave a magic wand, what would you change?" Then focus your pitch on exactly that gap.`,
+    reframe: "Position as complementary or ask about specific pain points with current tool.",
+    followup: "→ \"What would have to be true for you to consider switching or adding a second solution?\""
+  },
+  {
+    tag: "trust", tagLabel: "Trust / Risk", tagClass: "tag-trust",
+    question: "\"How do I know this will actually work for us?\"",
+    talkTrack: `<strong>Reduce perceived risk with proof.</strong> "That's a fair question — you shouldn't have to take our word for it. Would it help to speak to a customer in a similar situation? Or we can start with a limited pilot so you can see results before a full commitment."`,
+    reframe: "Offer a risk reversal: pilot, trial, or reference call. Remove the leap of faith.",
+    followup: "→ \"What would a successful 30-day pilot look like from your perspective?\""
+  },
+  {
+    tag: "need", tagLabel: "Need", tagClass: "tag-need",
+    question: "\"We don't really need this right now\"",
+    talkTrack: `<strong>Re-open the problem.</strong> "I hear you. Out of curiosity — how are you currently handling [the core problem this solves]? Sometimes the workarounds are invisible until we map them out."`,
+    reframe: "They may not see the problem clearly. Help them quantify what they're already losing.",
+    followup: "→ \"What's your biggest operational headache heading into next quarter?\""
+  },
+  {
+    tag: "authority", tagLabel: "Authority", tagClass: "tag-authority",
+    question: "\"I need to run this by my team / manager\"",
+    talkTrack: `<strong>Don't stall — become a champion enabler.</strong> "Of course! I want to make it easy for you to share this internally. Would it help if I put together a one-pager or a short exec summary you could forward? I can also join a quick call with your stakeholders if that would move things faster."`,
+    reframe: "Arm your champion with the right materials. Offer to be in the next meeting.",
+    followup: "→ \"Who else is typically in the room for a decision like this? I'd love to include them early.\""
+  },
+  {
+    tag: "timing", tagLabel: "Timing", tagClass: "tag-timing",
+    question: "\"We just signed with someone else recently\"",
+    talkTrack: `<strong>Plant a seed for the future.</strong> "Totally understand — you're locked in for now and that's smart. Let's stay in touch. When does that contract come up for renewal? I'd love to be in the conversation when you re-evaluate."`,
+    reframe: "Don't push. Get the renewal date and set a future touchpoint.",
+    followup: "→ \"Would you be open to a check-in 90 days before your contract renews?\""
+  },
+  {
+    tag: "price", tagLabel: "Price", tagClass: "tag-price",
+    question: "\"Can you give me a discount?\"",
+    talkTrack: `<strong>Anchor value before talking price.</strong> "I want to make sure this works for you. Before we talk numbers — what would make this feel like a clear win at whatever price we land on? Let me make sure we're solving the right problem first."`,
+    reframe: "Never discount without getting something in return — longer term, bigger scope, referral, case study.",
+    followup: "→ \"If we could structure the payment differently, would that help?\""
+  },
+];
+
+// ─── RENDER OBJECTION CARDS ──────────────────────────────────────────────────
+function renderCards(data) {
+  const container = document.getElementById('objections-scroll');
+  container.innerHTML = '';
+  if (data.length === 0) {
+    container.innerHTML = `<div style="padding:30px;text-align:center;color:var(--muted);font-family:'Space Mono',monospace;font-size:12px;">No objections match your search.</div>`;
+    return;
+  }
+  data.forEach((obj, i) => {
+    const card = document.createElement('div');
+    card.className = 'obj-card';
+    card.dataset.index = i;
+    card.innerHTML = `
+      <div class="obj-trigger" onclick="toggleCard(this)">
+        <span class="obj-tag ${obj.tagClass}">${obj.tagLabel}</span>
+        <span class="obj-question">${obj.question}</span>
+        <span class="obj-chevron">▼</span>
+      </div>
+      <div class="obj-body">
+        <div class="talk-track">
+          <div class="talk-track-label">Talk Track</div>
+          <p>${obj.talkTrack}</p>
+        </div>
+        <div class="reframe">
+          <div class="reframe-label">Reframe</div>
+          <p>${obj.reframe}</p>
+        </div>
+        <div class="followup-q"><span>Follow-up question</span><br>${obj.followup}</div>
+        <div class="copy-row">
+          <button class="copy-talk-btn" onclick="copyText(\`${obj.talkTrack.replace(/`/g,'\\`').replace(/<[^>]+>/g,'')}\`)">Copy Talk Track</button>
+          <button class="copy-talk-btn" onclick="copyText(\`${obj.followup.replace(/`/g,'\\`')}\`)">Copy Follow-up</button>
+        </div>
+      </div>`;
+    container.appendChild(card);
+  });
+}
+
+function toggleCard(trigger) {
+  const card = trigger.closest('.obj-card');
+  const wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.obj-card.open').forEach(c => c.classList.remove('open'));
+  if (!wasOpen) card.classList.add('open');
+}
+
+function filterCards() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const filtered = OBJECTIONS.filter(o =>
+    o.question.toLowerCase().includes(q) ||
+    o.tagLabel.toLowerCase().includes(q) ||
+    o.talkTrack.toLowerCase().includes(q)
+  );
+  renderCards(filtered);
+}
+
+renderCards(OBJECTIONS);
+
+// ─── SPEECH RECOGNITION ──────────────────────────────────────────────────────
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition, isListening = false;
+let wordCount = 0, startTime = null, timerInterval = null;
+let firstEntry = true;
+
+function toggleMic() {
+  isListening ? stopListening() : startListening();
+}
+
+function startListening() {
+  if (!SR) { alert('Speech Recognition requires Google Chrome.'); return; }
+  recognition = new SR();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+
+  recognition.onresult = (e) => {
+    let interim = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const r = e.results[i];
+      if (r.isFinal) {
+        const text = r[0].transcript.trim();
+        if (text) appendLine(text);
+      } else {
+        interim += r[0].transcript;
+      }
+    }
+    document.getElementById('interim-bar').textContent = interim || '—';
+  };
+
+  recognition.onerror = (e) => { if (e.error !== 'no-speech') console.error(e.error); };
+  recognition.onend = () => { if (isListening) recognition.start(); };
+
+  recognition.start();
+  isListening = true;
+
+  document.getElementById('mic-btn').textContent = '⏹ Stop Listening';
+  document.getElementById('mic-btn').classList.add('active');
+  document.getElementById('status-indicator').classList.add('live');
+  document.getElementById('status-text').textContent = 'LIVE';
+
+  // Clear placeholder
+  if (firstEntry) {
+    document.getElementById('transcript-scroll').innerHTML = '';
+    firstEntry = false;
+  }
+
+  startTime = Date.now();
+  timerInterval = setInterval(updateTimer, 1000);
+}
+
+function stopListening() {
+  if (recognition) recognition.stop();
+  isListening = false;
+  document.getElementById('mic-btn').textContent = '▶ Start Listening';
+  document.getElementById('mic-btn').classList.remove('active');
+  document.getElementById('status-indicator').classList.remove('live');
+  document.getElementById('status-text').textContent = 'PAUSED';
+  document.getElementById('interim-bar').textContent = '—';
+  clearInterval(timerInterval);
+}
+
+function appendLine(text) {
+  const box = document.getElementById('transcript-scroll');
+  const now = new Date();
+  const ts = `${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+  const line = document.createElement('div');
+  line.className = 't-line final';
+  line.innerHTML = `<span class="t-ts">${ts}</span>${text}`;
+  box.appendChild(line);
+  box.scrollTop = box.scrollHeight;
+  wordCount += text.split(/\s+/).filter(Boolean).length;
+  document.getElementById('stat-words').textContent = wordCount;
+}
+
+function updateTimer() {
+  if (!startTime) return;
+  const s = Math.floor((Date.now() - startTime) / 1000);
+  const mm = String(Math.floor(s / 60)).padStart(2,'0');
+  const ss = String(s % 60).padStart(2,'0');
+  document.getElementById('stat-time').textContent = `${mm}:${ss}`;
+}
+
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1800);
+}
+</script>
+</body>
+</html>
