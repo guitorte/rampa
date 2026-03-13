@@ -3,105 +3,395 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rampa</title>
+    <title>RAMPA — Gabinete de Soluções Indefinidas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --black: #000;
+            --white: #fff;
+            --border: #1c1c1c;
+            --border-subtle: #111;
+            --gray: #4a4a4a;
+            --gray-mid: #666;
+            --gray-light: #999;
+        }
+
         body {
-            background-color: #000;
-            color: #fff;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
+            flex-direction: column;
         }
 
-        main {
-            max-width: 48rem;
-            width: 100%;
-            text-align: center;
-        }
-
-        .logo {
+        /* ── HEADER ── */
+        header {
+            border-bottom: 1px solid var(--border);
+            padding: 2rem 3rem;
             display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
         }
 
         .logo img {
-            width: 6rem;
-            height: 6rem;
+            width: 56px;
+            height: 56px;
             object-fit: contain;
+            display: block;
         }
 
-        h1 {
-            font-size: 1.5rem;
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 2.75rem;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            color: var(--white);
+        }
+
+        .brand-tagline {
+            font-size: 0.6rem;
             font-weight: 400;
-            margin-bottom: 3rem;
-            letter-spacing: 0.025em;
+            letter-spacing: 0.22em;
+            color: var(--gray-mid);
+            text-transform: uppercase;
+            margin-top: 0.4rem;
         }
 
-        ul {
+        .header-stamp {
+            text-align: right;
+            font-size: 0.6rem;
+            letter-spacing: 0.18em;
+            color: var(--gray);
+            text-transform: uppercase;
+            line-height: 2;
+            font-weight: 400;
+        }
+
+        /* ── MAIN ── */
+        main {
+            flex: 1;
+            padding: 0 3rem;
+        }
+
+        /* ── STATEMENT ── */
+        .statement {
+            padding: 4rem 0 3.5rem;
+            border-bottom: 1px solid var(--border);
+            max-width: 36rem;
+        }
+
+        .statement-headline {
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.015em;
+            color: var(--white);
+        }
+
+        .statement-body {
+            margin-top: 1.25rem;
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: var(--gray-light);
+            letter-spacing: 0.03em;
+            line-height: 1.75;
+            max-width: 28rem;
+        }
+
+        /* ── SECTION ── */
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1.5rem;
+            padding: 2.5rem 0 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-index {
+            font-size: 0.6rem;
+            letter-spacing: 0.22em;
+            color: var(--gray);
+            text-transform: uppercase;
+            font-weight: 500;
+            min-width: 2rem;
+        }
+
+        .section-label {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--white);
+        }
+
+        /* ── DOCUMENT LIST ── */
+        .doc-list {
             list-style: none;
         }
 
-        li {
-            margin-bottom: 1rem;
+        .doc-item {
+            display: grid;
+            grid-template-columns: 2.5rem 1fr 1.5rem;
+            align-items: start;
+            gap: 1.5rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+            cursor: pointer;
         }
 
-        a {
-            color: #9ca3af;
+        .doc-item:hover .doc-link {
+            color: var(--gray-light);
+        }
+
+        .doc-item:hover .doc-arrow {
+            transform: translateX(4px);
+            color: var(--white);
+        }
+
+        .doc-num {
+            font-size: 0.6rem;
+            color: var(--gray);
+            font-weight: 300;
+            letter-spacing: 0.08em;
+            padding-top: 0.2rem;
+        }
+
+        .doc-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }
+
+        .doc-link {
+            color: var(--white);
             text-decoration: none;
             font-size: 1rem;
-            transition: color 0.2s ease;
+            font-weight: 500;
+            line-height: 1.35;
+            transition: color 0.15s ease;
         }
 
-        a:hover {
-            color: #fff;
+        .doc-tag {
+            font-size: 0.6rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gray);
+            font-weight: 400;
         }
 
-        @media (max-width: 640px) {
-            body {
-                padding: 1rem;
+        .doc-arrow {
+            font-size: 0.85rem;
+            color: var(--gray);
+            padding-top: 0.15rem;
+            transition: transform 0.15s ease, color 0.15s ease;
+            text-align: right;
+        }
+
+        /* ── DIVIDER ── */
+        .section-spacer {
+            height: 1px;
+            background: var(--border);
+            margin-top: 3.5rem;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            margin-top: auto;
+            padding: 2rem 3rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+
+        .footer-left {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--gray);
+            line-height: 2;
+            font-weight: 700;
+        }
+
+        .footer-right {
+            font-size: 0.6rem;
+            letter-spacing: 0.05em;
+            color: var(--gray);
+            text-align: right;
+            line-height: 1.9;
+            font-weight: 300;
+            max-width: 24rem;
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+            header {
+                padding: 1.5rem 1.25rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.25rem;
             }
 
-            .logo img {
-                width: 4rem;
-                height: 4rem;
+            .header-stamp {
+                text-align: left;
             }
 
-            h1 {
-                font-size: 1.25rem;
+            .brand-name {
+                font-size: 2.25rem;
             }
 
-            a {
+            main {
+                padding: 0 1.25rem;
+            }
+
+            .statement {
+                padding: 3rem 0 2.5rem;
+            }
+
+            .statement-headline {
+                font-size: 1.5rem;
+            }
+
+            .doc-item {
+                grid-template-columns: 2rem 1fr 1.25rem;
+                gap: 1rem;
+                padding: 1.25rem 0;
+            }
+
+            .doc-link {
                 font-size: 0.9rem;
+            }
+
+            footer {
+                padding: 1.75rem 1.25rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1.25rem;
+            }
+
+            .footer-right {
+                text-align: left;
+                max-width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <main>
-        <div class="logo">
-            <img src="https://cdn.prod.website-files.com/5eb98302cbb2d7772085c976/64dec33b3ee10a7ce74885be_rampa2D.png" 
-                 srcset="https://cdn.prod.website-files.com/5eb98302cbb2d7772085c976/64dec33b3ee10a7ce74885be_rampa2D-p-500.png 500w, 
-                         https://cdn.prod.website-files.com/5eb98302cbb2d7772085c976/64dec33b3ee10a7ce74885be_rampa2D-p-800.png 800w, 
-                         https://cdn.prod.website-files.com/5eb98302cbb2d7772085c976/64dec33b3ee10a7ce74885be_rampa2D.png 1024w" 
-                 alt="Rampa Logo">
+
+    <header>
+        <div class="brand">
+            <div class="logo">
+                <img src="https://cdn.prod.website-files.com/5eb98302cbb2d7772085c976/64dec33b3ee10a7ce74885be_rampa2D.png"
+                     srcset="https://cdn.prod.website-files.com/5eb98302cbb2d7772085c976/64dec33b3ee10a7ce74885be_rampa2D-p-500.png 500w,
+                             https://cdn.prod.website-files.com/5eb98302cbb2d7772085c976/64dec33b3ee10a7ce74885be_rampa2D-p-800.png 800w,
+                             https://cdn.prod.website-files.com/5eb98302cbb2d7772085c976/64dec33b3ee10a7ce74885be_rampa2D.png 1024w"
+                     alt="Rampa">
+            </div>
+            <div class="brand-text">
+                <span class="brand-name">RAMPA</span>
+                <span class="brand-tagline">Soluções em Narrativas Plausíveis</span>
+            </div>
         </div>
-        <h1>Conteúdo Rampa</h1>
-        <ul>
-            <li><a href="campeonato-corrupcao.html">Campeonato de corrupção: Emendas parlamentares vs. Mensalão</a></li>
-            <li><a href="artigos/cap2.html">A Psicologia do Vendedor Domesticado</a></li>
-            <li><a href="artigos/objecoes.html">Estratégia Aristotélica: Superando "Vou Pensar"</a></li>
-            <li><a href="artigos/perda.html">Cenários: Cliente Promete Retorno Após "Vou Pensar"</a></li>
-        </ul>
+        <div class="header-stamp">
+            Distribuição<br>Controlada<br>&mdash;
+        </div>
+    </header>
+
+    <main>
+
+        <div class="statement">
+            <p class="statement-headline">Materiais desenvolvidos<br>com responsabilidade razoável.</p>
+            <p class="statement-body">Documentos de uso interno e externo, sujeitos a interpretação. Nenhuma afirmação aqui contida deve ser tomada mais a sério do que o estritamente necessário.</p>
+        </div>
+
+        <section aria-label="Cenários Políticos">
+            <div class="section-header">
+                <span class="section-index">01</span>
+                <span class="section-label">Cenários Políticos</span>
+            </div>
+            <ul class="doc-list">
+                <li class="doc-item">
+                    <span class="doc-num">001</span>
+                    <div class="doc-content">
+                        <a href="campeonato-corrupcao.html" class="doc-link">Campeonato de Corrupção: Emendas Parlamentares vs. Mensalão</a>
+                        <span class="doc-tag">Análise comparativa &mdash; uso recreativo</span>
+                    </div>
+                    <span class="doc-arrow" aria-hidden="true">&rarr;</span>
+                </li>
+            </ul>
+        </section>
+
+        <section aria-label="Psicologia Aplicada ao Campo">
+            <div class="section-header">
+                <span class="section-index">02</span>
+                <span class="section-label">Psicologia Aplicada ao Campo</span>
+            </div>
+            <ul class="doc-list">
+                <li class="doc-item">
+                    <span class="doc-num">002</span>
+                    <div class="doc-content">
+                        <a href="artigos/cap2.html" class="doc-link">A Psicologia do Vendedor Domesticado</a>
+                        <span class="doc-tag">Formação &mdash; leitura obrigatória para sobrevivência</span>
+                    </div>
+                    <span class="doc-arrow" aria-hidden="true">&rarr;</span>
+                </li>
+                <li class="doc-item">
+                    <span class="doc-num">003</span>
+                    <div class="doc-content">
+                        <a href="artigos/objecoes.html" class="doc-link">Estratégia Aristotélica: Superando "Vou Pensar"</a>
+                        <span class="doc-tag">Técnica &mdash; eficácia não garantida</span>
+                    </div>
+                    <span class="doc-arrow" aria-hidden="true">&rarr;</span>
+                </li>
+                <li class="doc-item">
+                    <span class="doc-num">004</span>
+                    <div class="doc-content">
+                        <a href="artigos/perda.html" class="doc-link">Cenários: Cliente Promete Retorno Após "Vou Pensar"</a>
+                        <span class="doc-tag">Simulação &mdash; baseado em eventos verídicos</span>
+                    </div>
+                    <span class="doc-arrow" aria-hidden="true">&rarr;</span>
+                </li>
+            </ul>
+        </section>
+
     </main>
+
+    <footer>
+        <div class="footer-left">
+            RAMPA<br>
+            Gabinete de<br>Soluções Indefinidas
+        </div>
+        <div class="footer-right">
+            Todos os direitos razoavelmente reservados.<br>
+            Qualquer semelhança com a realidade é intencional, mas negável.
+        </div>
+    </footer>
+
 </body>
 </html>
