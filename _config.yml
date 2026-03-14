@@ -1,0 +1,5 @@
+exclude:
+  - node_modules
+  - lenormand-polis-src/node_modules
+  - package.json
+  - package-lock.json
