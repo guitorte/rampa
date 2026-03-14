@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: vetflow
+    runtime: python
+    buildCommand: pip install -r dashpet/requirements.txt
+    startCommand: python dashpet/app.py
+    envVars:
+      - key: PORT
+        value: 10000
