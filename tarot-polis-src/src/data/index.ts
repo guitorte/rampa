@@ -3,7 +3,11 @@ import tarotData from "./tarot_dic.json";
 
 export * from "./types";
 
-export const tarotDictionary: TarotDictionary = tarotData as TarotDictionary;
+type RawEntry = { carta: string; autores: TarotDictionary[string] };
+
+export const tarotDictionary: TarotDictionary = Object.fromEntries(
+  (tarotData as unknown as RawEntry[]).map(({ carta, autores }) => [carta, autores])
+);
 
 export function getCardNames(): string[] {
   return Object.keys(tarotDictionary);
