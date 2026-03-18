@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Victoria Schechter — escritora brasileira, pesquisadora, educadora. Autora de Prismas. Norwich, UK.">
+  <meta property="og:title" content="Victoria Schechter">
+  <meta property="og:description" content="Between worlds, languages and voices – I write to muffle the silence.">
+  <meta name="theme-color" content="#FAF7F2">
+  <title>Victoria Schechter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* ── Custom Properties ───────────────────────────────────────────────────── */
+    :root {
+      --cream:       #FAF7F2;
+      --ink:         #1A1410;
+      --terra:       #C4603A;
+      --forest:      #2C4A3E;
+      --muted:       #6B6560;
+      --ink-soft:    rgba(26, 20, 16, 0.1);
+      --cream-soft:  rgba(250, 247, 242, 0.08);
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'Lora', Georgia, serif;
+      --font-mono:    'Space Mono', 'Courier New', monospace;
+
+      --text-xs:      0.65rem;
+      --text-sm:      0.8rem;
+      --text-base:    1rem;
+      --text-md:      1.125rem;
+      --text-lg:      1.375rem;
+      --text-xl:      1.75rem;
+      --text-2xl:     2.25rem;
+      --text-3xl:     3rem;
+      --text-display: clamp(3.5rem, 8vw, 7rem);
+
+      --space-xs:   0.375rem;
+      --space-sm:   0.75rem;
+      --space-md:   1.25rem;
+      --space-lg:   2rem;
+      --space-xl:   3.5rem;
+      --space-2xl:  6rem;
+      --section-pad: clamp(4rem, 10vw, 8rem);
+
+      --max-w:   1200px;
+      --nav-h:   64px;
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --transition: 0.25s ease;
+    }
+
+    /* ── Reset ───────────────────────────────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--nav-h) + 1rem);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+    ul, ol { list-style: none; }
+    button { font-family: inherit; cursor: pointer; }
+
+    /* ── Accessibility ───────────────────────────────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      top: -200%;
+      left: var(--space-md);
+      background: var(--ink);
+      color: var(--cream);
+      padding: var(--space-xs) var(--space-md);
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      z-index: 9999;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: var(--space-sm); }
+
+    :focus-visible {
+      outline: 2px solid var(--terra);
+      outline-offset: 3px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ── Layout Utilities ────────────────────────────────────────────────────── */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 clamp(1.25rem, 5vw, 3rem);
+    }
+
+    .section { padding: var(--section-pad) 0; }
+
+    .section--forest { background: var(--forest); color: var(--cream); }
+    .section--ink    { background: var(--ink);    color: var(--cream); }
+
+    .editorial-grid {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: clamp(2rem, 5vw, 5rem);
+      align-items: start;
+    }
+
+    .card-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      background: var(--ink);
+      gap: 1px;
+      border: 1px solid var(--ink);
+    }
+
+    .card-grid-2 .card {
+      background: var(--cream);
+      padding: var(--space-xl) var(--space-lg);
+    }
+
+    .card-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+
+    /* ── Typography Components ───────────────────────────────────────────────── */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: var(--space-xl);
+      display: block;
+    }
+
+    .section--forest .section-label,
+    .section--ink    .section-label {
+      color: rgba(250, 247, 242, 0.45);
+    }
+
+    .display-heading {
+      font-family: var(--font-display);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .pull-quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 4vw, 3rem);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--terra);
+      line-height: 1.25;
+    }
+
+    .rule-mark {
+      display: block;
+      width: 3rem;
+      height: 2px;
+      background: var(--terra);
+      margin: var(--space-lg) 0;
+    }
+
+    .body-text p {
+      font-family: var(--font-body);
+      font-size: var(--text-md);
+      line-height: 1.85;
+      color: inherit;
+      max-width: 64ch;
+      margin-bottom: var(--space-md);
+    }
+    .body-text p:last-child { margin-bottom: 0; }
+
+    .text-link {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--terra);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4em;
+    }
+    .text-link:hover { border-bottom-color: var(--terra); }
+
+    /* ── Fade-in Animation ───────────────────────────────────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out);
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    .stagger > * {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+    }
+    .stagger.visible > *:nth-child(1) { transition-delay: 0s; }
+    .stagger.visible > *:nth-child(2) { transition-delay: 0.1s; }
+    .stagger.visible > *:nth-child(3) { transition-delay: 0.2s; }
+    .stagger.visible > *:nth-child(4) { transition-delay: 0.3s; }
+    .stagger.visible > * { opacity: 1; transform: none; }
+
+    /* ── Navigation ──────────────────────────────────────────────────────────── */
+    .site-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 100;
+      transition: background var(--transition), border-color var(--transition);
+      border-bottom: 1px solid transparent;
+    }
+    .site-header.scrolled {
+      background: rgba(250, 247, 242, 0.93);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom-color: var(--ink-soft);
+    }
+
+    .site-header nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      padding: 0 clamp(1.25rem, 5vw, 3rem);
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .nav-wordmark {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+      flex-shrink: 0;
+    }
+    .wordmark-first { font-weight: 300; }
+    .wordmark-last  { font-weight: 600; }
+
+    .nav-links {
+      display: flex;
+      gap: var(--space-lg);
+      align-items: center;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ink);
+      position: relative;
+      height: 1.4em;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow: hidden;
+      transition: color var(--transition);
+    }
+    .nav-links a .nav-pt { transition: opacity 0.2s, transform 0.2s; }
+    .nav-links a .nav-en {
+      position: absolute;
+      top: 100%;
+      opacity: 0;
+      color: var(--terra);
+      transition: opacity 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover .nav-pt { opacity: 0; transform: translateY(-100%); }
+    .nav-links a:hover .nav-en { opacity: 1; transform: translateY(-100%); }
+    .nav-links a.active { color: var(--terra); }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      padding: var(--space-xs);
+      z-index: 102;
+    }
+    .hamburger-bar {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--ink);
+      transition: transform 0.3s var(--ease-out), opacity 0.3s;
+    }
+    .nav-toggle[aria-expanded="true"] .hamburger-bar:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+    .nav-toggle[aria-expanded="true"] .hamburger-bar:nth-child(2) {
+      opacity: 0;
+    }
+    .nav-toggle[aria-expanded="true"] .hamburger-bar:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+
+    /* ── Mobile Menu ─────────────────────────────────────────────────────────── */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--cream);
+      z-index: 101;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0 clamp(1.25rem, 5vw, 3rem);
+      gap: var(--space-md);
+      opacity: 0;
+      transform: translateX(100%);
+      transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+    }
+    .mobile-menu.open {
+      display: flex;
+      opacity: 1;
+      transform: none;
+    }
+    .mobile-menu a {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 300;
+      text-decoration: none;
+      color: var(--ink);
+      line-height: 1.1;
+      transition: color var(--transition);
+    }
+    .mobile-menu a:hover { color: var(--terra); }
+    .mobile-menu .mobile-menu-label {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: var(--space-md);
+    }
+
+    /* ── Hero ─────────────────────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      padding-top: var(--nav-h);
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: -15%;
+      left: -8%;
+      width: 55%;
+      height: 65%;
+      background: radial-gradient(ellipse at top left,
+        rgba(196, 96, 58, 0.08) 0%,
+        transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 40%;
+      height: 40%;
+      background: radial-gradient(ellipse at bottom right,
+        rgba(44, 74, 62, 0.06) 0%,
+        transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      padding: var(--space-2xl) 0;
+      width: 100%;
+    }
+
+    .hero-identity {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: var(--space-xl);
+    }
+
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: var(--text-display);
+      font-weight: 300;
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      margin-bottom: var(--space-xl);
+    }
+    .hero-name-first { display: block; font-weight: 300; }
+    .hero-name-last  { display: block; font-weight: 400; padding-left: clamp(0.75rem, 4vw, 3rem); }
+
+    .hero-rule {
+      display: block;
+      width: 3.5rem;
+      height: 2px;
+      background: var(--terra);
+      margin-bottom: var(--space-xl);
+    }
+
+    .hero-tagline {
+      font-family: var(--font-body);
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      font-style: italic;
+      color: var(--muted);
+      max-width: 38ch;
+      line-height: 1.65;
+      margin-bottom: var(--space-xl);
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: var(--space-lg);
+      flex-wrap: wrap;
+    }
+    .hero-ctas .text-link { font-size: var(--text-sm); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: var(--space-lg);
+      left: clamp(1.25rem, 5vw, 3rem);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+    }
+    .hero-scroll-line {
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--muted);
+      animation: scrollPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { transform: scaleX(1); opacity: 0.5; }
+      50%       { transform: scaleX(1.4); opacity: 1; }
+    }
+
+    /* ── Sobre / About ───────────────────────────────────────────────────────── */
+    .sobre-divider {
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--forest), transparent);
+      align-self: stretch;
+      min-height: 200px;
+      opacity: 0.3;
+    }
+
+    /* ── Pesquisa / Research ─────────────────────────────────────────────────── */
+    .research-title-wrap {
+      max-width: 22ch;
+    }
+    .research-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.025em;
+      color: var(--cream);
+    }
+    .research-subtitle {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      font-style: italic;
+      color: rgba(250, 247, 242, 0.65);
+      line-height: 1.5;
+      margin-top: var(--space-md);
+      max-width: 32ch;
+    }
+    .research-meta {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--terra);
+      margin-top: var(--space-lg);
+    }
+    .section--forest .body-text p { color: rgba(250, 247, 242, 0.85); }
+    .section--forest .rule-mark   { background: var(--terra); }
+
+    /* ── Prismas / Book ──────────────────────────────────────────────────────── */
+    .book-cover {
+      background: var(--terra);
+      color: var(--cream);
+      aspect-ratio: 2/3;
+      max-width: 240px;
+      padding: 2.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .book-cover::after {
+      content: '';
+      position: absolute;
+      inset: 9px;
+      border: 1px solid rgba(250, 247, 242, 0.25);
+      pointer-events: none;
+    }
+    .book-cover-top {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+    .book-cover-title {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 300;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+    }
+    .book-cover-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2em;
+    }
+    .book-cover-author {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+    .book-cover-pub {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.55;
+    }
+
+    .book-content { padding-top: var(--space-sm); }
+    .book-genre {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: var(--space-lg);
+    }
+    .book-blurbs {
+      margin-top: var(--space-lg);
+      border-top: 1px solid var(--ink-soft);
+      padding-top: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+    .blurb {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: var(--text-sm);
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .blurb-attribution {
+      display: block;
+      font-style: normal;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-top: 0.3em;
+    }
+
+    /* ── Textos / Published Works ────────────────────────────────────────────── */
+    .text-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .text-card-title {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.15;
+    }
+    .text-card-rule {
+      display: block;
+      height: 1px;
+      background: var(--ink-soft);
+      margin: var(--space-sm) 0;
+    }
+    .text-card-genre {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .text-card-excerpt {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      line-height: 1.75;
+      color: var(--muted);
+      flex-grow: 1;
+    }
+    .text-card-link {
+      margin-top: auto;
+      padding-top: var(--space-md);
+    }
+    .text-card-pub {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      opacity: 0.7;
+    }
+
+    /* ── Trabalhe Comigo / Services ──────────────────────────────────────────── */
+    .services-intro {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: var(--text-lg);
+      color: var(--muted);
+      max-width: 50ch;
+      line-height: 1.65;
+      margin-bottom: var(--space-2xl);
+    }
+
+    .service-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .service-card--free {
+      border-left: 3px solid var(--forest);
+      padding-left: var(--space-md);
+      margin-left: calc(var(--space-md) * -1);
+    }
+    .service-number {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .service-badge {
+      background: var(--forest);
+      color: var(--cream);
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+    }
+    .service-title {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 400;
+      line-height: 1.2;
+    }
+    .service-desc {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      line-height: 1.75;
+      color: var(--muted);
+      flex-grow: 1;
+    }
+
+    /* ── Escrita / Blog ──────────────────────────────────────────────────────── */
+    .blog-intro {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: var(--text-md);
+      color: var(--muted);
+      max-width: 50ch;
+      line-height: 1.65;
+      margin-bottom: var(--space-2xl);
+    }
+
+    .post-card {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--ink-soft);
+      padding-top: var(--space-lg);
+      gap: var(--space-sm);
+    }
+    .post-meta {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .post-title {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 400;
+      line-height: 1.2;
+    }
+    .post-excerpt {
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      line-height: 1.75;
+      color: var(--muted);
+      flex-grow: 1;
+    }
+
+    .newsletter-callout {
+      margin-top: var(--space-2xl);
+      padding-top: var(--space-xl);
+      border-top: 1px solid var(--ink-soft);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-xl);
+      flex-wrap: wrap;
+    }
+    .newsletter-title {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: 300;
+      letter-spacing: -0.01em;
+    }
+    .newsletter-desc {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: var(--text-base);
+      color: var(--muted);
+      max-width: 38ch;
+      line-height: 1.65;
+      margin-top: var(--space-xs);
+    }
+    .newsletter-cta { align-self: center; }
+
+    /* ── Contact ─────────────────────────────────────────────────────────────── */
+    .contact-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .contact-display {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.025em;
+      color: var(--cream);
+      margin-bottom: var(--space-xl);
+    }
+    .contact-display em {
+      display: block;
+      font-style: italic;
+      font-weight: 300;
+    }
+    .contact-desc {
+      font-family: var(--font-body);
+      font-size: var(--text-md);
+      line-height: 1.75;
+      color: rgba(250, 247, 242, 0.7);
+      max-width: 36ch;
+      margin-bottom: var(--space-xl);
+    }
+    .contact-email {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      letter-spacing: 0.08em;
+      color: var(--terra);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(196, 96, 58, 0.3);
+      padding-bottom: 2px;
+      transition: border-color var(--transition);
+    }
+    .contact-email:hover { border-bottom-color: var(--terra); }
+
+    .contact-location {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(250, 247, 242, 0.35);
+      margin-top: var(--space-lg);
+    }
+
+    /* ── Contact Form ────────────────────────────────────────────────────────── */
+    .contact-form { width: 100%; }
+
+    .form-group {
+      margin-bottom: var(--space-lg);
+    }
+    .form-group label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(250, 247, 242, 0.5);
+      margin-bottom: var(--space-xs);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(250, 247, 242, 0.06);
+      border: 1px solid rgba(250, 247, 242, 0.15);
+      border-radius: 0;
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      padding: var(--space-sm) var(--space-md);
+      transition: border-color var(--transition), background var(--transition);
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(250,247,242,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right var(--space-md) center;
+      padding-right: 2.5rem;
+    }
+    .form-group select option { background: var(--ink); color: var(--cream); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--terra);
+      background: rgba(250, 247, 242, 0.1);
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(250, 247, 242, 0.2); }
+
+    .field-error {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: #e07070;
+      margin-top: var(--space-xs);
+      letter-spacing: 0.05em;
+    }
+
+    .btn-submit {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: var(--cream);
+      border: none;
+      padding: var(--space-md) var(--space-xl);
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition);
+    }
+    .btn-submit:hover {
+      background: var(--terra);
+      color: var(--cream);
+    }
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: default;
+      background: rgba(250, 247, 242, 0.6);
+    }
+
+    .form-success {
+      display: none;
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: var(--text-md);
+      color: rgba(250, 247, 242, 0.8);
+      margin-top: var(--space-lg);
+    }
+
+    /* ── Footer ──────────────────────────────────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      border-top: 1px solid rgba(250, 247, 242, 0.08);
+      padding: var(--space-xl) 0;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 2fr 2fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+    }
+    .footer-nav {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .footer-nav a {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(250, 247, 242, 0.45);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .footer-nav a:hover { color: var(--terra); }
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(250, 247, 242, 0.45);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+    .footer-links a:hover { color: var(--terra); }
+    .footer-wordmark {
+      text-align: right;
+    }
+    .footer-wordmark-name {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      color: rgba(250, 247, 242, 0.25);
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+      align-items: flex-end;
+    }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      letter-spacing: 0.1em;
+      color: rgba(250, 247, 242, 0.2);
+      margin-top: var(--space-sm);
+    }
+
+    /* ── Responsive ──────────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .nav-links  { display: none; }
+      .nav-toggle { display: flex; }
+    }
+
+    @media (max-width: 768px) {
+      .editorial-grid {
+        grid-template-columns: 1fr;
+      }
+      .sobre-divider { display: none; }
+      .card-grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .newsletter-callout {
+        flex-direction: column;
+        gap: var(--space-lg);
+      }
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+      .footer-wordmark {
+        grid-column: 1 / -1;
+        text-align: left;
+      }
+      .footer-wordmark-name { align-items: flex-start; }
+    }
+
+    @media (max-width: 600px) {
+      .card-grid-2 {
+        grid-template-columns: 1fr;
+      }
+      .hero-ctas { flex-direction: column; gap: var(--space-md); }
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+      .editorial-grid.prismas-grid {
+        gap: var(--space-xl);
+      }
+      .book-cover { max-width: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Skip Link -->
+  <a href="#main-content" class="skip-link">Ir para o conteúdo principal / Skip to main content</a>
+
+  <!-- ── Navigation ──────────────────────────────────────────────────────────── -->
+  <header class="site-header" role="banner">
+    <nav role="navigation" aria-label="Navegação principal / Main navigation">
+      <a href="#hero" class="nav-wordmark" aria-label="Victoria Schechter — início / home">
+        <span class="wordmark-first">Victoria</span>
+        <span class="wordmark-last">Schechter</span>
+      </a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="#sobre">
+          <span class="nav-pt">Sobre</span>
+          <span class="nav-en" aria-hidden="true">About</span>
+        </a></li>
+        <li><a href="#pesquisa">
+          <span class="nav-pt">Pesquisa</span>
+          <span class="nav-en" aria-hidden="true">Research</span>
+        </a></li>
+        <li><a href="#prismas">
+          <span class="nav-pt">Prismas</span>
+          <span class="nav-en" aria-hidden="true">Book</span>
+        </a></li>
+        <li><a href="#textos">
+          <span class="nav-pt">Textos</span>
+          <span class="nav-en" aria-hidden="true">Writing</span>
+        </a></li>
+        <li><a href="#trabalhe">
+          <span class="nav-pt">Trabalhe Comigo</span>
+          <span class="nav-en" aria-hidden="true">Work With Me</span>
+        </a></li>
+        <li><a href="#escrita">
+          <span class="nav-pt">Escrita</span>
+          <span class="nav-en" aria-hidden="true">Blog</span>
+        </a></li>
+        <li><a href="#contato">
+          <span class="nav-pt">Contato</span>
+          <span class="nav-en" aria-hidden="true">Contact</span>
+        </a></li>
+      </ul>
+
+      <button class="nav-toggle" aria-expanded="false" aria-controls="mobile-menu"
+              aria-label="Abrir menu / Open menu">
+        <span class="hamburger-bar" aria-hidden="true"></span>
+        <span class="hamburger-bar" aria-hidden="true"></span>
+        <span class="hamburger-bar" aria-hidden="true"></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true"
+       role="dialog" aria-label="Menu de navegação / Navigation menu">
+    <span class="mobile-menu-label">Navegação</span>
+    <a href="#sobre">Sobre Mim</a>
+    <a href="#pesquisa">Pesquisa</a>
+    <a href="#prismas">Prismas</a>
+    <a href="#textos">Textos</a>
+    <a href="#trabalhe">Trabalhe Comigo</a>
+    <a href="#escrita">Escrita</a>
+    <a href="#contato">Contato</a>
+  </div>
+
+  <!-- ── Main Content ──────────────────────────────────────────────────────────── -->
+  <main id="main-content">
+
+    <!-- ── §1 Hero ──────────────────────────────────────────────────────────────── -->
+    <section id="hero" aria-labelledby="hero-heading">
+      <div class="container">
+        <div class="hero-inner">
+
+          <p class="hero-identity" aria-label="Escritora, pesquisadora, educadora">
+            Escritora&ensp;·&ensp;Pesquisadora&ensp;·&ensp;Educadora
+          </p>
+
+          <h1 id="hero-heading" class="hero-name">
+            <span class="hero-name-first">Victoria</span>
+            <span class="hero-name-last">Schechter</span>
+          </h1>
+
+          <span class="hero-rule" aria-hidden="true"></span>
+
+          <p class="hero-tagline" lang="en">
+            "Between worlds, languages and voices —<br>
+            I write to muffle the silence."
+          </p>
+
+          <nav class="hero-ctas" aria-label="Ações principais">
+            <a href="#prismas" class="text-link">
+              Prismas — Meu Romance <span aria-hidden="true">→</span>
+            </a>
+            <a href="#trabalhe" class="text-link">
+              Trabalhe Comigo <span aria-hidden="true">→</span>
+            </a>
+          </nav>
+
+        </div>
+      </div>
+
+      <a href="#sobre" class="hero-scroll" aria-label="Rolar para Sobre Mim">
+        <span class="hero-scroll-line" aria-hidden="true"></span>
+        <span>Scroll</span>
+      </a>
+    </section>
+
+    <!-- ── §2 Sobre Mim / About ──────────────────────────────────────────────── -->
+    <section id="sobre" class="section" aria-labelledby="sobre-heading">
+      <div class="container">
+        <h2 id="sobre-heading" class="section-label">
+          <span aria-hidden="true">02 — </span>Sobre Mim<span aria-hidden="true"> / About</span>
+        </h2>
+
+        <div class="editorial-grid fade-in">
+          <div class="sobre-left">
+            <p class="pull-quote">
+              "Escrevo entre<br>línguas,<br>entre mundos."
+            </p>
+          </div>
+
+          <div class="sobre-divider" aria-hidden="true"></div>
+
+          <div class="sobre-right body-text">
+            <p>
+              Sou uma escritora brasileira radicada em Norwich, no leste da Inglaterra, onde curso o doutoramento em Escrita Criativo-Crítica na Universidade de East Anglia. Comecei no litoral de São Paulo, escrevendo sozinha num quarto escuro. Depois vieram os graus académicos, e me estabeleci no oriente inglês.
+            </p>
+            <p>
+              A minha escrita é moldada pela experiência de ser alguém com deficiência visual — uma atenção à textura, ao som, à lógica espacial de um mundo percebido de forma diferente. Escrevo também a partir do hiato entre o português e o inglês, onde as palavras nunca chegam já feitas.
+            </p>
+            <p>
+              Fora da escrita: cantora amadora. Acumulei um vício em chá desde que me tornei expatriada. Acredito que conversas longas sobre política, filosofia e trivialidades são uma forma de literatura em si mesmas.
+            </p>
+            <a href="#contato" class="text-link" style="margin-top: var(--space-md)">
+              Entrar em contato <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── §3 Pesquisa / Research ────────────────────────────────────────────── -->
+    <section id="pesquisa" class="section section--forest" aria-labelledby="pesquisa-heading">
+      <div class="container">
+        <h2 id="pesquisa-heading" class="section-label">
+          <span aria-hidden="true">03 — </span>Pesquisa<span aria-hidden="true"> / Research</span>
+        </h2>
+
+        <div class="editorial-grid fade-in">
+          <div class="research-title-wrap">
+            <h3 class="research-title">To Break<br>the Fifth<br>Wall</h3>
+            <p class="research-subtitle">
+              <span lang="en">A Creative-Critical Exploration of Disability and Literary Form</span>
+            </p>
+            <span class="rule-mark" aria-hidden="true"></span>
+            <p class="research-meta">PhD · University of East Anglia</p>
+          </div>
+
+          <div class="body-text">
+            <p>
+              O meu projeto doutoral parte de uma pergunta: o que acontece quando a deficiência deixa de ser tema e se torna princípio formal? Em vez de escrever <em>sobre</em> cegueira, surdez ou neurodivergência, investigo como a experiência corporal pode remodelar a própria estrutura da narrativa — o tempo, a voz, o espaço, a relação entre leitor e texto.
+            </p>
+            <p>
+              Trabalho com Beckett e Coetzee como modelos formais: escritores que constroem narrativas que hesitam, retrocedem, fragmentam-se em múltiplas vozes. O que me interessa é o que essas formas instáveis nos ensinam. Os livros tardios de Coetzee oferecem uma forma de pensar a deficiência e o deslocamento não como temas, mas como forças que moldam a estrutura narrativa em si.
+            </p>
+            <p>
+              O projeto combina ficção experimental e ensaio crítico: um romance de três vozes, cujas camadas textuais são elas próprias formas de deficiência — fragmentação, silêncio, incerteza como escolhas estéticas e éticas.
+            </p>
+            <a href="https://www.uea.ac.uk" class="text-link" rel="noopener noreferrer" target="_blank"
+               style="color: var(--terra)">
+              Perfil UEA <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── §4 Prismas / Book ─────────────────────────────────────────────────── -->
+    <section id="prismas" class="section" aria-labelledby="prismas-heading">
+      <div class="container">
+        <h2 id="prismas-heading" class="section-label">
+          <span aria-hidden="true">04 — </span>Prismas<span aria-hidden="true"> / Book</span>
+        </h2>
+
+        <div class="editorial-grid prismas-grid fade-in" style="align-items: start;">
+          <figure class="book-cover" role="img"
+                  aria-label="Capa do romance Prismas — fundo terracota com título e nome da autora em branco">
+            <span class="book-cover-top">Romance</span>
+            <span class="book-cover-title">Prismas</span>
+            <div class="book-cover-bottom">
+              <span class="book-cover-author">Victoria Schechter</span>
+              <span class="book-cover-pub">Editora Patuá · 2023</span>
+            </div>
+          </figure>
+
+          <div class="book-content">
+            <p class="book-genre">Romance · Ficção Literária · Apenas em Português</p>
+
+            <div class="body-text">
+              <p>
+                Isabel Leone é cega. Canta e ensina música em São Paulo. Quando uma gravidez inesperada acontece durante uma viagem de avião, memórias começam a emergir — da infância, da família, da sua relação com o próprio corpo e com o desejo de autonomia num mundo que não foi construído para ela.
+              </p>
+              <p>
+                <em>Prismas</em> é o meu romance de estreia: um livro sobre perceção e identidade, sobre as formas que a deficiência toma nas relações humanas, sobre o que significa encontrar o próprio lugar no mundo. Inspirado em conversas com pessoas cegas e com aspetos da minha própria experiência com deficiência visual.
+              </p>
+            </div>
+
+            <div class="book-blurbs" aria-label="Críticas e elogios">
+              <blockquote class="blurb">
+                "A literatura de Victoria Schechter é singular porque a sua perspetiva é singular... a cegueira torna-se algo mais: torna-se uma questão socialmente significativa que molda de forma poderosa e inesperada cada relação humana."
+                <cite class="blurb-attribution">— Julián Fuks</cite>
+              </blockquote>
+              <blockquote class="blurb">
+                "Um livro sensível e belo no qual a protagonista aprende a superar a solidão da deficiência visual para encontrar o seu próprio lugar no mundo."
+                <cite class="blurb-attribution">— Skoob</cite>
+              </blockquote>
+            </div>
+
+            <a href="https://www.amazon.com.br" class="text-link"
+               rel="noopener noreferrer" target="_blank"
+               style="margin-top: var(--space-xl); display: inline-flex;">
+              Adquirir / Order <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── §5 Textos / Published Works ──────────────────────────────────────── -->
+    <section id="textos" class="section" aria-labelledby="textos-heading"
+             style="background: #F5F1EB;">
+      <div class="container">
+        <h2 id="textos-heading" class="section-label">
+          <span aria-hidden="true">05 — </span>Textos Publicados<span aria-hidden="true"> / Published Writing</span>
+        </h2>
+
+        <div class="card-grid-2 stagger" role="list">
+
+          <article class="card text-card" role="listitem"
+                   aria-label="Texto: Chinelos">
+            <h3 class="text-card-title">"Chinelos"</h3>
+            <span class="text-card-rule" aria-hidden="true"></span>
+            <p class="text-card-genre">Conto · <time datetime="2023-10">Out 2023</time></p>
+            <p class="text-card-excerpt">
+              Chinelos de borracha numa prateleira inglesa. Objetos que carregam toda a gramática de outro lugar — e a solidão silenciosa de quem os levou consigo.
+            </p>
+            <p class="text-card-pub">Revista Autorretratos</p>
+            <div class="text-card-link">
+              <a href="#" class="text-link">Ler <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="card text-card" role="listitem"
+                   aria-label="Texto: Espelho Cego">
+            <h3 class="text-card-title">"Espelho Cego"</h3>
+            <span class="text-card-rule" aria-hidden="true"></span>
+            <p class="text-card-genre">Conto · LiteraLivre</p>
+            <p class="text-card-excerpt">
+              O que um espelho reflete quando não há ninguém que possa vê-lo? Uma investigação sobre perceção, presença e os limites do que chamamos de realidade.
+            </p>
+            <p class="text-card-pub">Revista LiteraLivre</p>
+            <div class="text-card-link">
+              <a href="#" class="text-link">Ler <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="card text-card" role="listitem"
+                   aria-label="Texto: O Buraco">
+            <h3 class="text-card-title">"O Buraco"</h3>
+            <span class="text-card-rule" aria-hidden="true"></span>
+            <p class="text-card-genre">Crônica · <time datetime="2019">2019</time></p>
+            <p class="text-card-excerpt">
+              Nascido da urgência — uma tarefa de última hora e uma queda num buraco no campus. Sobre amizade, sobre o humor que não diminui a deficiência mas cria leveza e espaço para respirar.
+            </p>
+            <p class="text-card-pub">Revera: Escritos de Criação Literária</p>
+            <div class="text-card-link">
+              <a href="#" class="text-link">Ler <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="card text-card" role="listitem"
+                   aria-label="Texto: Entretelar, Verbo Intransitivo">
+            <h3 class="text-card-title">"Entretelar, Verbo Intransitivo"</h3>
+            <span class="text-card-rule" aria-hidden="true"></span>
+            <p class="text-card-genre">Conto · Primeiro texto publicado</p>
+            <p class="text-card-excerpt">
+              O primeiro texto que publiquei — o momento surreal em que um editor entrou em contacto. A linguagem dobra-se sobre si mesma, encontrando estrutura na passagem.
+            </p>
+            <p class="text-card-pub">Revera: Escritos de Criação Literária</p>
+            <div class="text-card-link">
+              <a href="#" class="text-link">Ler <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── §6 Trabalhe Comigo / Services ─────────────────────────────────────── -->
+    <section id="trabalhe" class="section" aria-labelledby="trabalhe-heading">
+      <div class="container">
+        <h2 id="trabalhe-heading" class="section-label">
+          <span aria-hidden="true">06 — </span>Trabalhe Comigo<span aria-hidden="true"> / Work With Me</span>
+        </h2>
+
+        <p class="services-intro fade-in">
+          A escrita pode parecer solitária — mas não precisa de ser. Todos os serviços são adaptados ao seu ritmo, objetivos e necessidades de acessibilidade.
+        </p>
+
+        <div class="card-grid-2 stagger" role="list">
+
+          <article class="card service-card" role="listitem"
+                   aria-label="Serviço: Mentoria Individual de Escrita Criativa">
+            <div class="service-number">
+              <span>01</span>
+            </div>
+            <h3 class="service-title">Mentoria Individual de Escrita Criativa</h3>
+            <p class="service-desc">
+              Um espaço individualizado para escritores em início de prática ou a consolidar um projeto em curso. Trabalhamos juntos o seu projeto, a sua voz, a estrutura da sua narrativa. Sessões em português ou inglês, via videochamada ou presencialmente em Norwich.
+            </p>
+            <a href="#contato" class="text-link" style="margin-top: var(--space-md)">
+              Entrar em contato <span aria-hidden="true">→</span>
+            </a>
+          </article>
+
+          <article class="card service-card" role="listitem"
+                   aria-label="Serviço: Oficinas de Escrita Criativa">
+            <div class="service-number">
+              <span>02</span>
+            </div>
+            <h3 class="service-title">Oficinas de Escrita Criativa</h3>
+            <p class="service-desc">
+              Para escolas, universidades, grupos comunitários e eventos literários. Dinâmicas, inclusivas, adaptadas ao perfil do grupo. Temas: construção de personagens, voz narrativa, escrita a partir dos sentidos, formas híbridas. Duração variável, desde encontros breves a experiências mais extensas.
+            </p>
+            <a href="#contato" class="text-link" style="margin-top: var(--space-md)">
+              Entrar em contato <span aria-hidden="true">→</span>
+            </a>
+          </article>
+
+          <article class="card service-card" role="listitem"
+                   aria-label="Serviço: Leitura Crítica de Manuscritos">
+            <div class="service-number">
+              <span>03</span>
+            </div>
+            <h3 class="service-title">Leitura Crítica de Manuscritos</h3>
+            <p class="service-desc">
+              Para textos mais longos — romances, novelas, coletâneas de contos ou de ensaios — e para textos em submissão a revistas literárias. Devolvo uma avaliação escrita detalhada sobre estrutura, ritmo, personagens, voz e desenvolvimento temático, mais uma chamada opcional para discutir o feedback.
+            </p>
+            <a href="#contato" class="text-link" style="margin-top: var(--space-md)">
+              Solicitar leitura <span aria-hidden="true">→</span>
+            </a>
+          </article>
+
+          <article class="card service-card service-card--free" role="listitem"
+                   aria-label="Serviço gratuito: Projeto Escritores PCD">
+            <div class="service-number">
+              <span>04</span>
+              <span class="service-badge" aria-label="Gratuito">Gratuito / Free</span>
+            </div>
+            <h3 class="service-title">Projeto Escritores PCD</h3>
+            <p class="service-desc">
+              Mentoria gratuita para escritores com deficiência. Reconheço as especificidades do corpo-mente que diverge da norma e respeito os tempos e pausas do processo criativo. Vagas limitadas por ciclo — se tiver interesse, entre em contacto.
+            </p>
+            <a href="#contato" class="text-link" style="margin-top: var(--space-md); color: var(--forest);">
+              Candidatar-se <span aria-hidden="true">→</span>
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── §7 Escrita / Blog ──────────────────────────────────────────────────── -->
+    <section id="escrita" class="section" aria-labelledby="escrita-heading"
+             style="background: #F5F1EB;">
+      <div class="container">
+        <h2 id="escrita-heading" class="section-label">
+          <span aria-hidden="true">07 — </span>Escrita<span aria-hidden="true"> / Blog</span>
+        </h2>
+
+        <p class="blog-intro fade-in">
+          Anotações sobre pesquisa, prática criativa e o entre-lugar. Notas on research, practice, and the in-between.
+        </p>
+
+        <div class="card-grid-3 stagger" role="list">
+
+          <article class="post-card" role="listitem"
+                   aria-label="Artigo: Foco Atual: Retornando a Coetzee">
+            <p class="post-meta">
+              <time datetime="2026-03">Mar 2026</time> · Pesquisa
+            </p>
+            <h3 class="post-title">Foco Atual: Retornando a Coetzee</h3>
+            <p class="post-excerpt">
+              Mergulhada num capítulo sobre dois romances tardios de J.M. Coetzee — como narrativas que "parecem lutar na página" podem ensinar-nos algo sobre formas crip e resistência narrativa.
+            </p>
+            <a href="#" class="text-link" style="margin-top: var(--space-md)">
+              Ler <span aria-hidden="true">→</span>
+            </a>
+          </article>
+
+          <article class="post-card" role="listitem"
+                   aria-label="Artigo: Quatro Semanas em Harvard">
+            <p class="post-meta">
+              <time datetime="2025-07">Jul 2025</time> · Vida académica
+            </p>
+            <h3 class="post-title">Quatro Semanas em Harvard: o Institute for World Literature por Dentro</h3>
+            <p class="post-excerpt">
+              Notas de um programa de verão no Harvard IWL — sobre multilinguismo como crítica, sobre o que falta num programa que se quer global, e sobre os limites entre boa vontade e inclusão efetiva.
+            </p>
+            <a href="#" class="text-link" style="margin-top: var(--space-md)">
+              Ler <span aria-hidden="true">→</span>
+            </a>
+          </article>
+
+          <article class="post-card" role="listitem"
+                   aria-label="Artigo: Oficina com Adolescentes no UEA Live in Schools">
+            <p class="post-meta">
+              <time datetime="2025-04">Abr 2025</time> · Educação
+            </p>
+            <h3 class="post-title">Oficina de Construção de Personagens com Adolescentes no UEA Live in Schools</h3>
+            <p class="post-excerpt">
+              Vinte minutos de silêncio absoluto — só lápis e borracha — numa sala com doze adolescentes. Sobre o que acontece quando jovens que nunca se viram como escritores começam a encontrar as suas frases.
+            </p>
+            <a href="#" class="text-link" style="margin-top: var(--space-md)">
+              Ler <span aria-hidden="true">→</span>
+            </a>
+          </article>
+
+        </div>
+
+        <!-- Newsletter Callout -->
+        <div class="newsletter-callout fade-in">
+          <div>
+            <h3 class="newsletter-title">Liminal Notes</h3>
+            <p class="newsletter-desc">
+              Uma newsletter sobre escrita, deficiência, e viver entre mundos. <span lang="en">Reflections from the threshold.</span>
+            </p>
+          </div>
+          <div class="newsletter-cta">
+            <a href="https://substack.com" class="text-link"
+               rel="noopener noreferrer" target="_blank"
+               style="font-size: var(--text-sm)">
+              Subscrever no Substack <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── §8 Contato / Contact ──────────────────────────────────────────────── -->
+    <section id="contato" class="section section--ink" aria-labelledby="contato-heading">
+      <div class="container">
+        <h2 id="contato-heading" class="section-label">
+          <span aria-hidden="true">08 — </span>Contato<span aria-hidden="true"> / Contact</span>
+        </h2>
+
+        <div class="editorial-grid fade-in" style="align-items: start;">
+          <div class="contact-left">
+            <p class="contact-display">
+              Vamos<br>
+              <em>conversar.</em>
+            </p>
+
+            <p class="contact-desc">
+              Seja para trabalharmos juntos, discutir o livro, ou simplesmente dizer olá — escreva-me.
+            </p>
+
+            <a href="mailto:victoria.schechter@gmail.com" class="contact-email"
+               aria-label="Enviar email para victoria.schechter@gmail.com">
+              victoria.schechter@gmail.com
+            </a>
+
+            <p class="contact-location" aria-label="Localização: Norfolk, Reino Unido e Brasil">
+              Norfolk, UK &ensp;·&ensp; Brasil
+            </p>
+          </div>
+
+          <div>
+            <form id="contact-form" class="contact-form"
+                  action="mailto:victoria.schechter@gmail.com"
+                  method="post" enctype="text/plain"
+                  aria-label="Formulário de contato / Contact form"
+                  novalidate>
+
+              <div class="form-group">
+                <label for="contact-name">Nome / Name</label>
+                <input type="text" id="contact-name" name="name"
+                       autocomplete="name" required aria-required="true"
+                       placeholder="O seu nome">
+              </div>
+
+              <div class="form-group">
+                <label for="contact-email">Email</label>
+                <input type="email" id="contact-email" name="email"
+                       autocomplete="email" required aria-required="true"
+                       placeholder="o.seu@email.com">
+              </div>
+
+              <div class="form-group">
+                <label for="contact-subject">Assunto / Subject</label>
+                <select id="contact-subject" name="subject">
+                  <option value="">Selecione / Select</option>
+                  <option value="mentoria">Mentoria de Escrita Criativa</option>
+                  <option value="oficina">Oficina / Workshop</option>
+                  <option value="manuscrito">Leitura de Manuscrito</option>
+                  <option value="pcd">Projeto Escritores PCD</option>
+                  <option value="prismas">Prismas</option>
+                  <option value="outro">Outro / Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="contact-message">Mensagem / Message</label>
+                <textarea id="contact-message" name="message"
+                          rows="5" required aria-required="true"
+                          placeholder="A sua mensagem..."></textarea>
+              </div>
+
+              <button type="submit" class="btn-submit">
+                Enviar mensagem <span aria-hidden="true">→</span>
+              </button>
+
+              <div class="form-success" role="alert" aria-live="polite">
+                Obrigada — o seu email foi aberto no seu cliente de correio.
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ──────────────────────────────────────────────────────────────── -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-inner">
+        <nav class="footer-nav" aria-label="Navegação do rodapé / Footer navigation">
+          <a href="#sobre">Sobre Mim</a>
+          <a href="#pesquisa">Pesquisa</a>
+          <a href="#prismas">Prismas</a>
+          <a href="#textos">Textos</a>
+          <a href="#trabalhe">Trabalhe Comigo</a>
+          <a href="#escrita">Escrita</a>
+          <a href="#contato">Contato</a>
+        </nav>
+
+        <div class="footer-links">
+          <a href="https://substack.com" rel="noopener noreferrer" target="_blank"
+             aria-label="Newsletter Liminal Notes no Substack (abre numa nova aba)">
+            Substack — Liminal Notes ↗
+          </a>
+          <a href="https://www.uea.ac.uk" rel="noopener noreferrer" target="_blank"
+             aria-label="Perfil na Universidade de East Anglia (abre numa nova aba)">
+            UEA — Perfil Académico ↗
+          </a>
+          <a href="https://www.editorapatua.com.br" rel="noopener noreferrer" target="_blank"
+             aria-label="Editora Patuá (abre numa nova aba)">
+            Editora Patuá ↗
+          </a>
+          <a href="mailto:victoria.schechter@gmail.com">
+            victoria.schechter@gmail.com
+          </a>
+        </div>
+
+        <div class="footer-wordmark">
+          <div class="footer-wordmark-name" aria-hidden="true">
+            <span style="font-weight: 300;">Victoria</span>
+            <span style="font-weight: 600;">Schechter</span>
+          </div>
+          <p class="footer-copy">© 2025</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── JavaScript ──────────────────────────────────────────────────────────── -->
+  <script>
+    'use strict';
+
+    // ── Navigation: scroll → sticky header ──────────────────────────────────
+    const header = document.querySelector('.site-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 80);
+    }, { passive: true });
+
+    // ── Hamburger / Mobile Menu ──────────────────────────────────────────────
+    const navToggle  = document.querySelector('.nav-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let previouslyFocused = null;
+
+    function openMenu() {
+      previouslyFocused = document.activeElement;
+      mobileMenu.style.display = 'flex';
+      // Trigger reflow for transition
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          mobileMenu.classList.add('open');
+          mobileMenu.setAttribute('aria-hidden', 'false');
+          navToggle.setAttribute('aria-expanded', 'true');
+          navToggle.setAttribute('aria-label', 'Fechar menu / Close menu');
+        });
+      });
+      trapFocus(mobileMenu);
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.remove('open');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Abrir menu / Open menu');
+      // Hide after transition
+      setTimeout(() => {
+        if (!mobileMenu.classList.contains('open')) {
+          mobileMenu.style.display = '';
+        }
+      }, 400);
+      releaseTrap();
+      if (previouslyFocused) previouslyFocused.focus();
+    }
+
+    navToggle.addEventListener('click', () => {
+      if (mobileMenu.classList.contains('open')) closeMenu();
+      else openMenu();
+    });
+
+    // Close on link click
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', closeMenu);
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMenu();
+    });
+
+    // ── Focus Trap ──────────────────────────────────────────────────────────
+    let trapHandler = null;
+
+    function trapFocus(element) {
+      const focusable = [...element.querySelectorAll(
+        'a, button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )].filter(el => !el.hasAttribute('disabled'));
+      const first = focusable[0];
+      const last  = focusable[focusable.length - 1];
+      if (first) first.focus();
+
+      trapHandler = (e) => {
+        if (e.key !== 'Tab') return;
+        if (e.shiftKey) {
+          if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+        } else {
+          if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+        }
+      };
+      element.addEventListener('keydown', trapHandler);
+    }
+
+    function releaseTrap() {
+      if (trapHandler) {
+        mobileMenu.removeEventListener('keydown', trapHandler);
+        trapHandler = null;
+      }
+    }
+
+    // ── Scroll Spy: active nav link ─────────────────────────────────────────
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const sections = document.querySelectorAll('section[id]');
+
+    const spyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(a => {
+            const isActive = a.getAttribute('href') === `#${id}`;
+            a.classList.toggle('active', isActive);
+            if (isActive) a.setAttribute('aria-current', 'true');
+            else           a.removeAttribute('aria-current');
+          });
+        }
+      });
+    }, { rootMargin: '-35% 0px -60% 0px' });
+
+    sections.forEach(s => spyObserver.observe(s));
+
+    // ── Fade-in Animations ──────────────────────────────────────────────────
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!prefersReducedMotion) {
+      const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            fadeObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-in, .stagger').forEach(el => {
+        fadeObserver.observe(el);
+      });
+    } else {
+      document.querySelectorAll('.fade-in, .stagger').forEach(el => {
+        el.classList.add('visible');
+      });
+    }
+
+    // ── Contact Form ────────────────────────────────────────────────────────
+    const form      = document.getElementById('contact-form');
+    const submitBtn = form.querySelector('.btn-submit');
+    const successEl = form.querySelector('.form-success');
+
+    form.addEventListener('submit', (e) => {
+      // Clear previous errors
+      form.querySelectorAll('.field-error').forEach(el => el.remove());
+      form.querySelectorAll('[aria-invalid]').forEach(el => el.removeAttribute('aria-invalid'));
+
+      const nameEl    = form.querySelector('#contact-name');
+      const emailEl   = form.querySelector('#contact-email');
+      const messageEl = form.querySelector('#contact-message');
+
+      let firstError = null;
+      let valid = true;
+
+      if (!nameEl.value.trim()) {
+        showFieldError(nameEl, 'Por favor, insira o seu nome.');
+        if (!firstError) firstError = nameEl;
+        valid = false;
+      }
+      if (!emailEl.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) {
+        showFieldError(emailEl, 'Por favor, insira um email válido.');
+        if (!firstError) firstError = emailEl;
+        valid = false;
+      }
+      if (!messageEl.value.trim()) {
+        showFieldError(messageEl, 'Por favor, escreva a sua mensagem.');
+        if (!firstError) firstError = messageEl;
+        valid = false;
+      }
+
+      if (!valid) {
+        e.preventDefault();
+        if (firstError) firstError.focus();
+        return;
+      }
+
+      // Show success message; let mailto: open
+      submitBtn.textContent = 'Obrigada ✓';
+      submitBtn.disabled = true;
+      successEl.style.display = 'block';
+    });
+
+    function showFieldError(field, message) {
+      field.setAttribute('aria-invalid', 'true');
+      const err = document.createElement('span');
+      err.className = 'field-error';
+      err.setAttribute('role', 'alert');
+      err.textContent = message;
+      field.parentNode.appendChild(err);
+    }
+  </script>
+
+</body>
+</html>
