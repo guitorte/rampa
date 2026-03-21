@@ -14,6 +14,8 @@ export interface CardInterpretations {
   Wanless?: string;
   Wirth?: string;
   Riley?: string;
+  "Ben Dov"?: string;
+  Jodorowsky?: string;
 }
 
 export type TarotDictionary = Record<string, CardInterpretations>;
@@ -40,6 +42,8 @@ export const AUTHORS: Author[] = [
   { id: "Wanless", name: "James Wanless", description: "Leis Universais" },
   { id: "Wirth", name: "Oswald Wirth", description: "Perspectivas Iniciáticas" },
   { id: "Riley", name: "Jana Riley", description: "Mensagens de Orientação Espiritual" },
+  { id: "Ben Dov", name: "Yoav Ben-Dov", description: "Leitura Aberta do Tarô" },
+  { id: "Jodorowsky", name: "Alejandro Jodorowsky", description: "A Via do Tarô" },
 ];
 
 export const MAJOR_ARCANA = [
