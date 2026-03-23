@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Retificação — Entrevista</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --bg:#0c0c10;
+    --surface:#13131a;
+    --surface2:#1a1a24;
+    --border:#2a2a3a;
+    --border-soft:#1e1e2c;
+    --accent:#c9a96e;
+    --accent-dim:#7a6340;
+    --text:#e8e4dc;
+    --text-muted:#7a7590;
+    --text-faint:#3d3b50;
+    --teal:#4db89a;
+    --teal-dim:#1d4a3d;
+    --purple:#9b8ee0;
+    --purple-dim:#2d2850;
+    --coral:#d47a5a;
+    --coral-dim:#4a2518;
+    --amber:#d4a853;
+    --amber-dim:#3d2e10;
+    --red:#c45a5a;
+    --font-display:'Cormorant Garamond',serif;
+    --font-mono:'DM Mono',monospace;
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-mono);
+    font-weight:300;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .stars{
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    pointer-events:none;overflow:hidden;z-index:0;
+  }
+  .star{
+    position:absolute;border-radius:50%;
+    background:rgba(255,255,255,0.4);
+    animation:twinkle var(--d,4s) ease-in-out infinite;
+  }
+  @keyframes twinkle{0%,100%{opacity:.2}50%{opacity:.7}}
+
+  .shell{
+    position:relative;z-index:1;
+    width:100%;max-width:780px;
+    padding:40px 24px 80px;
+  }
+
+  header{
+    text-align:center;
+    padding:0 0 40px;
+    border-bottom:0.5px solid var(--border);
+    margin-bottom:40px;
+  }
+  header .eyebrow{
+    font-size:10px;letter-spacing:.2em;
+    color:var(--accent-dim);text-transform:uppercase;
+    margin-bottom:12px;
+  }
+  header h1{
+    font-family:var(--font-display);
+    font-size:clamp(28px,5vw,44px);
+    font-weight:300;
+    color:var(--text);
+    line-height:1.1;
+  }
+  header h1 em{color:var(--accent);font-style:italic}
+  header p{
+    font-size:12px;color:var(--text-muted);
+    margin-top:10px;line-height:1.7;max-width:420px;
+    margin-left:auto;margin-right:auto;
+  }
+
+  .step-bar{
+    display:flex;gap:0;margin-bottom:32px;
+    border:0.5px solid var(--border);border-radius:4px;overflow:hidden;
+  }
+  .step{
+    flex:1;padding:10px 8px;text-align:center;
+    font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-faint);
+    border-right:0.5px solid var(--border);
+    transition:all .3s;
+  }
+  .step:last-child{border-right:none}
+  .step.active{background:var(--surface2);color:var(--accent)}
+  .step.done{color:var(--teal)}
+
+  .panel{
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:8px;
+    padding:24px;
+    margin-bottom:20px;
+  }
+  .panel-label{
+    font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent-dim);margin-bottom:16px;
+  }
+
+  .birth-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 2fr;
+    gap:12px;margin-bottom:14px;
+  }
+  .birth-grid.row2{grid-template-columns:2fr 1fr}
+  .field{display:flex;flex-direction:column;gap:5px}
+  .field label{font-size:10px;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase}
+  .field input,.field select{
+    background:var(--surface2);
+    border:0.5px solid var(--border);
+    border-radius:4px;
+    padding:9px 11px;
+    color:var(--text);
+    font-family:var(--font-mono);
+    font-size:13px;font-weight:300;
+    outline:none;
+    transition:border-color .2s;
+  }
+  .field input:focus,.field select:focus{border-color:var(--accent)}
+  .field select option{background:var(--surface2)}
+
+  .source-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+  .spill{
+    padding:5px 12px;border-radius:20px;
+    border:0.5px solid var(--border);
+    background:transparent;
+    color:var(--text-muted);
+    font-family:var(--font-mono);font-size:11px;
+    cursor:pointer;transition:all .2s;
+  }
+  .spill.sel{
+    background:var(--amber-dim);
+    border-color:var(--amber-dim);
+    color:var(--amber);
+  }
+  .spill:hover:not(.sel){border-color:var(--border-soft);color:var(--text)}
+
+  .interview-area{
+    position:relative;
+    margin-bottom:16px;
+  }
+  .interview-area textarea{
+    width:100%;
+    background:var(--surface2);
+    border:0.5px solid var(--border);
+    border-radius:6px;
+    padding:16px;
+    color:var(--text);
+    font-family:var(--font-display);
+    font-size:17px;
+    font-weight:300;
+    line-height:1.8;
+    resize:none;
+    outline:none;
+    min-height:160px;
+    transition:border-color .2s;
+  }
+  .interview-area textarea:focus{border-color:var(--accent-dim)}
+  .interview-area textarea::placeholder{
+    color:var(--text-faint);
+    font-style:italic;
+  }
+  .char-hint{
+    font-size:10px;color:var(--text-faint);
+    text-align:right;margin-top:5px;
+  }
+
+  .prompts{
+    display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;
+  }
+  .prompt-chip{
+    padding:5px 11px;border-radius:20px;
+    border:0.5px solid var(--border-soft);
+    background:transparent;
+    color:var(--text-faint);
+    font-family:var(--font-mono);font-size:11px;
+    cursor:pointer;transition:all .2s;
+  }
+  .prompt-chip:hover{
+    border-color:var(--border);color:var(--text-muted);
+  }
+
+  .extract-btn{
+    width:100%;padding:13px;
+    background:transparent;
+    border:0.5px solid var(--accent-dim);
+    border-radius:6px;
+    color:var(--accent);
+    font-family:var(--font-mono);font-size:12px;
+    letter-spacing:.1em;text-transform:uppercase;
+    cursor:pointer;transition:all .25s;
+  }
+  .extract-btn:hover:not(:disabled){
+    background:rgba(201,169,110,.07);
+    border-color:var(--accent);
+  }
+  .extract-btn:disabled{opacity:.4;cursor:not-allowed}
+
+  .loading{
+    display:none;
+    align-items:center;gap:10px;
+    padding:14px;
+    color:var(--text-muted);font-size:12px;
+  }
+  .loading.show{display:flex}
+  .dot-wave span{
+    display:inline-block;width:5px;height:5px;
+    border-radius:50%;background:var(--accent);
+    animation:wave .9s ease-in-out infinite;
+    margin:0 2px;
+  }
+  .dot-wave span:nth-child(2){animation-delay:.15s}
+  .dot-wave span:nth-child(3){animation-delay:.3s}
+  @keyframes wave{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+
+  .events-section{display:none}
+  .events-section.show{display:block}
+
+  .events-header{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:16px;
+  }
+  .events-count{
+    font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-muted);
+  }
+  .events-count strong{color:var(--accent)}
+
+  .event-card{
+    background:var(--surface2);
+    border:0.5px solid var(--border);
+    border-radius:6px;
+    padding:14px 16px;
+    margin-bottom:8px;
+    display:flex;gap:14px;
+    align-items:flex-start;
+    animation:slideIn .3s ease;
+  }
+  @keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  .evt-dot{
+    width:10px;height:10px;border-radius:50%;
+    flex-shrink:0;margin-top:5px;
+  }
+  .evt-body{flex:1}
+  .evt-desc{
+    font-family:var(--font-display);
+    font-size:15px;font-weight:400;
+    color:var(--text);line-height:1.4;
+    margin-bottom:6px;
+  }
+  .evt-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .evt-date{
+    font-size:11px;color:var(--text-muted);
+    padding:2px 8px;border-radius:3px;
+    background:var(--surface);
+    border:0.5px solid var(--border);
+  }
+  .evt-tag{
+    font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+    padding:2px 8px;border-radius:3px;
+  }
+  .conf-bar-wrap{
+    display:flex;align-items:center;gap:6px;
+    margin-top:6px;
+  }
+  .conf-bar{
+    height:2px;flex:1;border-radius:1px;
+    background:var(--border);
+    max-width:80px;
+  }
+  .conf-fill{height:100%;border-radius:1px}
+  .conf-label{font-size:10px;color:var(--text-faint)}
+
+  .pipeline{
+    background:var(--surface);
+    border:0.5px solid var(--border);
+    border-radius:8px;
+    overflow:hidden;
+    margin-top:20px;
+  }
+  .pipeline-header{
+    padding:14px 18px;
+    border-bottom:0.5px solid var(--border);
+    font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent-dim);
+  }
+  .pipe-step{
+    display:flex;align-items:center;gap:14px;
+    padding:12px 18px;
+    border-bottom:0.5px solid var(--border-soft);
+    transition:background .2s;
+  }
+  .pipe-step:last-child{border-bottom:none}
+  .pipe-step.pending{opacity:.35}
+  .pipe-step.ready{opacity:1}
+  .pipe-step.active-pipe{background:var(--surface2)}
+  .pipe-num{
+    width:22px;height:22px;border-radius:50%;
+    border:0.5px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    font-size:10px;color:var(--text-faint);flex-shrink:0;
+  }
+  .pipe-step.ready .pipe-num{border-color:var(--teal);color:var(--teal)}
+  .pipe-step.active-pipe .pipe-num{
+    background:var(--accent);border-color:var(--accent);
+    color:var(--bg);font-weight:500;
+  }
+  .pipe-info{flex:1}
+  .pipe-title{font-size:12px;color:var(--text);margin-bottom:2px}
+  .pipe-sub{font-size:11px;color:var(--text-muted)}
+  .pipe-status{
+    font-size:10px;letter-spacing:.06em;
+    text-transform:uppercase;
+  }
+  .pipe-step.ready .pipe-status{color:var(--teal)}
+  .pipe-step.pending .pipe-status{color:var(--text-faint)}
+  .pipe-step.active-pipe .pipe-status{color:var(--accent)}
+
+  .error-box{
+    background:var(--coral-dim);
+    border:0.5px solid var(--red);
+    border-radius:6px;
+    padding:12px 14px;
+    font-size:12px;
+    color:var(--coral);
+    margin-bottom:12px;
+    display:none;
+  }
+  .error-box.show{display:block}
+
+  .add-more-btn{
+    width:100%;padding:10px;
+    background:transparent;
+    border:0.5px dashed var(--border);
+    border-radius:6px;
+    color:var(--text-faint);
+    font-family:var(--font-mono);font-size:11px;
+    cursor:pointer;transition:all .2s;
+    margin-top:8px;
+  }
+  .add-more-btn:hover{border-color:var(--accent-dim);color:var(--text-muted)}
+
+  .quality-bar{
+    display:flex;gap:4px;margin-top:8px;align-items:center;
+  }
+  .q-seg{
+    height:4px;flex:1;border-radius:2px;
+    background:var(--border);transition:background .4s;
+  }
+  .q-label{font-size:10px;color:var(--text-muted);margin-left:6px;min-width:80px}
+
+  @media(max-width:520px){
+    .birth-grid{grid-template-columns:1fr 1fr}
+    .birth-grid.row2{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="shell">
+
+  <header>
+    <p class="eyebrow">Astrologia — Retificação de Mapa Natal</p>
+    <h1>Conte sua <em>história</em></h1>
+    <p>Escreva livremente. Não precisa ser organizado — extraímos os eventos automaticamente.</p>
+  </header>
+
+  <div class="step-bar">
+    <div class="step active" id="st1">01 · Nascimento</div>
+    <div class="step" id="st2">02 · Entrevista</div>
+    <div class="step" id="st3">03 · Eventos</div>
+    <div class="step" id="st4">04 · Retificação</div>
+  </div>
+
+  <div class="panel" id="panel-birth">
+    <div class="panel-label">Dados de nascimento</div>
+    <div class="birth-grid">
+      <div class="field">
+        <label>Dia</label>
+        <input type="number" id="b-dia" placeholder="DD" min="1" max="31"/>
+      </div>
+      <div class="field">
+        <label>Mês</label>
+        <input type="number" id="b-mes" placeholder="MM" min="1" max="12"/>
+      </div>
+      <div class="field">
+        <label>Ano</label>
+        <input type="number" id="b-ano" placeholder="AAAA" min="1900" max="2025"/>
+      </div>
+    </div>
+    <div class="birth-grid row2">
+      <div class="field">
+        <label>Cidade de nascimento</label>
+        <input type="text" id="b-cidade" placeholder="Ex: São Paulo, SP"/>
+      </div>
+      <div class="field">
+        <label>Horário (se souber)</label>
+        <input type="text" id="b-hora" placeholder="HH:MM"/>
+      </div>
+    </div>
+    <div class="field" style="margin-top:14px">
+      <label>Origem do horário</label>
+      <div class="source-pills" id="source-pills">
+        <button class="spill sel" onclick="selSource(this,'certidao')">Certidão</button>
+        <button class="spill" onclick="selSource(this,'hospital')">Hospital</button>
+        <button class="spill" onclick="selSource(this,'familia')">Família</button>
+        <button class="spill" onclick="selSource(this,'aprox')">Aproximado</button>
+        <button class="spill" onclick="selSource(this,'desconhecido')">Não sei</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-label">Entrevista livre</div>
+
+    <div class="prompts" id="prompts">
+      <button class="prompt-chip" onclick="insertPrompt('escola')">Escola / faculdade</button>
+      <button class="prompt-chip" onclick="insertPrompt('familia')">Família</button>
+      <button class="prompt-chip" onclick="insertPrompt('trabalho')">Trabalho</button>
+      <button class="prompt-chip" onclick="insertPrompt('saude')">Saúde</button>
+      <button class="prompt-chip" onclick="insertPrompt('relacionamento')">Relacionamento</button>
+      <button class="prompt-chip" onclick="insertPrompt('moradia')">Moradia</button>
+    </div>
+
+    <div class="interview-area">
+      <textarea
+        id="freetext"
+        placeholder="Escreva como se estivesse contando para um amigo. Por exemplo: "Meus pais não se separaram, mas lembro que quando eu tinha uns 12 anos a gente se mudou pra outra cidade e foi bem difícil pra mim. Aí em 2019 entrei na faculdade de engenharia...""
+        oninput="onTextChange()"
+      ></textarea>
+      <div class="char-hint" id="char-hint">0 palavras</div>
+    </div>
+
+    <div class="error-box" id="error-box"></div>
+
+    <div class="loading" id="loading">
+      <div class="dot-wave"><span></span><span></span><span></span></div>
+      <span>Lendo sua história e extraindo eventos...</span>
+    </div>
+
+    <button class="extract-btn" id="extract-btn" onclick="extractEvents()" disabled>
+      Extrair eventos da narrativa
+    </button>
+  </div>
+
+  <div class="events-section" id="events-section">
+    <div class="events-header">
+      <div class="events-count">Eventos encontrados: <strong id="evt-count">0</strong></div>
+      <div class="quality-bar" id="quality-bar">
+        <div class="q-seg" id="qs1"></div>
+        <div class="q-seg" id="qs2"></div>
+        <div class="q-seg" id="qs3"></div>
+        <div class="q-seg" id="qs4"></div>
+        <div class="q-seg" id="qs5"></div>
+        <span class="q-label" id="q-label">—</span>
+      </div>
+    </div>
+
+    <div id="events-list"></div>
+
+    <button class="add-more-btn" onclick="addMore()">+ Adicionar mais informações</button>
+
+    <div class="pipeline" id="pipeline" style="display:none">
+      <div class="pipeline-header">Próximos passos · pipeline de retificação</div>
+      <div class="pipe-step done" id="pipe0">
+        <div class="pipe-num">✓</div>
+        <div class="pipe-info">
+          <div class="pipe-title">Conversão UT</div>
+          <div class="pipe-sub">Fuso histórico + horário de verão aplicado</div>
+        </div>
+        <div class="pipe-status">Pronto</div>
+      </div>
+      <div class="pipe-step ready" id="pipe1">
+        <div class="pipe-num">✓</div>
+        <div class="pipe-info">
+          <div class="pipe-title">Coleta de eventos</div>
+          <div class="pipe-sub" id="pipe1-sub">— eventos extraídos</div>
+        </div>
+        <div class="pipe-status">Pronto</div>
+      </div>
+      <div class="pipe-step active-pipe" id="pipe2">
+        <div class="pipe-num">3</div>
+        <div class="pipe-info">
+          <div class="pipe-title">Arco Solar + Profecções</div>
+          <div class="pipe-sub">Testando eventos contra janelas de horário candidato</div>
+        </div>
+        <div class="pipe-status">Aguardando</div>
+      </div>
+      <div class="pipe-step pending" id="pipe3">
+        <div class="pipe-num">4</div>
+        <div class="pipe-info">
+          <div class="pipe-title">Progressões Secundárias</div>
+          <div class="pipe-sub">Lua Progressada + Sol Progressado aos ângulos</div>
+        </div>
+        <div class="pipe-status">Pendente</div>
+      </div>
+      <div class="pipe-step pending" id="pipe4">
+        <div class="pipe-num">5</div>
+        <div class="pipe-info">
+          <div class="pipe-title">Convergência + resultado</div>
+          <div class="pipe-sub">Horário retificado com intervalo de confiança</div>
+        </div>
+        <div class="pipe-status">Pendente</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let currentSource = 'certidao';
+let extractedEvents = [];
+
+function buildStars(){
+  const c = document.getElementById('stars');
+  for(let i=0;i<80;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    const sz=Math.random()*1.6+.4;
+    s.style.cssText=`
+      width:${sz}px;height:${sz}px;
+      top:${Math.random()*100}%;left:${Math.random()*100}%;
+      --d:${3+Math.random()*5}s;
+      animation-delay:${Math.random()*6}s;
+      opacity:${.1+Math.random()*.4};
+    `;
+    c.appendChild(s);
+  }
+}
+buildStars();
+
+function selSource(btn, val){
+  document.querySelectorAll('.spill').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  currentSource = val;
+}
+
+const snippets = {
+  escola: 'Na escola, ',
+  familia: 'Na minha família, ',
+  trabalho: 'No trabalho, ',
+  saude: 'Sobre minha saúde, ',
+  relacionamento: 'Nos relacionamentos, ',
+  moradia: 'Sobre onde morei, '
+};
+function insertPrompt(key){
+  const ta = document.getElementById('freetext');
+  const cur = ta.value;
+  const snip = snippets[key];
+  ta.value = cur ? cur + '\n\n' + snip : snip;
+  ta.focus();
+  onTextChange();
+}
+
+function onTextChange(){
+  const val = document.getElementById('freetext').value;
+  const words = val.trim() ? val.trim().split(/\s+/).length : 0;
+  document.getElementById('char-hint').textContent = words + (words===1?' palavra':' palavras');
+  document.getElementById('extract-btn').disabled = words < 10;
+}
+
+function getTagStyle(type){
+  const map = {
+    familia:   {bg:'var(--teal-dim)',   color:'var(--teal)',   label:'Família'},
+    carreira:  {bg:'var(--purple-dim)', color:'var(--purple)', label:'Carreira'},
+    saude:     {bg:'var(--coral-dim)',  color:'var(--coral)',  label:'Saúde'},
+    moradia:   {bg:'var(--amber-dim)',  color:'var(--amber)',  label:'Moradia'},
+    educacao:  {bg:'var(--purple-dim)', color:'var(--purple)', label:'Educação'},
+    relacionamento:{bg:'rgba(212,84,126,.15)',color:'#d4547e',label:'Relacionamento'},
+    outro:     {bg:'rgba(122,117,144,.15)',color:'var(--text-muted)',label:'Outro'},
+  };
+  return map[type] || map['outro'];
+}
+
+function getPesoLabel(peso){
+  if(peso >= .8) return {label:'Alta confiança', color:'var(--teal)'};
+  if(peso >= .5) return {label:'Média confiança', color:'var(--amber)'};
+  return {label:'Baixa confiança', color:'var(--coral)'};
+}
+
+function renderEvents(events){
+  const list = document.getElementById('events-list');
+  list.innerHTML = '';
+  extractedEvents = events;
+  document.getElementById('evt-count').textContent = events.length;
+
+  events.forEach((evt, i) => {
+    const tag = getTagStyle(evt.tipo);
+    const conf = getPesoLabel(evt.peso);
+    const barW = Math.round(evt.peso * 100);
+
+    const card = document.createElement('div');
+    card.className = 'event-card';
+    card.style.animationDelay = (i*0.06)+'s';
+    card.innerHTML = `
+      <div class="evt-dot" style="background:${tag.color}"></div>
+      <div class="evt-body">
+        <div class="evt-desc">${evt.descricao}</div>
+        <div class="evt-meta">
+          <span class="evt-date">${evt.data_inferida || 'Data incerta'}</span>
+          <span class="evt-tag" style="background:${tag.bg};color:${tag.color}">${tag.label}</span>
+        </div>
+        <div class="conf-bar-wrap">
+          <div class="conf-bar"><div class="conf-fill" style="width:${barW}%;background:${conf.color}"></div></div>
+          <span class="conf-label">${conf.label}</span>
+        </div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+
+  updateQualityBar(events);
+  document.getElementById('events-section').classList.add('show');
+  document.getElementById('pipeline').style.display = 'block';
+  document.getElementById('pipe1-sub').textContent = events.length + ' evento' + (events.length===1?'':'s') + ' extraído' + (events.length===1?'':'s');
+
+  setStep(3);
+}
+
+function updateQualityBar(events){
+  const avg = events.reduce((s,e)=>s+e.peso,0)/Math.max(events.length,1);
+  const segs = 5;
+  const filled = Math.round(avg * segs);
+  for(let i=1;i<=segs;i++){
+    const el = document.getElementById('qs'+i);
+    if(i<=filled){
+      el.style.background = avg>=.7?'var(--teal)':avg>=.45?'var(--amber)':'var(--coral)';
+    } else {
+      el.style.background = 'var(--border)';
+    }
+  }
+  const label = avg>=.7?'Qualidade boa':avg>=.45?'Qualidade média':'Qualidade baixa';
+  document.getElementById('q-label').textContent = label;
+}
+
+function setStep(n){
+  for(let i=1;i<=4;i++){
+    const el = document.getElementById('st'+i);
+    el.className = 'step' + (i<n?' done':i===n?' active':'');
+  }
+}
+
+function addMore(){
+  const ta = document.getElementById('freetext');
+  ta.focus();
+  ta.scrollIntoView({behavior:'smooth'});
+}
+
+async function extractEvents(){
+  const text = document.getElementById('freetext').value.trim();
+  if(!text) return;
+
+  const dia   = document.getElementById('b-dia').value;
+  const mes   = document.getElementById('b-mes').value;
+  const ano   = document.getElementById('b-ano').value;
+  const cidade= document.getElementById('b-cidade').value;
+  const hora  = document.getElementById('b-hora').value;
+
+  document.getElementById('extract-btn').disabled = true;
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('error-box').classList.remove('show');
+
+  const systemPrompt = `Você é um motor de extração de eventos biográficos para retificação astrológica.
+
+Dado o relato livre de um usuário, extraia todos os eventos de vida mencionados ou inferíveis.
+
+Para cada evento, retorne um objeto JSON com:
+- descricao: string (frase curta e clara descrevendo o evento, em português)
+- data_inferida: string (a data mais precisa possível: "AAAA", "MM/AAAA", "DD/MM/AAAA", ou null se impossível de inferir)
+- tipo: string (um de: "familia", "carreira", "saude", "moradia", "educacao", "relacionamento", "outro")
+- peso: number entre 0 e 1 (confiabilidade da data: 1.0=documento, 0.85=data exata, 0.6=mês/ano, 0.35=só ano aproximado, 0.15=muito vago)
+- nota: string (observação sobre a imprecisão ou contexto, se relevante)
+
+Regras importantes:
+- Extraia TUDO que puder ser um evento, mesmo que o usuário diga que não foi "tão importante"
+- Se o usuário mencionar idade, calcule o ano aproximado com base no ano de nascimento ${ano||'informado'}
+- Se a data for vaga mas inferível por contexto (ex: "na faculdade" + ano de nascimento), estime
+- Separe eventos compostos ("me casei e logo depois tive um filho") em eventos distintos
+- Ignore opiniões, sentimentos e avaliações — extraia apenas fatos e eventos
+
+Retorne APENAS um array JSON válido, sem texto adicional, sem markdown, sem explicações.`;
+
+  const userMsg = `Usuário nascido em: ${dia||'?'}/${mes||'?'}/${ano||'?'} em ${cidade||'cidade não informada'}. Horário: ${hora||'desconhecido'}. Fonte: ${currentSource}.
+
+Relato:
+"${text}"`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages:[{role:'user', content: userMsg}]
+      })
+    });
+
+    const data = await resp.json();
+
+    if(data.error){
+      throw new Error(data.error.message || 'Erro na API');
+    }
+
+    const raw = data.content?.find(b=>b.type==='text')?.text || '[]';
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const events = JSON.parse(clean);
+
+    renderEvents(events);
+
+  } catch(e) {
+    const box = document.getElementById('error-box');
+    box.textContent = 'Não foi possível processar: ' + e.message;
+    box.classList.add('show');
+  }
+
+  document.getElementById('loading').classList.remove('show');
+  document.getElementById('extract-btn').disabled = false;
+}
+</script>
+</body>
+</html>
