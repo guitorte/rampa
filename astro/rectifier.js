@@ -129,10 +129,23 @@ const Rectifier = (() => {
 
   /**
    * Parse an event date string into a Date object.
-   * Supports: "DD/MM/YYYY", "MM/YYYY", "YYYY", or null
+   * Supports: "DD/MM/YYYY", "MM/YYYY", "YYYY" (slash formats)
+   *        and "YYYY-MM-DD", "YYYY-MM" (ISO formats returned by Claude AI)
    */
   function parseEventDate(dateStr, birthYear) {
     if (!dateStr) return null;
+
+    // ISO formats: YYYY-MM-DD or YYYY-MM
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      return new Date(y, m - 1, d);
+    }
+    if (/^\d{4}-\d{2}$/.test(dateStr)) {
+      const [y, m] = dateStr.split('-').map(Number);
+      return new Date(y, m - 1, 15); // middle of month
+    }
+
+    // Slash formats: DD/MM/YYYY, MM/YYYY, YYYY
     const parts = dateStr.split('/');
     if (parts.length === 3) {
       return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
