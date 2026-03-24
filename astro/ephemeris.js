@@ -256,8 +256,19 @@ const Ephemeris = (() => {
 
     const y = -Math.cos(lstR);
     const x = Math.sin(oblR) * Math.tan(latR) + Math.cos(oblR) * Math.sin(lstR);
-    let asc = Math.atan2(y, x) * RAD;
-    return norm360(asc);
+    let asc = norm360(Math.atan2(y, x) * RAD);
+
+    // The formula gives one of two ecliptic/horizon intersections (ASC or DSC).
+    // Verify we have the eastern one (ASC) by checking its RA is near RAMC+90°.
+    // If it's closer to RAMC-90° (west point), flip it by 180°.
+    const candR = asc * DEG;
+    const raCand = Math.atan2(Math.sin(candR) * Math.cos(oblR), Math.cos(candR)) * RAD;
+    const eastPoint = norm360(lstDeg + 90);
+    if (Math.abs(norm180(raCand - eastPoint)) > 90) {
+      asc = norm360(asc + 180);
+    }
+
+    return asc;
   }
 
   /**
