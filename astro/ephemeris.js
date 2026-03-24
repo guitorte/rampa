@@ -257,7 +257,16 @@ const Ephemeris = (() => {
     const y = -Math.cos(lstR);
     const x = Math.sin(oblR) * Math.tan(latR) + Math.cos(oblR) * Math.sin(lstR);
     let asc = Math.atan2(y, x) * RAD;
-    return norm360(asc);
+    asc = norm360(asc);
+
+    // For Southern Hemisphere latitudes the standard formula computes the
+    // Descendant (the setting point) rather than the Ascendant (the rising
+    // point). Add 180° to obtain the correct Ascendant.
+    if (latDeg < 0) {
+      asc = norm360(asc + 180);
+    }
+
+    return asc;
   }
 
   /**
