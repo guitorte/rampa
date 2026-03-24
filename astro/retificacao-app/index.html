@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Retificação — Mapa Natal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<div class="shell">
+
+  <header>
+    <p class="eyebrow">Astrologia — Retificação de Mapa Natal</p>
+    <h1>Conte sua <em>história</em></h1>
+    <p>Escreva livremente. Não precisa ser organizado — extraímos os eventos automaticamente.</p>
+  </header>
+
+  <!-- API Key banner -->
+  <div class="api-key-bar" id="api-key-bar">
+    <div class="api-key-inner">
+      <span class="api-key-label">⚙ Chave da API Anthropic</span>
+      <input type="password" id="api-key-input" placeholder="sk-ant-..." spellcheck="false" autocomplete="off"/>
+      <button class="api-key-save" id="api-key-save">Salvar</button>
+      <button class="api-key-toggle" id="api-key-toggle" title="Mostrar/ocultar">👁</button>
+    </div>
+    <div class="api-key-hint" id="api-key-hint">Necessária para extrair eventos. Armazenada apenas no seu navegador.</div>
+  </div>
+
+  <div class="step-bar">
+    <div class="step active" id="st1">01 · Nascimento</div>
+    <div class="step" id="st2">02 · Entrevista</div>
+    <div class="step" id="st3">03 · Eventos</div>
+    <div class="step" id="st4">04 · Retificação</div>
+  </div>
+
+  <!-- Step 1: Birth data -->
+  <div class="panel" id="panel-birth">
+    <div class="panel-label">Dados de nascimento</div>
+    <div class="birth-grid">
+      <div class="field">
+        <label>Dia</label>
+        <input type="number" id="b-dia" placeholder="DD" min="1" max="31"/>
+      </div>
+      <div class="field">
+        <label>Mês</label>
+        <input type="number" id="b-mes" placeholder="MM" min="1" max="12"/>
+      </div>
+      <div class="field">
+        <label>Ano</label>
+        <input type="number" id="b-ano" placeholder="AAAA" min="1900" max="2026"/>
+      </div>
+    </div>
+    <div class="birth-grid row2">
+      <div class="field city-field">
+        <label>Cidade de nascimento</label>
+        <input type="text" id="b-cidade" placeholder="Ex: São Paulo" autocomplete="off"/>
+        <div class="city-dropdown" id="city-dropdown"></div>
+      </div>
+      <div class="field">
+        <label>Horário (se souber)</label>
+        <input type="text" id="b-hora" placeholder="HH:MM"/>
+      </div>
+    </div>
+    <div class="field" style="margin-top:14px">
+      <label>Origem do horário</label>
+      <div class="source-pills" id="source-pills">
+        <button class="spill sel" data-source="certidao">Certidão</button>
+        <button class="spill" data-source="hospital">Hospital</button>
+        <button class="spill" data-source="familia">Família</button>
+        <button class="spill" data-source="aprox">Aproximado</button>
+        <button class="spill" data-source="desconhecido">Não sei</button>
+      </div>
+    </div>
+    <div class="selected-city-info" id="selected-city-info"></div>
+  </div>
+
+  <!-- Step 2: Interview -->
+  <div class="panel">
+    <div class="panel-label">Entrevista livre</div>
+
+    <div class="prompts" id="prompts">
+      <button class="prompt-chip" data-prompt="escola">Escola / faculdade</button>
+      <button class="prompt-chip" data-prompt="familia">Família</button>
+      <button class="prompt-chip" data-prompt="trabalho">Trabalho</button>
+      <button class="prompt-chip" data-prompt="saude">Saúde</button>
+      <button class="prompt-chip" data-prompt="relacionamento">Relacionamento</button>
+      <button class="prompt-chip" data-prompt="moradia">Moradia</button>
+    </div>
+
+    <div class="interview-area">
+      <textarea
+        id="freetext"
+        placeholder="Escreva como se estivesse contando para um amigo. Por exemplo: &quot;Meus pais não se separaram, mas lembro que quando eu tinha uns 12 anos a gente se mudou pra outra cidade e foi bem difícil pra mim. Aí em 2019 entrei na faculdade de engenharia...&quot;"
+      ></textarea>
+      <div class="char-hint" id="char-hint">0 palavras</div>
+    </div>
+
+    <div class="error-box" id="error-box"></div>
+
+    <div class="loading" id="loading">
+      <div class="dot-wave"><span></span><span></span><span></span></div>
+      <span>Lendo sua história e extraindo eventos...</span>
+    </div>
+
+    <button class="extract-btn" id="extract-btn" disabled>
+      Extrair eventos da narrativa
+    </button>
+  </div>
+
+  <!-- Step 3: Events -->
+  <div class="events-section" id="events-section">
+    <div class="events-header">
+      <div class="events-count">Eventos encontrados: <strong id="evt-count">0</strong></div>
+      <div class="quality-bar" id="quality-bar">
+        <div class="q-seg" id="qs1"></div>
+        <div class="q-seg" id="qs2"></div>
+        <div class="q-seg" id="qs3"></div>
+        <div class="q-seg" id="qs4"></div>
+        <div class="q-seg" id="qs5"></div>
+        <span class="q-label" id="q-label">—</span>
+      </div>
+    </div>
+
+    <div id="events-list"></div>
+
+    <button class="add-more-btn" id="add-more-btn">+ Adicionar mais informações</button>
+
+    <!-- Rectify button -->
+    <button class="rectify-btn" id="rectify-btn" style="display:none">
+      Retificar agora
+    </button>
+
+    <!-- Pipeline -->
+    <div class="pipeline" id="pipeline" style="display:none">
+      <div class="pipeline-header">Pipeline de retificação</div>
+      <div class="pipe-step ready" id="pipe0">
+        <div class="pipe-num">✓</div>
+        <div class="pipe-info">
+          <div class="pipe-title">Conversão UT</div>
+          <div class="pipe-sub">Fuso histórico + horário de verão aplicado</div>
+        </div>
+        <div class="pipe-status">Pronto</div>
+      </div>
+      <div class="pipe-step ready" id="pipe1">
+        <div class="pipe-num">✓</div>
+        <div class="pipe-info">
+          <div class="pipe-title">Coleta de eventos</div>
+          <div class="pipe-sub" id="pipe1-sub">— eventos extraídos</div>
+        </div>
+        <div class="pipe-status">Pronto</div>
+      </div>
+      <div class="pipe-step pending" id="pipe2">
+        <div class="pipe-num">3</div>
+        <div class="pipe-info">
+          <div class="pipe-title">Arco Solar + Profecções</div>
+          <div class="pipe-sub">Testando eventos contra horários candidatos</div>
+        </div>
+        <div class="pipe-status" id="pipe2-status">Aguardando</div>
+      </div>
+      <div class="pipe-step pending" id="pipe3">
+        <div class="pipe-num">4</div>
+        <div class="pipe-info">
+          <div class="pipe-title">Progressões Secundárias</div>
+          <div class="pipe-sub">Lua Progressada + Sol Progressado aos ângulos</div>
+        </div>
+        <div class="pipe-status" id="pipe3-status">Pendente</div>
+      </div>
+      <div class="pipe-step pending" id="pipe4">
+        <div class="pipe-num">5</div>
+        <div class="pipe-info">
+          <div class="pipe-title">Convergência + resultado</div>
+          <div class="pipe-sub">Horário retificado com intervalo de confiança</div>
+        </div>
+        <div class="pipe-status" id="pipe4-status">Pendente</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4: Results -->
+  <div class="results-section" id="results-section" style="display:none">
+    <div class="panel">
+      <div class="panel-label">Resultado da retificação</div>
+
+      <div class="convergence-banner" id="convergence-banner"></div>
+
+      <div id="results-cards"></div>
+
+      <div class="results-meta" id="results-meta"></div>
+    </div>
+
+    <!-- Score chart -->
+    <div class="panel" id="score-chart-panel" style="display:none">
+      <div class="panel-label">Distribuição de scores por horário</div>
+      <div class="score-chart" id="score-chart"></div>
+    </div>
+
+    <!-- Detailed breakdown -->
+    <div class="panel" id="details-panel" style="display:none">
+      <div class="panel-label">Detalhamento por evento</div>
+      <div id="details-table"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Engine scripts (IIFE globals) -->
+<script src="../ephemeris.js"></script>
+<script src="../brazil-tz.js"></script>
+<script src="../chart-calc.js"></script>
+<script src="../cities-br.js"></script>
+<script src="../solar-arc.js"></script>
+<script src="../profections.js"></script>
+<script src="../progressions.js"></script>
+<script src="../rectifier.js"></script>
+
+<!-- App logic -->
+<script src="js/app.js"></script>
+</body>
+</html>
