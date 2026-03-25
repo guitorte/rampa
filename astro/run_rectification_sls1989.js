@@ -54,6 +54,9 @@ console.log('');
 //  - Conclusão ensino médio: dez/2006, mes_ano
 //  - Ex namorada: mar/2025, mes_ano
 //  - Namorada atual: 06/01/2026, dia_exato
+//  - Início curso comunicação: 2007, so_ano
+//  - Início trabalho empresa propaganda: 2014, so_ano
+//  - Freelance escândalo nacional: dez/2025, mes_ano
 //
 const events = [
   {
@@ -64,11 +67,25 @@ const events = [
     precisao: 'mes_ano'
   },
   {
+    descricao: 'Início do curso de comunicação (2007)',
+    data_inferida: '2007-03-01',
+    tipo: 'educacao',
+    peso: 0.65,
+    precisao: 'so_ano'
+  },
+  {
     descricao: 'Graduação em comunicação (nov/dez 2010)',
     data_inferida: '2010-11-20',
     tipo: 'educacao',
     peso: 0.70,
     precisao: 'mes_ano'
+  },
+  {
+    descricao: 'Início em empresa de propaganda (2014)',
+    data_inferida: '2014-07-01',
+    tipo: 'carreira',
+    peso: 0.70,
+    precisao: 'so_ano'
   },
   {
     descricao: 'Morte da mãe (certidão 23h59/15/10 → provável 16/10/2017)',
@@ -118,11 +135,18 @@ const events = [
     tipo: 'relacionamento',
     peso: 0.75,
     precisao: 'dia_exato'
+  },
+  {
+    descricao: 'Freelance em escândalo nacional (dez/2025)',
+    data_inferida: '2025-12-15',
+    tipo: 'carreira',
+    peso: 0.75,
+    precisao: 'mes_ano'
   }
 ];
 
 // ── Run rectification ──────────────────────────────────────────────────────
-console.log('── Rodando retificação (±30 min, passo 2 min = 31 candidatos, 9 eventos) ──');
+console.log('── Rodando retificação (±30 min, passo 2 min = 31 candidatos, 12 eventos) ──');
 const result = Rectifier.rectify(birthData, events, pct => {
   if (pct % 25 === 0) process.stdout.write(`  ${pct}%\r`);
 });
