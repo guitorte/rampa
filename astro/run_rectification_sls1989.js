@@ -95,6 +95,13 @@ const events = [
     precisao: 'dia_exato'
   },
   {
+    descricao: 'Morte da madrinha (mai/2017 — data aproximada)',
+    data_inferida: '2017-05-15',
+    tipo: 'familia',
+    peso: 0.55,
+    precisao: 'mes_ano'
+  },
+  {
     descricao: 'Foi atrás de ex em Florianópolis (final jan / início fev 2016)',
     data_inferida: '2016-02-01',
     tipo: 'relacionamento',
@@ -109,11 +116,12 @@ const events = [
     precisao: 'dia_exato'
   },
   {
-    descricao: 'Início profissional no tarô/TikTok (fev/2024)',
-    data_inferida: '2024-02-15',
+    // Primeiro vídeo real: 16/05; sequência começa em 21/05 → data_inferida: 21/05
+    descricao: 'Primeiro vídeo de tarô publicado (21/05/2024)',
+    data_inferida: '2024-05-21',
     tipo: 'carreira',
-    peso: 0.70,
-    precisao: 'mes_ano'
+    peso: 0.80,
+    precisao: 'dia_exato'
   },
   {
     descricao: 'Término de namoro (mai/jun 2024)',
@@ -137,8 +145,9 @@ const events = [
     precisao: 'dia_exato'
   },
   {
-    descricao: 'Freelance em escândalo nacional (dez/2025)',
-    data_inferida: '2025-12-15',
+    // Trabalhando no Natal e Ano Novo → fim de dezembro
+    descricao: 'Freelance em escândalo nacional (fim dez/2025)',
+    data_inferida: '2025-12-28',
     tipo: 'carreira',
     peso: 0.75,
     precisao: 'mes_ano'
@@ -146,7 +155,7 @@ const events = [
 ];
 
 // ── Run rectification ──────────────────────────────────────────────────────
-console.log('── Rodando retificação (±30 min, passo 2 min = 31 candidatos, 12 eventos) ──');
+console.log('── Rodando retificação (±30 min, passo 2 min = 31 candidatos, 13 eventos) ──');
 const result = Rectifier.rectify(birthData, events, pct => {
   if (pct % 25 === 0) process.stdout.write(`  ${pct}%\r`);
 });
