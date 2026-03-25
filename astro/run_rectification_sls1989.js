@@ -43,29 +43,60 @@ console.log('');
 
 // ── Events ─────────────────────────────────────────────────────────────────
 //
-// Nota sobre incertezas:
-//  - Morte da mãe:  certidão diz 23h59 de 15/10, mas usuária acredita que foi
-//    depois da meia-noite → usamos 16/10/2017 com peso "dia_exato"
-//  - Morte do pai:  dia 3 ou 8 de novembro/2019 → usamos ponto médio (6/11)
-//    com precisão "mes_ano" (menor confiança)
-//  - Término de namoro: maio/junho 2024 → usamos 15/05/2024, "mes_ano"
-//  - Ex namorada: março 2025 → 15/03/2025, "mes_ano"
-//  - Namorada atual: 06/01/2026, "dia_exato"
+// Notas:
+//  - Morte da mãe:  certidão 23h59/15/10, mas usuária acredita que foi após
+//    meia-noite → 16/10/2017, dia_exato
+//  - Morte do pai:  certidão confirma 08/11/2019, dia_exato (peso alto)
+//  - Florianópolis atrás de ex: final jan/início fev 2016, mes_ano
+//  - Início tarô/TikTok profissional: fev/2024, mes_ano
+//  - Término de namoro: mai/jun 2024, mes_ano
+//  - Graduação em comunicação: nov/dez 2010, mes_ano
+//  - Conclusão ensino médio: dez/2006, mes_ano
+//  - Ex namorada: mar/2025, mes_ano
+//  - Namorada atual: 06/01/2026, dia_exato
 //
 const events = [
   {
-    descricao: 'Morte da mãe (certidão 23h59 de 15/10, provavelmente 16/10)',
+    descricao: 'Conclusão do ensino médio (dez/2006)',
+    data_inferida: '2006-12-15',
+    tipo: 'educacao',
+    peso: 0.60,
+    precisao: 'mes_ano'
+  },
+  {
+    descricao: 'Graduação em comunicação (nov/dez 2010)',
+    data_inferida: '2010-11-20',
+    tipo: 'educacao',
+    peso: 0.70,
+    precisao: 'mes_ano'
+  },
+  {
+    descricao: 'Morte da mãe (certidão 23h59/15/10 → provável 16/10/2017)',
     data_inferida: '2017-10-16',
-    tipo: 'familia',     // Casa 4 = mãe/pais/raízes; Casa 8 = morte
+    tipo: 'familia',
     peso: 0.90,
     precisao: 'dia_exato'
   },
   {
-    descricao: 'Morte do pai (dia 3 ou 8/nov/2019 — ponto médio)',
-    data_inferida: '2019-11-06',
+    descricao: 'Foi atrás de ex em Florianópolis (final jan / início fev 2016)',
+    data_inferida: '2016-02-01',
+    tipo: 'relacionamento',
+    peso: 0.60,
+    precisao: 'mes_ano'
+  },
+  {
+    descricao: 'Morte do pai (certidão: 08/11/2019)',
+    data_inferida: '2019-11-08',
     tipo: 'familia',
+    peso: 0.90,
+    precisao: 'dia_exato'
+  },
+  {
+    descricao: 'Início profissional no tarô/TikTok (fev/2024)',
+    data_inferida: '2024-02-15',
+    tipo: 'carreira',
     peso: 0.70,
-    precisao: 'mes_ano'  // incerteza de ±5 dias → mes_ano é mais honesto
+    precisao: 'mes_ano'
   },
   {
     descricao: 'Término de namoro (mai/jun 2024)',
@@ -91,7 +122,7 @@ const events = [
 ];
 
 // ── Run rectification ──────────────────────────────────────────────────────
-console.log('── Rodando retificação (±30 min, passo 2 min = 31 candidatos) ──');
+console.log('── Rodando retificação (±30 min, passo 2 min = 31 candidatos, 9 eventos) ──');
 const result = Rectifier.rectify(birthData, events, pct => {
   if (pct % 25 === 0) process.stdout.write(`  ${pct}%\r`);
 });
@@ -129,8 +160,6 @@ const maxS = Math.max(...result.allScores.map(s => s.score));
 });
 
 // ── Notas sobre incerteza das datas ──────────────────────────────────────
-console.log('\n── Notas sobre eventos com incerteza de data ──');
-console.log('  Morte da mãe: Se ocorreu às 23h59 de 15/10 (certidão), o arco solar');
-console.log('    muda ~0.003° — diferença desprezível para retificação.');
-console.log('  Morte do pai: Incerteza de 5 dias (3–8/nov). O arco solar entre');
-console.log('    ambas as datas varia ~0.014°, também desprezível.');
+console.log('\n── Notas ──');
+console.log('  Morte da mãe: Se 15/10 vs 16/10, arco solar varia ~0.003° — desprezível.');
+console.log('  Morte do pai: Confirmado 08/11/2019 pela certidão.');
