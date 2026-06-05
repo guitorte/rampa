@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Text Surgery</title>
+<style>
+:root{--bg:#111;--card:#1b1b1b;--text:#eee;--muted:#aaa;--accent:#4da3ff}
+*{box-sizing:border-box} body{margin:0;font-family:system-ui;background:var(--bg);color:var(--text)}
+header{position:sticky;top:0;background:#161616;padding:12px;border-bottom:1px solid #333}
+input[type=text]{width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#222;color:#fff}
+.wrap{padding:12px;max-width:1000px;margin:auto}
+.card{background:var(--card);padding:12px;border-radius:14px;margin-bottom:12px}
+textarea{width:100%;min-height:220px;background:#222;color:#fff;border:1px solid #444;border-radius:10px;padding:12px}
+.actions{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+label{display:block;background:#222;padding:10px;border-radius:10px}
+button{padding:12px 16px;border:none;border-radius:10px;background:var(--accent);color:white;font-weight:700}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+small{color:var(--muted)}
+</style>
+</head>
+<body>
+<header><input id="search" placeholder="Search actions..."></header>
+<div class="wrap">
+
+<div class="card">
+<h3>Input</h3>
+<textarea id="input"></textarea>
+<div class="row">
+<button onclick="applyActions()">Apply</button>
+<button onclick="copyOut()">Copy Output</button>
+<button onclick="swapText()">Swap</button>
+</div>
+</div>
+
+<div class="card">
+<h3>Quick Recipes</h3>
+<div class="row">
+<button onclick="recipe('prompt')">Prompt Compact</button>
+<button onclick="recipe('markdown')">Markdown → Plain</button>
+<button onclick="recipe('json')">JSON → One Line</button>
+</div>
+</div>
+
+<div class="card">
+<h3>Actions</h3>
+<div class="actions" id="actions">
+
+<label><input type="checkbox" data-a="trim"> Remove extra spaces</label>
+<label><input type="checkbox" data-a="empty"> Remove empty lines</label>
+<label><input type="checkbox" data-a="singlebreak"> Remove single linebreaks</label>
+<label><input type="checkbox" data-a="allbreaks"> Remove all linebreaks</label>
+<label><input type="checkbox" data-a="dupes"> Remove duplicate lines</label>
+<label><input type="checkbox" data-a="quotes"> Remove quotes</label>
+<label><input type="checkbox" data-a="braces"> Remove braces/brackets</label>
+<label><input type="checkbox" data-a="markdown"> Remove markdown</label>
+<label><input type="checkbox" data-a="headings"> Headings → ALL CAPS</label>
+<label><input type="checkbox" data-a="lower"> lowercase</label>
+<label><input type="checkbox" data-a="upper"> UPPERCASE</label>
+<label><input type="checkbox" data-a="sentence"> Sentence Case</label>
+<label><input type="checkbox" data-a="jsonline"> JSON → one line</label>
+
+</div>
+
+<h4>Line Filters</h4>
+<input id="removeStart" placeholder="Remove lines starting with...">
+<br><br>
+<input id="keepStart" placeholder="Keep only lines starting with...">
+</div>
+
+<div class="card">
+<h3>Output</h3>
+<textarea id="output"></textarea>
+<small>Autosaves locally.</small>
+</div>
+</div>
+
+<script>
+const input=document.getElementById('input');
+const output=document.getElementById('output');
+
+input.value=localStorage.getItem('ts_input')||'';
+output.value=localStorage.getItem('ts_output')||'';
+
+input.addEventListener('input',()=>localStorage.setItem('ts_input',input.value));
+
+function recipe(name){
+ document.querySelectorAll('[data-a]').forEach(x=>x.checked=false);
+ if(name==='prompt'){
+   check('markdown');check('empty');check('trim');check('singlebreak');
+ }
+ if(name==='markdown'){
+   check('markdown');check('empty');
+ }
+ if(name==='json'){
+   check('jsonline');
+ }
+ applyActions();
+}
+
+function check(v){
+ document.querySelector(`[data-a="${v}"]`).checked=true;
+}
+
+function applyActions(){
+ let t=input.value;
+
+ const removeStart=document.getElementById('removeStart').value;
+ const keepStart=document.getElementById('keepStart').value;
+
+ if(removeStart){
+   t=t.split('\n').filter(x=>!x.startsWith(removeStart)).join('\n');
+ }
+
+ if(keepStart){
+   t=t.split('\n').filter(x=>x.startsWith(keepStart)).join('\n');
+ }
+
+ active().forEach(a=>{
+   if(a==='empty')
+      t=t.split('\n').filter(x=>x.trim()).join('\n');
+
+   if(a==='dupes'){
+      const seen=new Set();
+      t=t.split('\n').filter(x=>!seen.has(x)&&(seen.add(x),true)).join('\n');
+   }
+
+   if(a==='quotes')
+      t=t.replace(/["']/g,'');
+
+   if(a==='braces')
+      t=t.replace(/[{}\[\]()]/g,'');
+
+   if(a==='markdown')
+      t=t
+      .replace(/[#>*_`~-]+/g,'')
+      .replace(/\[(.*?)\]\((.*?)\)/g,'$1');
+
+   if(a==='headings')
+      t=t.replace(/^#+\s*(.*)$/gm,(m,p)=>p.toUpperCase());
+
+   if(a==='trim')
+      t=t.replace(/[ \t]+/g,' ').trim();
+
+   if(a==='singlebreak')
+      t=t.replace(/([^\n])\n([^\n])/g,'$1 $2');
+
+   if(a==='allbreaks')
+      t=t.replace(/\n+/g,' ');
+
+   if(a==='lower')
+      t=t.toLowerCase();
+
+   if(a==='upper')
+      t=t.toUpperCase();
+
+   if(a==='sentence')
+      t=t.toLowerCase().replace(/(^\s*\w|[.!?]\s+\w)/g,c=>c.toUpperCase());
+
+   if(a==='jsonline'){
+      try{ t=JSON.stringify(JSON.parse(t)); }catch(e){}
+   }
+ });
+
+ output.value=t;
+ localStorage.setItem('ts_output',t);
+}
+
+function active(){
+ return [...document.querySelectorAll('[data-a]:checked')].map(x=>x.dataset.a);
+}
+
+function copyOut(){
+ navigator.clipboard.writeText(output.value);
+}
+
+function swapText(){
+ const a=input.value;
+ input.value=output.value;
+ output.value=a;
+}
+
+document.getElementById('search').addEventListener('input',e=>{
+ const q=e.target.value.toLowerCase();
+ document.querySelectorAll('#actions label').forEach(l=>{
+   l.style.display=l.textContent.toLowerCase().includes(q)?'block':'none';
+ });
+});
+</script>
+</body>
+</html>
