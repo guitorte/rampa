@@ -5,40 +5,76 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Text Surgery</title>
 <style>
-:root{--bg:#111;--card:#1b1b1b;--text:#eee;--muted:#aaa;--accent:#4da3ff}
-*{box-sizing:border-box} body{margin:0;font-family:system-ui;background:var(--bg);color:var(--text)}
-header{position:sticky;top:0;background:#161616;padding:12px;border-bottom:1px solid #333}
-input[type=text]{width:100%;padding:12px;border-radius:10px;border:1px solid #444;background:#222;color:#fff}
+:root{--bg:#111;--card:#1b1b1b;--field:#222;--text:#eee;--muted:#aaa;--border:#444;--accent:#4da3ff;--ok:#3fb950}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui;background:var(--bg);color:var(--text);padding-bottom:84px}
+header{position:sticky;top:0;z-index:10;background:#161616;padding:12px;border-bottom:1px solid #333}
+input,textarea{font-family:inherit;font-size:16px}
+input[type=text],input:not([type]){width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--field);color:#fff}
 .wrap{padding:12px;max-width:1000px;margin:auto}
 .card{background:var(--card);padding:12px;border-radius:14px;margin-bottom:12px}
-textarea{width:100%;min-height:220px;background:#222;color:#fff;border:1px solid #444;border-radius:10px;padding:12px}
+.card h3{margin:0 0 10px}
+.card h4{margin:14px 0 8px;color:var(--muted)}
+textarea{width:100%;min-height:160px;background:var(--field);color:#fff;border:1px solid var(--border);border-radius:10px;padding:12px;resize:vertical}
 .actions{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
-label{display:block;background:#222;padding:10px;border-radius:10px}
-button{padding:12px 16px;border:none;border-radius:10px;background:var(--accent);color:white;font-weight:700}
+label.chk{display:flex;align-items:center;gap:8px;background:var(--field);padding:12px;border-radius:10px;cursor:pointer}
+label.chk input{width:18px;height:18px;flex:none}
+button{padding:12px 16px;border:none;border-radius:10px;background:var(--accent);color:white;font-weight:700;cursor:pointer}
+button.ghost{background:var(--field);color:var(--text);border:1px solid var(--border)}
+button.ok{background:var(--ok)}
 .row{display:flex;gap:8px;flex-wrap:wrap}
+.row.split{align-items:center}
+.row.split input{flex:1;min-width:140px}
 small{color:var(--muted)}
+.io label{display:block;margin-bottom:6px;color:var(--muted);font-size:14px}
+.field-grid{display:grid;gap:10px}
+.actionbar{position:fixed;bottom:0;left:0;right:0;z-index:20;background:#161616;border-top:1px solid #333;padding:12px;display:flex;gap:8px;justify-content:center}
+.actionbar button{flex:1;max-width:320px}
+@media(min-width:760px){
+  .io{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+}
 </style>
 </head>
 <body>
-<header><input id="search" placeholder="Search actions..."></header>
+<header><input id="search" type="text" placeholder="Search actions..."></header>
 <div class="wrap">
 
-<div class="card">
-<h3>Input</h3>
-<textarea id="input"></textarea>
-<div class="row">
-<button onclick="applyActions()">Apply</button>
-<button onclick="copyOut()">Copy Output</button>
-<button onclick="swapText()">Swap</button>
+<div class="card io">
+  <div>
+    <label for="input">Input</label>
+    <textarea id="input" placeholder="Paste text here..."></textarea>
+  </div>
+  <div>
+    <label for="output">Output</label>
+    <textarea id="output" placeholder="Result appears here..."></textarea>
+    <small>Autosaves locally.</small>
+  </div>
 </div>
+
+<div class="card">
+<h3>Line Filters</h3>
+<div class="field-grid">
+  <input id="removeStart" type="text" placeholder="Remove lines starting with...">
+  <input id="keepStart" type="text" placeholder="Keep only lines starting with...">
+</div>
+</div>
+
+<div class="card">
+<h3>Find &amp; Replace</h3>
+<div class="row split">
+  <input id="findText" type="text" placeholder="Find...">
+  <input id="replaceText" type="text" placeholder="Replace with...">
+</div>
+<label class="chk" style="margin-top:10px"><input type="checkbox" id="findRegex"> Use regex</label>
 </div>
 
 <div class="card">
 <h3>Quick Recipes</h3>
 <div class="row">
-<button onclick="recipe('prompt')">Prompt Compact</button>
-<button onclick="recipe('markdown')">Markdown → Plain</button>
-<button onclick="recipe('json')">JSON → One Line</button>
+<button class="ghost" onclick="recipe('prompt')">Prompt Compact</button>
+<button class="ghost" onclick="recipe('markdown')">Markdown → Plain</button>
+<button class="ghost" onclick="recipe('json')">JSON → One Line</button>
+<button class="ghost" onclick="recipe('clear')">Clear All</button>
 </div>
 </div>
 
@@ -46,33 +82,32 @@ small{color:var(--muted)}
 <h3>Actions</h3>
 <div class="actions" id="actions">
 
-<label><input type="checkbox" data-a="trim"> Remove extra spaces</label>
-<label><input type="checkbox" data-a="empty"> Remove empty lines</label>
-<label><input type="checkbox" data-a="singlebreak"> Remove single linebreaks</label>
-<label><input type="checkbox" data-a="allbreaks"> Remove all linebreaks</label>
-<label><input type="checkbox" data-a="dupes"> Remove duplicate lines</label>
-<label><input type="checkbox" data-a="quotes"> Remove quotes</label>
-<label><input type="checkbox" data-a="braces"> Remove braces/brackets</label>
-<label><input type="checkbox" data-a="markdown"> Remove markdown</label>
-<label><input type="checkbox" data-a="headings"> Headings → ALL CAPS</label>
-<label><input type="checkbox" data-a="lower"> lowercase</label>
-<label><input type="checkbox" data-a="upper"> UPPERCASE</label>
-<label><input type="checkbox" data-a="sentence"> Sentence Case</label>
-<label><input type="checkbox" data-a="jsonline"> JSON → one line</label>
+<label class="chk"><input type="checkbox" data-a="trim"> Trim &amp; collapse spaces</label>
+<label class="chk"><input type="checkbox" data-a="trimlines"> Trim each line</label>
+<label class="chk"><input type="checkbox" data-a="empty"> Remove empty lines</label>
+<label class="chk"><input type="checkbox" data-a="singlebreak"> Remove single linebreaks (keep paragraphs)</label>
+<label class="chk"><input type="checkbox" data-a="allbreaks"> Remove all linebreaks</label>
+<label class="chk"><input type="checkbox" data-a="dupes"> Remove duplicate lines</label>
+<label class="chk"><input type="checkbox" data-a="sort"> Sort lines A→Z</label>
+<label class="chk"><input type="checkbox" data-a="join"> Join lines with ", "</label>
+<label class="chk"><input type="checkbox" data-a="quotes"> Remove quotes</label>
+<label class="chk"><input type="checkbox" data-a="braces"> Remove braces/brackets</label>
+<label class="chk"><input type="checkbox" data-a="markdown"> Remove markdown</label>
+<label class="chk"><input type="checkbox" data-a="headings"> Headings → ALL CAPS</label>
+<label class="chk"><input type="checkbox" data-a="lower"> lowercase</label>
+<label class="chk"><input type="checkbox" data-a="upper"> UPPERCASE</label>
+<label class="chk"><input type="checkbox" data-a="sentence"> Sentence case</label>
+<label class="chk"><input type="checkbox" data-a="jsonline"> JSON → one line</label>
+
+</div>
+</div>
 
 </div>
 
-<h4>Line Filters</h4>
-<input id="removeStart" placeholder="Remove lines starting with...">
-<br><br>
-<input id="keepStart" placeholder="Keep only lines starting with...">
-</div>
-
-<div class="card">
-<h3>Output</h3>
-<textarea id="output"></textarea>
-<small>Autosaves locally.</small>
-</div>
+<div class="actionbar">
+<button onclick="applyActions()">Apply</button>
+<button id="copyBtn" class="ghost" onclick="copyOut()">Copy Output</button>
+<button class="ghost" onclick="swapText()">Swap</button>
 </div>
 
 <script>
@@ -83,11 +118,19 @@ input.value=localStorage.getItem('ts_input')||'';
 output.value=localStorage.getItem('ts_output')||'';
 
 input.addEventListener('input',()=>localStorage.setItem('ts_input',input.value));
+output.addEventListener('input',()=>localStorage.setItem('ts_output',output.value));
 
 function recipe(name){
  document.querySelectorAll('[data-a]').forEach(x=>x.checked=false);
+ if(name==='clear'){
+   document.getElementById('removeStart').value='';
+   document.getElementById('keepStart').value='';
+   document.getElementById('findText').value='';
+   document.getElementById('replaceText').value='';
+   return;
+ }
  if(name==='prompt'){
-   check('markdown');check('empty');check('trim');check('singlebreak');
+   check('markdown');check('trimlines');check('singlebreak');check('empty');check('trim');
  }
  if(name==='markdown'){
    check('markdown');check('empty');
@@ -116,14 +159,33 @@ function applyActions(){
    t=t.split('\n').filter(x=>x.startsWith(keepStart)).join('\n');
  }
 
+ const find=document.getElementById('findText').value;
+ const repl=document.getElementById('replaceText').value;
+ if(find){
+   if(document.getElementById('findRegex').checked){
+     try{ t=t.replace(new RegExp(find,'g'),repl); }catch(e){}
+   }else{
+     t=t.split(find).join(repl);
+   }
+ }
+
  active().forEach(a=>{
    if(a==='empty')
       t=t.split('\n').filter(x=>x.trim()).join('\n');
+
+   if(a==='trimlines')
+      t=t.split('\n').map(x=>x.trim()).join('\n');
 
    if(a==='dupes'){
       const seen=new Set();
       t=t.split('\n').filter(x=>!seen.has(x)&&(seen.add(x),true)).join('\n');
    }
+
+   if(a==='sort')
+      t=t.split('\n').sort((x,y)=>x.localeCompare(y)).join('\n');
+
+   if(a==='join')
+      t=t.split('\n').filter(x=>x.trim()).join(', ');
 
    if(a==='quotes')
       t=t.replace(/["']/g,'');
@@ -133,14 +195,17 @@ function applyActions(){
 
    if(a==='markdown')
       t=t
-      .replace(/[#>*_`~-]+/g,'')
-      .replace(/\[(.*?)\]\((.*?)\)/g,'$1');
+      .replace(/\[(.*?)\]\((.*?)\)/g,'$1')
+      .replace(/^\s*[-*+]\s+/gm,'')
+      .replace(/^#{1,6}\s+/gm,'')
+      .replace(/^\s*>\s?/gm,'')
+      .replace(/[*_`~]/g,'');
 
    if(a==='headings')
       t=t.replace(/^#+\s*(.*)$/gm,(m,p)=>p.toUpperCase());
 
    if(a==='trim')
-      t=t.replace(/[ \t]+/g,' ').trim();
+      t=t.replace(/[ \t]+/g,' ').replace(/^ | $/gm,'').trim();
 
    if(a==='singlebreak')
       t=t.replace(/([^\n])\n([^\n])/g,'$1 $2');
@@ -171,19 +236,28 @@ function active(){
 }
 
 function copyOut(){
- navigator.clipboard.writeText(output.value);
+ navigator.clipboard.writeText(output.value).then(()=>{
+   const b=document.getElementById('copyBtn');
+   const old=b.textContent;
+   b.textContent='Copied!';
+   b.classList.remove('ghost');
+   b.classList.add('ok');
+   setTimeout(()=>{b.textContent=old;b.classList.remove('ok');b.classList.add('ghost');},1200);
+ });
 }
 
 function swapText(){
  const a=input.value;
  input.value=output.value;
  output.value=a;
+ localStorage.setItem('ts_input',input.value);
+ localStorage.setItem('ts_output',output.value);
 }
 
 document.getElementById('search').addEventListener('input',e=>{
  const q=e.target.value.toLowerCase();
  document.querySelectorAll('#actions label').forEach(l=>{
-   l.style.display=l.textContent.toLowerCase().includes(q)?'block':'none';
+   l.style.display=l.textContent.toLowerCase().includes(q)?'flex':'none';
  });
 });
 </script>
