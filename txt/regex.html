@@ -5,244 +5,316 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Regex Helper · Text Surgery</title>
 <style>
-:root{--bg:#111;--card:#1b1b1b;--field:#222;--text:#eee;--muted:#aaa;--border:#444;--accent:#4da3ff;--ok:#3fb950;--hl:#5a4a00}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui;background:var(--bg);color:var(--text);padding-bottom:24px}
-header{position:sticky;top:0;z-index:10;background:#161616;padding:12px;border-bottom:1px solid #333;display:flex;gap:10px;align-items:center}
-header a{color:var(--accent);text-decoration:none;font-weight:700;white-space:nowrap}
-input,textarea{font-family:inherit;font-size:16px}
-input[type=text],input:not([type]){width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--field);color:#fff}
-.wrap{padding:12px;max-width:1000px;margin:auto}
-.card{background:var(--card);padding:12px;border-radius:14px;margin-bottom:12px}
-.card h3{margin:0 0 10px}
-code,kbd{font-family:ui-monospace,Menlo,Consolas,monospace}
-.tester input.pat{font-family:ui-monospace,Menlo,Consolas,monospace}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.row.split input{flex:1;min-width:140px}
-button{padding:10px 14px;border:none;border-radius:10px;background:var(--accent);color:white;font-weight:700;cursor:pointer}
-button.ghost{background:var(--field);color:var(--text);border:1px solid var(--border)}
-small{color:var(--muted)}
-textarea{width:100%;min-height:110px;background:var(--field);color:#fff;border:1px solid var(--border);border-radius:10px;padding:12px;resize:vertical}
-.flags label{display:inline-flex;align-items:center;gap:6px;background:var(--field);padding:8px 10px;border-radius:8px;cursor:pointer;font-size:14px}
-.result{white-space:pre-wrap;word-break:break-word;background:var(--field);border:1px solid var(--border);border-radius:10px;padding:12px;min-height:48px}
-.result mark{background:var(--hl);color:#ffe89a;border-radius:3px;padding:0 1px}
-.status{font-size:14px;margin-top:8px}
-.status.err{color:#ff6b6b}
-.status.ok{color:var(--ok)}
-.cat{margin:18px 0 8px;color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.05em}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
-.tok{background:var(--field);border:1px solid var(--border);border-radius:10px;padding:10px;cursor:pointer;transition:border-color .15s}
-.tok:hover{border-color:var(--accent)}
-.tok .t{font-family:ui-monospace,Menlo,Consolas,monospace;color:#9ad1ff;font-size:15px}
-.tok .d{color:var(--text);font-size:14px;margin-top:3px}
-.tok .ex{color:var(--muted);font-size:12px;margin-top:4px;font-family:ui-monospace,Menlo,Consolas,monospace}
-.copytip{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ok);color:#04210d;padding:10px 16px;border-radius:10px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30}
+:root{
+  --bg:#edf1f7;
+  --card:#fff;
+  --text:#1a2e4a;
+  --body:#2c3e50;
+  --muted:#8898aa;
+  --border:#dde4ef;
+  --accent:#c0542a;
+  --accent-bg:#fff0eb;
+  --ok:#2e7d32;
+  --hl-bg:#fff3cd;
+  --hl-text:#7a5500;
+  --shadow:0 1px 3px rgba(0,0,0,.07),0 2px 8px rgba(0,0,0,.05);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--body);padding-bottom:24px}
+
+header{position:sticky;top:0;z-index:10;background:var(--card);padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;box-shadow:var(--shadow)}
+.back{color:var(--accent);text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap}
+.logo{font-weight:800;font-size:18px;color:var(--text);letter-spacing:-.5px;white-space:nowrap}
+.logo em{font-style:normal;color:var(--accent)}
+
+.wrap{padding:16px;max-width:640px;margin:auto}
+
+.section-hd{font-size:16px;font-weight:700;color:var(--text);padding:14px 0 8px}
+.section-hd:first-child{padding-top:4px}
+
+.list-card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);margin-bottom:4px;overflow:hidden}
+
+.input-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.input-row:last-child{border-bottom:none}
+.input-row input{flex:1;border:none;outline:none;background:transparent;font-size:16px;color:var(--body);font-family:ui-monospace,Consolas,monospace;min-width:0;padding:2px 0}
+.input-row input::placeholder{color:var(--muted);font-family:system-ui,-apple-system,sans-serif}
+.input-row .re-toggle{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;flex:none}
+.input-row .re-toggle input[type=checkbox]{width:15px;height:15px;cursor:pointer}
+.badge{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;font-family:ui-monospace,Consolas,monospace;flex:none;letter-spacing:-.3px}
+
+.flags-row{display:flex;flex-wrap:wrap;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.flag-chip{display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--bg);border:1.5px solid var(--border);border-radius:24px;cursor:pointer;font-size:14px;font-weight:600;color:var(--text);user-select:none}
+.flag-chip.on{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}
+.flag-chip code{font-family:ui-monospace,Consolas,monospace}
+.flag-status{padding:8px 16px;font-size:13px;color:var(--muted);border-bottom:1px solid var(--border)}
+.flag-status code{font-family:ui-monospace,Consolas,monospace;color:var(--body)}
+
+.area-block{background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.area-block textarea{width:100%;border:none;outline:none;background:transparent;padding:16px;font-size:16px;color:var(--body);resize:vertical;min-height:110px;display:block;font-family:inherit;line-height:1.5}
+
+.result-area{padding:14px 16px;font-size:16px;line-height:1.6;white-space:pre-wrap;word-break:break-word;min-height:56px;background:var(--card);border-radius:16px;box-shadow:var(--shadow)}
+.result-area mark{background:var(--hl-bg);color:var(--hl-text);border-radius:3px;padding:0 2px}
+.status-line{font-size:14px;font-weight:600;padding:8px 0 4px}
+.status-line.ok{color:var(--ok)}
+.status-line.err{color:#c62828}
+
+.area-btns{display:flex;gap:8px;padding:9px 12px;border-top:1px solid var(--border);align-items:center}
+.icon-btn{display:flex;align-items:center;gap:5px;padding:8px 14px;border:1.5px solid var(--border);border-radius:10px;background:transparent;cursor:pointer;font-size:14px;font-weight:600;color:var(--text);font-family:inherit;transition:border-color .1s,color .1s}
+.icon-btn:hover,.icon-btn:active{border-color:var(--accent);color:var(--accent)}
+.icon-btn.ok{background:#e8f5e9;color:var(--ok);border-color:#a5d6a7}
+
+.cat-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:14px 0 6px}
+.tok-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;margin-bottom:4px}
+.tok{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:12px 14px;cursor:pointer;transition:border-color .15s,box-shadow .15s;box-shadow:var(--shadow)}
+.tok:hover{border-color:var(--accent);box-shadow:0 2px 10px rgba(192,84,42,.12)}
+.tok:active{background:var(--accent-bg)}
+.tok .t{font-family:ui-monospace,Consolas,monospace;color:#1565c0;font-size:15px;font-weight:700}
+.tok .d{color:var(--body);font-size:14px;margin-top:4px;font-weight:500}
+.tok .ex{color:var(--muted);font-size:12px;margin-top:3px;font-family:ui-monospace,Consolas,monospace}
+
+.copytip{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#2e7d32;color:white;padding:11px 20px;border-radius:12px;font-weight:700;font-size:15px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:30;box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .copytip.show{opacity:1}
+
+input[type=text]{font-size:16px}
 </style>
 </head>
 <body>
+
 <header>
-  <a href="index.html">← Text Surgery</a>
-  <input id="search" type="text" placeholder="Search regex (e.g. digit, email, start of line)...">
+  <a href="index.html" class="back">← Text Surgery</a>
+  <div class="logo" style="flex:none">Regex <em>Helper</em></div>
+  <input id="search" type="text" placeholder="Search (e.g. digit, email, start of line)…"
+    style="flex:1;padding:9px 14px;border-radius:24px;border:1.5px solid var(--border);background:var(--bg);color:var(--body);font-family:inherit;font-size:14px;outline:none;min-width:0">
 </header>
+
 <div class="wrap">
 
-<div class="card tester">
-<h3>Try it</h3>
-<div class="row split">
-  <input id="pat" class="pat" type="text" placeholder="Pattern, e.g.  \d+">
-  <input id="repl" type="text" placeholder="Replace with (optional)... use $1 for groups">
-</div>
-<div class="row flags" style="margin-top:10px">
-  <label><input type="checkbox" id="fg" checked> g <small>global</small></label>
-  <label><input type="checkbox" id="fi"> i <small>ignore case</small></label>
-  <label><input type="checkbox" id="fm"> m <small>multiline</small></label>
-  <label><input type="checkbox" id="fs"> s <small>dotall</small></label>
-  <span style="margin-left:auto"><small>Active: <code id="liveflags">g</code></small></span>
-</div>
-<textarea id="test" placeholder="Paste sample text to test against..."></textarea>
-<div class="cat" style="margin:12px 0 6px">Matches highlighted</div>
-<div id="result" class="result"></div>
-<div id="status" class="status"></div>
-<div class="row" style="margin-top:10px">
-  <button onclick="copyPattern()">Copy Pattern</button>
-  <small>Tip: clicking any token below appends it to your pattern.</small>
-</div>
+<div class="section-hd" style="padding-top:4px">Tester</div>
+<div class="list-card">
+  <div class="input-row">
+    <div class="badge" style="background:#e3f2fd;color:#1565c0">F</div>
+    <input id="pat" type="text" placeholder="Pattern, e.g.  \d+">
+  </div>
+  <div class="input-row">
+    <div class="badge" style="background:#f3e5f5;color:#6a1b9a">R</div>
+    <input id="repl" type="text" placeholder="Replace with (optional)… use $1 for groups">
+  </div>
+  <div class="flags-row" id="flags-row"></div>
+  <div class="flag-status">Active flags: <code id="live-flags">g</code></div>
 </div>
 
-<div class="card">
-<h3>Cheat Sheet &amp; Recipes</h3>
-<small>Click a card to insert its token/pattern. Use the search box to filter.</small>
-<div id="sheet"></div>
+<div class="section-hd">Sample text</div>
+<div class="area-block">
+  <textarea id="test" placeholder="Paste sample text to test your pattern against…"></textarea>
 </div>
+
+<div id="status-line" class="status-line" style="min-height:24px"></div>
+
+<div class="section-hd">Matches highlighted</div>
+<div id="result" class="result-area"><span style="color:var(--muted)">Enter a pattern above to see matches.</span></div>
+
+<div class="area-btns" style="padding:10px 0 2px">
+  <button class="icon-btn" id="copyPatBtn" onclick="copyPat()">⬆ Copy Pattern</button>
+  <span style="margin-left:auto;font-size:13px;color:var(--muted)">Tap any card below to append its token.</span>
+</div>
+
+<div id="sheet"></div>
 
 </div>
 <div id="copytip" class="copytip">Copied!</div>
 
 <script>
 const CATS=[
- ["Common Recipes",[
-   ["\\d+","One or more digits (a number)","\"item 42\" -> 42"],
-   ["\\b\\w+@\\w+\\.\\w+\\b","Simple email","\"a@b.com\""],
-   ["https?:\\/\\/\\S+","A URL","\"https://x.com/y\""],
-   ["^\\s*-\\s*","List bullet at line start","\"- item\" -> \"item\""],
-   ["\\s{2,}","Two or more whitespace (collapse)","\"a   b\""],
-   ["^\\s+|\\s+$","Leading/trailing whitespace (trim)","\"  hi  \""],
-   ["\\r?\\n","A line break (any OS)",""],
-   ["\\n{2,}","Blank line / paragraph break","keep paragraphs"],
-   ["[\"'`]","Any kind of quote",""],
-   ["[{}\\[\\]()]","Any bracket or brace",""],
-   ["#{1,6}\\s+","Markdown heading marker","\"## Title\""],
-   ["\\[(.*?)\\]\\((.*?)\\)","Markdown link -> keep $1 text","\"[text](url)\""],
- ]],
- ["Single Characters",[
-   [".","Any character except newline",""],
-   ["\\d","A digit (0-9)",""],
-   ["\\D","Not a digit",""],
-   ["\\w","Word char (letter, digit, _)",""],
-   ["\\W","Not a word char",""],
-   ["\\s","Whitespace (space, tab, newline)",""],
-   ["\\S","Not whitespace",""],
-   ["\\.","A literal dot",""],
- ]],
- ["Character Sets",[
-   ["[abc]","Any of a, b, or c",""],
-   ["[^abc]","Anything except a, b, c",""],
-   ["[a-z]","Any lowercase letter",""],
-   ["[A-Z]","Any uppercase letter",""],
-   ["[0-9]","Any digit",""],
-   ["[a-zA-Z0-9]","Any letter or digit",""],
- ]],
- ["Anchors & Boundaries",[
-   ["^","Start of line/string","needs m flag per-line"],
-   ["$","End of line/string","needs m flag per-line"],
-   ["\\b","Word boundary","\\bword\\b"],
-   ["\\B","Not a word boundary",""],
- ]],
- ["Quantifiers",[
-   ["*","0 or more","a* "],
-   ["+","1 or more","a+ "],
-   ["?","0 or 1 (optional)","colou?r"],
-   ["{3}","Exactly 3","\\d{3}"],
-   ["{2,4}","Between 2 and 4","\\d{2,4}"],
-   ["{2,}","2 or more","\\d{2,}"],
-   ["+?","1 or more, lazy (shortest)","\".*?\""],
- ]],
- ["Groups & Alternation",[
-   ["(abc)","Capture group -> $1, $2...","reorder/replace"],
-   ["(?:abc)","Group without capturing",""],
-   ["cat|dog","Either cat or dog",""],
-   ["(?<name>\\d+)","Named capture group",""],
- ]],
- ["Lookaround",[
-   ["(?=abc)","Followed by abc (lookahead)",""],
-   ["(?!abc)","NOT followed by abc",""],
-   ["(?<=abc)","Preceded by abc (lookbehind)",""],
-   ["(?<!abc)","NOT preceded by abc",""],
- ]],
- ["Replacement Tokens",[
-   ["$1","Insert 1st capture group","reorder text"],
-   ["$&","The whole match",""],
-   ["$`","Text before match",""],
-   ["$'","Text after match",""],
- ]],
+  ["Common Recipes",[
+    ["\\d+","One or more digits",'"item 42" → 42'],
+    ["\\b\\w+@\\w+\\.\\w+\\b","Simple email",'"a@b.com"'],
+    ["https?:\\/\\/\\S+","A URL",'"https://x.com/y"'],
+    ["^\\s*-\\s*","List bullet at line start (remove)",'"- item" → "item"'],
+    ["^\\s*\\*\\s*","Asterisk bullet at line start","* item"],
+    ["\\s{2,}","Two or more spaces (collapse)","collapse to single space"],
+    ["^\\s+|\\s+$","Leading/trailing whitespace","trim per-line"],
+    ["\\r?\\n","A line break","any OS"],
+    ["\\n{2,}","Blank line / paragraph break","keep paragraphs"],
+    ["[\"'`]","Any quote character",""],
+    ["[{}\\[\\]()]","Any bracket or brace",""],
+    ["#{1,6}\\s+","Markdown heading marker",'"## Title"'],
+    ["\\[(.*?)\\]\\((.*?)\\)","Markdown link → keep $1 text",'"[text](url)"'],
+  ]],
+  ["Single Characters",[
+    [".","Any character except newline",""],
+    ["\\d","A digit 0–9",""],
+    ["\\D","Not a digit",""],
+    ["\\w","Word char: letter, digit, _",""],
+    ["\\W","Not a word char",""],
+    ["\\s","Whitespace: space, tab, newline",""],
+    ["\\S","Not whitespace",""],
+    ["\\.","A literal dot",""],
+    ["\\n","Newline",""],
+    ["\\t","Tab",""],
+  ]],
+  ["Character Sets",[
+    ["[abc]","Any of a, b, or c",""],
+    ["[^abc]","Anything except a, b, c",""],
+    ["[a-z]","Any lowercase letter",""],
+    ["[A-Z]","Any uppercase letter",""],
+    ["[0-9]","Any digit",""],
+    ["[a-zA-Z0-9]","Any letter or digit",""],
+    ["[a-z0-9_\\-]","Slug characters","url-safe"],
+  ]],
+  ["Anchors & Boundaries",[
+    ["^","Start of line (needs m flag per-line)","^ with m flag"],
+    ["$","End of line (needs m flag per-line)","$ with m flag"],
+    ["\\b","Word boundary","\\bword\\b = whole word"],
+    ["\\B","Not a word boundary",""],
+    ["\\A","Start of entire string","not in JS — use ^"],
+    ["\\Z","End of entire string","not in JS — use $"],
+  ]],
+  ["Quantifiers",[
+    ["*","0 or more","a*"],
+    ["+","1 or more","a+"],
+    ["?","0 or 1 (optional)","colou?r"],
+    ["{3}","Exactly 3","\\d{3}"],
+    ["{2,4}","Between 2 and 4","\\d{2,4}"],
+    ["{2,}","2 or more","\\d{2,}"],
+    ["*?","0 or more, lazy (shortest match)",".*?"],
+    ["+?","1 or more, lazy","\\S+?"],
+  ]],
+  ["Groups & Alternation",[
+    ["(abc)","Capture group → use as $1, $2…","reorder/reuse"],
+    ["(?:abc)","Group without capturing","group only"],
+    ["cat|dog","Either cat or dog",""],
+    ["(?<name>\\d+)","Named capture group → $<name>",""],
+  ]],
+  ["Lookaround",[
+    ["(?=abc)","Followed by abc (lookahead)",""],
+    ["(?!abc)","NOT followed by abc (neg. lookahead)",""],
+    ["(?<=abc)","Preceded by abc (lookbehind)",""],
+    ["(?<!abc)","NOT preceded by abc (neg. lookbehind)",""],
+  ]],
+  ["Replacement Tokens",[
+    ["$1","Insert 1st capture group","use in replace field"],
+    ["$2","Insert 2nd capture group",""],
+    ["$<name>","Insert named capture group",""],
+    ["$&","The entire match",""],
+    ["$`","Text before the match",""],
+    ["$'","Text after the match",""],
+  ]],
 ];
+
+const FLAGS=[
+  {id:'fg',flag:'g',label:'global',on:true},
+  {id:'fi',flag:'i',label:'ignore case',on:false},
+  {id:'fm',flag:'m',label:'multiline ^ $',on:false},
+  {id:'fs',flag:'s',label:'dotall . = \\n',on:false},
+];
+
+const flagState={};
+FLAGS.forEach(f=>flagState[f.flag]=f.on);
+
+const flagsRow=document.getElementById('flags-row');
+FLAGS.forEach(f=>{
+  const chip=document.createElement('div');
+  chip.className='flag-chip'+(f.on?' on':'');
+  chip.innerHTML=`<code>${f.flag}</code> ${f.label}`;
+  chip.addEventListener('click',()=>{
+    flagState[f.flag]=!flagState[f.flag];
+    chip.classList.toggle('on',flagState[f.flag]);
+    run();
+  });
+  flagsRow.appendChild(chip);
+});
+
+function flags(){return Object.keys(flagState).filter(f=>flagState[f]).join('');}
 
 const pat=document.getElementById('pat');
 const repl=document.getElementById('repl');
 const test=document.getElementById('test');
-const fg=document.getElementById('fg'),fi=document.getElementById('fi'),fm=document.getElementById('fm'),fs=document.getElementById('fs');
 const resultEl=document.getElementById('result');
-const statusEl=document.getElementById('status');
-
-function flags(){return (fg.checked?'g':'')+(fi.checked?'i':'')+(fm.checked?'m':'')+(fs.checked?'s':'');}
+const statusEl=document.getElementById('status-line');
 
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 function highlight(text,source,f){
- const g=new RegExp(source,f.includes('g')?f:f+'g');
- let out='',last=0,m,guard=0;
- while((m=g.exec(text))!==null){
-   if(guard++>100000)break;
-   out+=esc(text.slice(last,m.index));
-   out+='<mark>'+esc(m[0])+'</mark>';
-   last=m.index+m[0].length;
-   if(m[0]==='')g.lastIndex++;
- }
- out+=esc(text.slice(last));
- return out;
+  const g=new RegExp(source,f.includes('g')?f:f+'g');
+  let out='',last=0,m,guard=0;
+  while((m=g.exec(text))!==null){
+    if(guard++>50000)break;
+    out+=esc(text.slice(last,m.index));
+    out+='<mark>'+esc(m[0])+'</mark>';
+    last=m.index+m[0].length;
+    if(m[0]==='')g.lastIndex++;
+  }
+  return out+esc(text.slice(last));
 }
 
 function run(){
- const f=flags();
- document.getElementById('liveflags').textContent=f||'(none)';
- statusEl.className='status';
- statusEl.textContent='';
- if(!pat.value){resultEl.innerHTML='<small>Enter a pattern above to see matches.</small>';return;}
- try{new RegExp(pat.value,f);}
- catch(e){statusEl.className='status err';statusEl.textContent='⚠ '+e.message;resultEl.innerHTML='';return;}
- const text=test.value;
- const gre=new RegExp(pat.value,f.includes('g')?f:f+'g');
- let count=0;
- try{count=(text.match(gre)||[]).length;}catch(e){}
- resultEl.innerHTML=highlight(text,pat.value,f)||'<small>(no text)</small>';
- if(repl.value!==''){
-   try{
-     const out=text.replace(new RegExp(pat.value,f),repl.value);
-     statusEl.className='status ok';
-     statusEl.textContent=count+' match'+(count===1?'':'es')+'. Replacement preview below.';
-     resultEl.innerHTML+='<div class="cat" style="margin:12px 0 6px">After replace</div><div style="white-space:pre-wrap">'+esc(out)+'</div>';
-   }catch(e){statusEl.className='status err';statusEl.textContent='⚠ '+e.message;}
- }else{
-   statusEl.className='status ok';
-   statusEl.textContent=count+' match'+(count===1?'':'es')+'.';
- }
+  const f=flags();
+  document.getElementById('live-flags').textContent=f||'(none)';
+  statusEl.className='status-line';
+  statusEl.textContent='';
+  if(!pat.value){resultEl.innerHTML='<span style="color:var(--muted)">Enter a pattern above to see matches.</span>';return;}
+  try{new RegExp(pat.value,f);}
+  catch(e){statusEl.className='status-line err';statusEl.textContent='⚠ '+e.message;resultEl.innerHTML='';return;}
+  const text=test.value;
+  const gre=new RegExp(pat.value,f.includes('g')?f:f+'g');
+  const count=(text.match(gre)||[]).length;
+  resultEl.innerHTML=highlight(text,pat.value,f)||'<span style="color:var(--muted)">(no text)</span>';
+  if(repl.value!==''){
+    try{
+      const out=text.replace(new RegExp(pat.value,f),repl.value);
+      statusEl.className='status-line ok';
+      statusEl.textContent=count+' match'+(count===1?'':'es')+' — replacement preview appended below.';
+      resultEl.innerHTML+='<hr style="border:none;border-top:1px solid var(--border);margin:14px 0"><div style="color:var(--muted);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">After replace</div><div>'+esc(out)+'</div>';
+    }catch(e){statusEl.className='status-line err';statusEl.textContent='⚠ '+e.message;}
+  }else{
+    statusEl.className='status-line ok';
+    statusEl.textContent=count+' match'+(count===1?'':'es')+'.';
+    if(count===0&&text) statusEl.className='status-line';
+  }
 }
 
-[pat,repl,test,fg,fi,fm,fs].forEach(el=>el.addEventListener('input',run));
+[pat,repl,test].forEach(el=>el.addEventListener('input',run));
 
-function insert(tok){
- pat.value+=tok;
- pat.focus();
- run();
-}
+function insert(tok){pat.value+=tok;pat.focus();run();}
 
-function copyPattern(){
- navigator.clipboard.writeText(pat.value).then(showTip);
-}
-function showTip(){
- const t=document.getElementById('copytip');
- t.classList.add('show');
- setTimeout(()=>t.classList.remove('show'),1000);
+function copyPat(){
+  navigator.clipboard.writeText(pat.value).then(()=>{
+    const tip=document.getElementById('copytip');
+    const b=document.getElementById('copyPatBtn');
+    tip.classList.add('show');
+    b.classList.add('ok');b.textContent='✓ Copied';
+    setTimeout(()=>{tip.classList.remove('show');b.classList.remove('ok');b.textContent='⬆ Copy Pattern';},1200);
+  });
 }
 
 const sheet=document.getElementById('sheet');
 CATS.forEach(([cat,items])=>{
- const h=document.createElement('div');h.className='cat';h.textContent=cat;
- sheet.appendChild(h);
- const grid=document.createElement('div');grid.className='grid';
- items.forEach(([t,d,ex])=>{
-   const c=document.createElement('div');c.className='tok';
-   c.innerHTML='<div class="t">'+esc(t)+'</div><div class="d">'+esc(d)+'</div>'+(ex?'<div class="ex">'+esc(ex)+'</div>':'');
-   c.dataset.search=(t+' '+d+' '+ex).toLowerCase();
-   c.addEventListener('click',()=>insert(t));
-   grid.appendChild(c);
- });
- sheet.appendChild(grid);
+  const lbl=document.createElement('div');lbl.className='cat-label';lbl.textContent=cat;lbl.dataset.cat=cat.toLowerCase();
+  sheet.appendChild(lbl);
+  const grid=document.createElement('div');grid.className='tok-grid';grid.dataset.cat=cat.toLowerCase();
+  items.forEach(([t,d,ex])=>{
+    const c=document.createElement('div');c.className='tok';
+    c.innerHTML='<div class="t">'+esc(t)+'</div><div class="d">'+esc(d)+'</div>'+(ex?'<div class="ex">'+esc(ex)+'</div>':'');
+    c.dataset.search=(t+' '+d+' '+ex).toLowerCase();
+    c.addEventListener('click',()=>insert(t));
+    grid.appendChild(c);
+  });
+  sheet.appendChild(grid);
 });
 
 document.getElementById('search').addEventListener('input',e=>{
- const q=e.target.value.toLowerCase();
- document.querySelectorAll('.grid').forEach(grid=>{
-   let any=false;
-   grid.querySelectorAll('.tok').forEach(c=>{
-     const show=c.dataset.search.includes(q);
-     c.style.display=show?'block':'none';
-     if(show)any=true;
-   });
-   grid.style.display=any?'grid':'none';
-   grid.previousElementSibling.style.display=any?'block':'none';
- });
+  const q=e.target.value.toLowerCase();
+  document.querySelectorAll('.tok-grid').forEach(grid=>{
+    let any=false;
+    grid.querySelectorAll('.tok').forEach(c=>{
+      const show=!q||c.dataset.search.includes(q);
+      c.style.display=show?'block':'none';
+      if(show)any=true;
+    });
+    const visible=!q||any;
+    grid.style.display=visible?'grid':'none';
+    grid.previousElementSibling.style.display=visible?'block':'none';
+  });
 });
 
 run();
